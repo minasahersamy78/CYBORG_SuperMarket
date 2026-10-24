@@ -1,0 +1,20 @@
+[project]
+name = "cyborg-supermarket"
+version = "0.1.0"
+description = "Cyborg Supermarket Ecosystem - Egyptian omni-channel supermarket platform with AI-powered features"
+requires-python = ">=3.13"
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "alembic>=1.20.1",
+    "asyncpg>=0.32.0",
+    "fastapi[standard]>=0.162.0",
+    "openpyxl>=3.1.5",
+    "passlib[bcrypt]>=1.7.4",
+    "pydantic>=2.14.1",
+    "pydantic-settings>=2.16.1",
+    "python-jose[cryptography]>=3.5.0",
+    "python-multipart>=0.0.32",
+    "redis>=8.1.0",
+    "sqlalchemy[asyncio]>=2.1.6",
+    "uvicorn[standard]>=0.54.0",
+]
