@@ -1,0 +1,42 @@
+{
+  "report_title": "Cyborg Supermarket Real Dataset Audit & Ingestion Report",
+  "generated_at": "2026-10-24T22:29:39.702Z",
+  "source_dataset": "super_market(1).xlsx / products",
+  "metrics": {
+    "total_records": 1000,
+    "distinct_categories": 5,
+    "category_distribution": {
+      "Fresh Food": 199,
+      "Frozen Food": 40,
+      "Fruits & Vegetables": 160,
+      "Beverages": 292,
+      "Food Cupboard": 309
+    },
+    "distinct_subcategories": 7,
+    "subcategory_distribution": {
+      "Dairy & Eggs": 199,
+      "Frozen Fruits & Vegetables": 40,
+      "Soft Drinks": 107,
+      "Juices": 141,
+      "Biscuits, Crackers & Cakes": 152,
+      "Rice, Pasta & Pulses": 103,
+      "Condiments, Dressings & Marinades": 54
+    },
+    "distinct_brands": 143,
+    "products_with_image_urls": 1000,
+    "products_with_precomputed_embeddings": 2,
+    "currency": "EGP",
+    "price_statistics": {
+      "minimum": 3.95,
+      "maximum": 1074.95,
+      "average": 83.24
+    }
+  },
+  "quality_findings": [
+    "No critical schema violations or corrupt rows.",
+    "Identified 42 duplicated barcodes representing promotional bundled packs or variant packaging.",
+    "204 produce/bulk items lack a subcategory; default subcategory 'Produce & Loose Essentials' inferred.",
+    "366 loose items lack a brand attribute; preserved as non-branded store goods.",
+    "2 records include 1536-dim vector embeddings; remaining 998 records utilize lexical trigram full-text indexing."
+  ]
+}

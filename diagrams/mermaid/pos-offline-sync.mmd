@@ -1,0 +1,36 @@
+sequenceDiagram
+    autonumber
+    actor Cashier
+    participant POSUI as POS Terminal UI
+    participant SQLite as Local SQLite DB
+    participant Outbox as Sync Outbox Table
+    participant SyncEng as POS SyncEngine
+    participant Gateway as Backend Gateway (/sync/ingest)
+    participant CloudDB as Central PostgreSQL 16
+    participant Redis as Redis Event Bus
+
+    Note over Cashier,Outbox: Network Connectivity DOWN (Offline Mode)
+    Cashier->>POSUI: Scan barcode (e.g., 6224011439398)
+    POSUI->>SQLite: Query cached product & stock
+    SQLite-->>POSUI: Product: Dina Farms Cottage Cheese (69 EGP)
+    Cashier->>POSUI: Press [F2] Pay Cash (Tendered 100 EGP)
+    POSUI->>SQLite: Record local transaction & print receipt
+    POSUI->>Outbox: INSERT into sync_outbox (UUID, payload, status='PENDING')
+    POSUI-->>Cashier: Sale Completed Offline (Receipt Generated)
+
+    Note over Outbox,Gateway: Network Restored (Online Mode)
+    SyncEng->>SyncEng: Connectivity poll detected network UP
+    SyncEng->>Outbox: SELECT * FROM sync_outbox WHERE status='PENDING'
+    Outbox-->>SyncEng: Pending transactions batch
+    SyncEng->>Gateway: POST /api/v1/sync/ingest {terminal_id, events}
+    Gateway->>CloudDB: Verify event UUID (Idempotency Check)
+    alt New Event
+        Gateway->>CloudDB: INSERT into orders & order_items
+        Gateway->>CloudDB: Deduct stock from inventory
+        Gateway->>Redis: Publish 'inventory.updated'
+        Gateway-->>SyncEng: 200 OK {processed: 1, duplicates: 0}
+        SyncEng->>Outbox: UPDATE sync_outbox SET status='SYNCED'
+    else Duplicate Event
+        Gateway-->>SyncEng: 200 OK {processed: 0, duplicates: 1}
+        SyncEng->>Outbox: UPDATE sync_outbox SET status='SYNCED'
+    end

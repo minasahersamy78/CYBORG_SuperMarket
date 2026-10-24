@@ -1,0 +1,43 @@
+name: Cyborg Supermarket CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality-gate:
+    name: Automated Quality Gate & Scenarios Verification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          npm --version
+          python --version
+
+      - name: Validate Product Catalog (1,000 SKUs)
+        run: npm run data:validate
+
+      - name: Seed Database
+        run: npm run data:import
+
+      - name: Run Master Automated Quality Gates
+        run: npm run test
+
+      - name: Generate and Validate Enterprise PDFs
+        run: npm run docs:generate

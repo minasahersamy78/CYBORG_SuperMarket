@@ -1,0 +1,26 @@
+{
+  "name": "cyborg-supermarket-monorepo",
+  "version": "1.0.0",
+  "description": "Production-Oriented, AI-Powered Omnichannel Supermarket Ecosystem",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "data:validate": "node scripts/validate-dataset.js",
+    "data:report": "node scripts/generate-import-report.js",
+    "data:import": "node scripts/import-products.js",
+    "start:backend": "node apps/backend/src/standalone-server.js",
+    "start:admin": "node apps/admin-web/server.js",
+    "start:web": "node apps/customer-web/server.js",
+    "test": "node scripts/run-all-tests.js",
+    "test:backend": "node apps/backend/src/scripts/run-backend-tests.js",
+    "test:pos": "node scripts/run-pos-tests.js",
+    "test:e2e": "node scripts/run-e2e-scenarios.js",
+    "docs:generate": "python scripts/generate_all_pdfs.py",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  },
+  "devDependencies": {}
+}

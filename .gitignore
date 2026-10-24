@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.dart_tool/
+.packages
+build/
+*.pyc
+__pycache__/
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.tmp

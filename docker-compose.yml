@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # ---------------------------------------------------------------------------
+  # Primary Relational Database - PostgreSQL 16
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: cyborg-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cyborg_supermarket
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./apps/backend/src/database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cyborg_supermarket"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # In-Memory Cache & Pub/Sub Event Bus - Redis 7
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: cyborg-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Backend API Gateway - Clean Architecture Modular Monolith
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    container_name: cyborg-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      APP_PORT: 3000
+      DATABASE_CLIENT: postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: cyborg_supermarket
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_dev_password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_ENABLED: "true"
+      JWT_SECRET: cyborg_supermarket_jwt_secret_dev_key_2026_unsecure_local_only
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # Admin Operations Web Dashboard
+  # ---------------------------------------------------------------------------
+  admin-web:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.admin
+    container_name: cyborg-admin-web
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+
+  # ---------------------------------------------------------------------------
+  # Customer Web Storefront
+  # ---------------------------------------------------------------------------
+  customer-web:
+    build:
+      context: .
+      dockerfile: infrastructure/docker/Dockerfile.customer
+    container_name: cyborg-customer-web
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:

@@ -1,0 +1,181 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1616 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (Product Presentation and Demo Guide) Tj ET
+BT /F1 13 Tf 50 675 Td (Executive Walkthrough, Value Proposition, and Demonstration Script) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 10_Cyborg_Product_Presentation_and_Demo_Guide.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 3432 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Product Presentation and Demo Guide) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. Executive Value Proposition) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (Cyborg Supermarket is an AI-powered retail operating system engineered to eliminate stock) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (discrepancies, modernize checkout speeds, and empower Egyptian consumers with voice-first) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 685 Td (shopping.) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 641 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 644 Td (2. End-to-End Stakeholder Demonstration Script) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 607 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 611 Td (Step) Tj ET
+BT /F2 8.5 Tf 145 611 Td (Demonstration Action) Tj ET
+BT /F2 8.5 Tf 295 611 Td (System Response & Proof Point) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 591 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 595 Td (1. Infrastructure) Tj ET
+BT /F1 8 Tf 145 595 Td (Run npm run start:backend) Tj ET
+BT /F1 8 Tf 295 595 Td (Backend starts on port 3000, c) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 575 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 575 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 579 Td (2. Real Catalog) Tj ET
+BT /F1 8 Tf 145 579 Td (Open Admin Dashboard \(port 300) Tj ET
+BT /F1 8 Tf 295 579 Td (Visualizes 1,000 real products) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 559 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 563 Td (3. Online Shopping) Tj ET
+BT /F1 8 Tf 145 563 Td (Open Storefront \(port 3002\)) Tj ET
+BT /F1 8 Tf 295 563 Td (Search for 'Dina Farms', add i) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 543 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 543 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 547 Td (4. POS Checkout) Tj ET
+BT /F1 8 Tf 145 547 Td (Open Windows POS Terminal) Tj ET
+BT /F1 8 Tf 295 547 Td (Scan barcode 6224011439398, pr) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 527 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 531 Td (5. Offline Sync) Tj ET
+BT /F1 8 Tf 145 531 Td (Simulate offline POS sale) Tj ET
+BT /F1 8 Tf 295 531 Td (Order queues in SQLite outbox;) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 511 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 511 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 515 Td (6. AI Egyptian Voice) Tj ET
+BT /F1 8 Tf 145 515 Td (Prompt: '???? ??? ???? ?????') Tj ET
+BT /F1 8 Tf 295 515 Td (AI detects intent, retrieves J) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 495 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 499 Td (7. Reports) Tj ET
+BT /F1 8 Tf 145 499 Td (Review Admin Dashboard) Tj ET
+BT /F1 8 Tf 295 499 Td (Shows real revenue, shift bala) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 460 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 463 Td (3. Verified Deliverables & Release Readiness) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 448 Td (All repository components, source analysis documents, database migrations, seed datasets,) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 435 Td (automated test suites, editable diagrams, and ten validated PDF books have been successfully) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 422 Td (built and inspected.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 2 of 2) Tj ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000429 00000 n 
+0000002097 00000 n 
+0000002399 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+5883
+%%EOF

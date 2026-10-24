@@ -1,0 +1,110 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1607 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (User, Administrator, and Cashier Manual) Tj ET
+BT /F1 13 Tf 50 675 Td (Standard Operating Procedures for Shoppers, Cashiers, and Managers) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 09_User_Admin_and_Cashier_Manual.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 2017 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - User, Administrator, and Cashier Manual) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. Cashier POS Operating Guide) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (The Windows POS application is optimized for rapid touch and keyboard scanning:) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 694 Td (- Start Shift: Log in and input the opening cash float \(e.g. 1,000.00 EGP\).) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 677 Td (- Scanning Items: Point the barcode scanner or type the numeric barcode and press Enter.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 660 Td (- Tendering Cash: Press F2 to enter cash tendered. The drawer will kick open automatically.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 643 Td (- Tendering Card: Press F3 for card processing and customer receipt printing.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 626 Td (- End Shift: Count drawer cash, submit closing amount, and inspect difference report.) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 582 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 585 Td (2. Customer Shopping Guide) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 570 Td (- Bilingual Toggle: Click the language switch to instantly toggle Arabic RTL / English LTR.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 553 Td (- Shared Family Cart: Invite family members and set individual spend limits to prevent) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 540 Td (overspending.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 523 Td (- AI Voice Assistant: Tap the mic button and speak in Egyptian Arabic to find items or add) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 510 Td (to cart.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 2 of 2) Tj ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000429 00000 n 
+0000002088 00000 n 
+0000002390 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+4459
+%%EOF

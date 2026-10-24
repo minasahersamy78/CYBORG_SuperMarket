@@ -1,0 +1,24 @@
+sequenceDiagram
+    autonumber
+    actor Customer as Egyptian Customer
+    participant App as Mobile App (Microphone)
+    participant Speech as Speech Recognition (Whisper / Google)
+    participant NLP as Egyptian Dialect Tokenizer
+    participant Intent as Intent Resolver
+    participant Catalog as Catalog Search Service
+    participant Response as Audio & Text Response
+
+    Customer->>App: "عايز لبن جهينه كامل الدسم" (Speaks Egyptian Arabic)
+    App->>Speech: Stream PCM Audio
+    Speech-->>App: Transcribed Text: "عايز لبن جهينه كامل الدسم"
+    App->>NLP: POST /api/v1/ai/voice {query: text}
+    NLP->>NLP: Strip stop-words, normalize vowels (أ -> ا, ة -> ه)
+    NLP->>NLP: Expand synonyms: لبن -> [حليب, milk]
+    NLP->>Intent: Pattern & semantic classification
+    Intent-->>NLP: Intent: ADD_TO_CART (Confidence: 0.96)
+    NLP->>Catalog: Grounded Query (tokens: ['جهين', 'حليب', 'كامل', 'الدسم'])
+    Catalog-->>NLP: Matched: "جهينه حليب كامل الدسم - 200 مل" (11.50 EGP, In Stock)
+    NLP->>Response: Formulate Arabic confirmation
+    Response-->>App: "تم العثور على جهينه حليب كامل الدسم بسعر 11.50 جنيه. هل تريد إضافته للسلة؟"
+    App->>Customer: Display product card & Play audio response
+    Customer->>App: Tap "Confirm Add" -> Item added to cart

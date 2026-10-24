@@ -1,0 +1,167 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1628 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (Deployment, Operations, and Recovery Manual) Tj ET
+BT /F1 13 Tf 50 675 Td (Docker Services, Production Configuration, Backup and Disaster Recovery) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 08_Deployment_Operations_and_Recovery_Manual.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 2828 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Deployment, Operations, and Recovery Manual) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. Quick-Start Commands \(Windows & Linux\)) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (The entire ecosystem can be initialized and verified using standard npm / node commands:) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 672 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 676 Td (Command) Tj ET
+BT /F2 8.5 Tf 215 676 Td (Action & Output) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 656 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 660 Td (npm run data:validate) Tj ET
+BT /F1 8 Tf 215 660 Td (Validates 1,000 product rows i) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 640 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 640 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 644 Td (npm run data:import) Tj ET
+BT /F1 8 Tf 215 644 Td (Seeds database with products, ) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 624 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 628 Td (npm run test) Tj ET
+BT /F1 8 Tf 215 628 Td (Executes full quality gate sui) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 608 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 608 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 612 Td (npm run start:backend) Tj ET
+BT /F1 8 Tf 215 612 Td (Starts NestJS/Express API serv) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 592 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 596 Td (npm run start:admin) Tj ET
+BT /F1 8 Tf 215 596 Td (Starts Operations Admin Web Da) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 576 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 576 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 580 Td (npm run start:web) Tj ET
+BT /F1 8 Tf 215 580 Td (Starts Customer Web Storefront) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 560 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 564 Td (npm run docs:generate) Tj ET
+BT /F1 8 Tf 215 564 Td (Generates and validates all 10) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 525 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 528 Td (2. Backup and Disaster Recovery) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 513 Td (The operational runbook defines automated daily backups for PostgreSQL and POS SQLite) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 500 Td (databases:) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 483 Td (- Database Dump: pg_dump -Fc cyborg_supermarket > /backups/db_$\(date +%Y%m%d\).dump) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 466 Td (- Point-in-Time Recovery: WAL archiving enables sub-minute recovery in catastrophic outage) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 453 Td (scenarios.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 2 of 2) Tj ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000429 00000 n 
+0000002109 00000 n 
+0000002411 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+5291
+%%EOF

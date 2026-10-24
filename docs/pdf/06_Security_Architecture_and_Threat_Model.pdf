@@ -1,0 +1,173 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1617 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (Security Architecture and Threat Model) Tj ET
+BT /F1 13 Tf 50 675 Td (STRIDE Threat Modeling, OWASP Hardening, and Cryptographic Standards) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 06_Security_Architecture_and_Threat_Model.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 3243 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Security Architecture and Threat Model) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. STRIDE Threat Model Analysis) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (A structured STRIDE threat assessment was executed across all trust boundaries:) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 672 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 676 Td (Threat Category) Tj ET
+BT /F2 8.5 Tf 135 676 Td (Identified Attack Scenario) Tj ET
+BT /F2 8.5 Tf 275 676 Td (Implemented Security Control) Tj ET
+BT /F2 8.5 Tf 470 676 Td (Residual Risk) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 656 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 660 Td (Spoofing) Tj ET
+BT /F1 8 Tf 135 660 Td (Attacker generates fake cashie) Tj ET
+BT /F1 8 Tf 275 660 Td (HMAC-SHA256 signature verifica) Tj ET
+BT /F1 8 Tf 470 660 Td (Negligible) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 640 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 640 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 644 Td (Tampering) Tj ET
+BT /F1 8 Tf 135 644 Td (Shopper manipulates price in r) Tj ET
+BT /F1 8 Tf 275 644 Td (Server recalculates all prices) Tj ET
+BT /F1 8 Tf 470 644 Td (Zero) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 624 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 628 Td (Repudiation) Tj ET
+BT /F1 8 Tf 135 628 Td (Cashier denies processing refu) Tj ET
+BT /F1 8 Tf 275 628 Td (Immutable audit_logs table rec) Tj ET
+BT /F1 8 Tf 470 628 Td (Zero) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 608 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 608 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 612 Td (Info Disclosure) Tj ET
+BT /F1 8 Tf 135 612 Td (Credentials leaked in API resp) Tj ET
+BT /F1 8 Tf 275 612 Td (Password hashes & secrets stri) Tj ET
+BT /F1 8 Tf 470 612 Td (Negligible) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 592 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 596 Td (Denial of Service) Tj ET
+BT /F1 8 Tf 135 596 Td (Inventory exhaustion via unpur) Tj ET
+BT /F1 8 Tf 275 596 Td (15-minute reservation TTL auto) Tj ET
+BT /F1 8 Tf 470 596 Td (Low) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 576 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 576 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 580 Td (Elevation of Priv) Tj ET
+BT /F1 8 Tf 135 580 Td (Customer calls administrative ) Tj ET
+BT /F1 8 Tf 275 580 Td (RolesGuard rejects unauthorize) Tj ET
+BT /F1 8 Tf 470 580 Td (Zero) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 541 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 544 Td (2. Cryptographic & Data Protection Standards) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 529 Td (- Password Hashing: SHA-512 / bcrypt with minimum 10 salt rounds.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 512 Td (- Token Architecture: Stateless 15-minute access tokens paired with revocable refresh) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 499 Td (tokens.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 482 Td (- SQL Injection Defense: All database operations execute through parameterized bindings.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 2 of 2) Tj ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000429 00000 n 
+0000002098 00000 n 
+0000002400 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+5695
+%%EOF

@@ -1,0 +1,66 @@
+{
+  "generated_at": "2026-10-24T22:51:16Z",
+  "total_documents": 10,
+  "documents": [
+    {
+      "file": "01_Cyborg_Complete_Project_Handbook.pdf",
+      "title": "Complete Project Handbook",
+      "pages": 3,
+      "size_bytes": 11085
+    },
+    {
+      "file": "02_System_Architecture_and_Infrastructure.pdf",
+      "title": "System Architecture and Infrastructure",
+      "pages": 3,
+      "size_bytes": 9083
+    },
+    {
+      "file": "03_Complete_Workflows_and_Sequence_Diagrams.pdf",
+      "title": "Complete Workflows and Sequence Diagrams",
+      "pages": 3,
+      "size_bytes": 9198
+    },
+    {
+      "file": "04_Database_ERD_and_Data_Dictionary.pdf",
+      "title": "Database ERD and Data Dictionary",
+      "pages": 3,
+      "size_bytes": 9958
+    },
+    {
+      "file": "05_API_Reference_and_Integration_Guide.pdf",
+      "title": "API Reference and Integration Guide",
+      "pages": 2,
+      "size_bytes": 7315
+    },
+    {
+      "file": "06_Security_Architecture_and_Threat_Model.pdf",
+      "title": "Security Architecture and Threat Model",
+      "pages": 2,
+      "size_bytes": 5899
+    },
+    {
+      "file": "07_QA_Testing_and_Verification_Report.pdf",
+      "title": "QA Testing and Verification Report",
+      "pages": 2,
+      "size_bytes": 6738
+    },
+    {
+      "file": "08_Deployment_Operations_and_Recovery_Manual.pdf",
+      "title": "Deployment, Operations, and Recovery Manual",
+      "pages": 2,
+      "size_bytes": 5495
+    },
+    {
+      "file": "09_User_Admin_and_Cashier_Manual.pdf",
+      "title": "User, Administrator, and Cashier Manual",
+      "pages": 2,
+      "size_bytes": 4663
+    },
+    {
+      "file": "10_Cyborg_Product_Presentation_and_Demo_Guide.pdf",
+      "title": "Product Presentation and Demo Guide",
+      "pages": 2,
+      "size_bytes": 6087
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY apps/backend/package*.json ./apps/backend/
+COPY packages ./packages
+
+COPY apps/backend ./apps/backend
+COPY data/processed ./data/processed
+COPY data/source ./data/source
+
+EXPOSE 3000
+
+CMD ["node", "apps/backend/src/standalone-server.js"]

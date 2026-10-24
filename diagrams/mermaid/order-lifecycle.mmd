@@ -1,0 +1,23 @@
+stateDiagram-v2
+    [*] --> PENDING : Online Cart Checkout Initiated
+    [*] --> DELIVERED : In-Store POS Sale Completed (Cash / Card)
+
+    PENDING --> CONFIRMED : Payment Verified (Card / Fawry)
+    PENDING --> CANCELLED : Payment Timeout / Customer Cancel
+
+    CONFIRMED --> PREPARING : Store Staff Begin Order Assembly
+    CONFIRMED --> CANCELLED : Out of Stock / Merchant Reject
+
+    PREPARING --> READY : Items Packed & Staged at Dispatch
+    PREPARING --> CANCELLED : Partial Failure (Inventory Restored)
+
+    READY --> OUT_FOR_DELIVERY : Courier Dispatched
+    READY --> DELIVERED : Customer In-Store Pickup Completed
+
+    OUT_FOR_DELIVERY --> DELIVERED : Customer Signed & Received
+    OUT_FOR_DELIVERY --> CANCELLED : Failed Delivery Attempt
+
+    DELIVERED --> REFUNDED : Authorized Manager Refund (Stock Restocked)
+
+    CANCELLED --> [*]
+    REFUNDED --> [*]

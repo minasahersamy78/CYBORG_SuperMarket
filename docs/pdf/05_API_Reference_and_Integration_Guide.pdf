@@ -1,0 +1,224 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1605 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (API Reference and Integration Guide) Tj ET
+BT /F1 13 Tf 50 675 Td (RESTful Contracts, OpenAPI 3.0 Specifications, and DTO Schemas) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 05_API_Reference_and_Integration_Guide.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 4671 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - API Reference and Integration Guide) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. API Architecture & Standards) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (The Cyborg Supermarket API follows RESTful conventions under the versioned prefix /api/v1.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (Standard HTTP response envelopes encapsulate data payloads and pagination metadata:) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 681 Td (- Authentication: Bearer JWT tokens via HTTP Authorization header. Tokens expire in 15) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 668 Td (minutes.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 651 Td (- Rate Limiting: Enforced at 100 requests / minute per client IP using Redis token bucket.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 634 Td (- Idempotency: Critical write endpoints \(e.g. POST /orders\) accept an Idempotency-Key) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 621 Td (header.) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 577 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 580 Td (2. Core Endpoints Inventory) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 543 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 547 Td (Method) Tj ET
+BT /F2 8.5 Tf 105 547 Td (Endpoint Route) Tj ET
+BT /F2 8.5 Tf 260 547 Td (Required Role) Tj ET
+BT /F2 8.5 Tf 365 547 Td (Purpose) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 527 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 531 Td (POST) Tj ET
+BT /F1 8 Tf 105 531 Td (/api/v1/auth/login) Tj ET
+BT /F1 8 Tf 260 531 Td (Public) Tj ET
+BT /F1 8 Tf 365 531 Td (Authenticate credentials and i) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 511 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 511 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 515 Td (POST) Tj ET
+BT /F1 8 Tf 105 515 Td (/api/v1/auth/register) Tj ET
+BT /F1 8 Tf 260 515 Td (Public) Tj ET
+BT /F1 8 Tf 365 515 Td (Register customer account) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 495 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 499 Td (GET) Tj ET
+BT /F1 8 Tf 105 499 Td (/api/v1/products) Tj ET
+BT /F1 8 Tf 260 499 Td (Public) Tj ET
+BT /F1 8 Tf 365 499 Td (Browse catalog with pagination) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 479 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 479 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 483 Td (GET) Tj ET
+BT /F1 8 Tf 105 483 Td (/api/v1/products/{id}) Tj ET
+BT /F1 8 Tf 260 483 Td (Public) Tj ET
+BT /F1 8 Tf 365 483 Td (Get product details with real-) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 463 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 467 Td (GET) Tj ET
+BT /F1 8 Tf 105 467 Td (/api/v1/products/barcode/{code) Tj ET
+BT /F1 8 Tf 260 467 Td (Public) Tj ET
+BT /F1 8 Tf 365 467 Td (Instant barcode lookup for POS) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 447 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 447 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 451 Td (POST) Tj ET
+BT /F1 8 Tf 105 451 Td (/api/v1/orders) Tj ET
+BT /F1 8 Tf 260 451 Td (Authenticated) Tj ET
+BT /F1 8 Tf 365 451 Td (Submit new order \(recalculated) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 431 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 435 Td (PUT) Tj ET
+BT /F1 8 Tf 105 435 Td (/api/v1/orders/{id}/status) Tj ET
+BT /F1 8 Tf 260 435 Td (Manager/Cashier) Tj ET
+BT /F1 8 Tf 365 435 Td (Transition order status in sta) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 415 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 415 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 419 Td (POST) Tj ET
+BT /F1 8 Tf 105 419 Td (/api/v1/shifts/start) Tj ET
+BT /F1 8 Tf 260 419 Td (Cashier/Manager) Tj ET
+BT /F1 8 Tf 365 419 Td (Open new cashier shift with op) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 399 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 403 Td (PUT) Tj ET
+BT /F1 8 Tf 105 403 Td (/api/v1/shifts/{id}/close) Tj ET
+BT /F1 8 Tf 260 403 Td (Cashier/Manager) Tj ET
+BT /F1 8 Tf 365 403 Td (Close shift and calculate draw) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 383 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 383 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 387 Td (POST) Tj ET
+BT /F1 8 Tf 105 387 Td (/api/v1/sync/ingest) Tj ET
+BT /F1 8 Tf 260 387 Td (Cashier/POS) Tj ET
+BT /F1 8 Tf 365 387 Td (Upload batch of offline POS tr) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 367 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 371 Td (POST) Tj ET
+BT /F1 8 Tf 105 371 Td (/api/v1/ai/voice) Tj ET
+BT /F1 8 Tf 260 371 Td (Public) Tj ET
+BT /F1 8 Tf 365 371 Td (Parse colloquial Egyptian Arab) Tj ET
+Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 2 of 2) Tj ET
+Q
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000429 00000 n 
+0000002086 00000 n 
+0000002388 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+7111
+%%EOF

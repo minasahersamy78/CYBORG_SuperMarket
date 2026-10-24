@@ -1,0 +1,322 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1600 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (Database ERD and Data Dictionary) Tj ET
+BT /F1 13 Tf 50 675 Td (Complete Schema Specifications, Constraints, and Index Strategy) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 04_Database_ERD_and_Data_Dictionary.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 3453 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Database ERD and Data Dictionary) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. Entity-Relationship Overview) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (The relational database schema is normalized to 3NF while providing fast index paths for) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (high-frequency retail checkout and catalog search:) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 659 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 663 Td (Table Name) Tj ET
+BT /F2 8.5 Tf 140 663 Td (Primary Key) Tj ET
+BT /F2 8.5 Tf 215 663 Td (Foreign Keys) Tj ET
+BT /F2 8.5 Tf 370 663 Td (Description & Constraints) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 643 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 647 Td (users) Tj ET
+BT /F1 8 Tf 140 647 Td (id \(UUID\)) Tj ET
+BT /F1 8 Tf 215 647 Td (None) Tj ET
+BT /F1 8 Tf 370 647 Td (Identity, password hash, hiera) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 627 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 627 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 631 Td (categories) Tj ET
+BT /F1 8 Tf 140 631 Td (id \(INT\)) Tj ET
+BT /F1 8 Tf 215 631 Td (parent_id -> categories.id) Tj ET
+BT /F1 8 Tf 370 631 Td (Self-referencing taxonomy tree) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 611 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 615 Td (products) Tj ET
+BT /F1 8 Tf 140 615 Td (id \(INT\)) Tj ET
+BT /F1 8 Tf 215 615 Td (category_id, subcategory_id) Tj ET
+BT /F1 8 Tf 370 615 Td (1,000 real SKUs, indexed barco) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 595 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 595 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 599 Td (inventory) Tj ET
+BT /F1 8 Tf 140 599 Td (id \(INT\)) Tj ET
+BT /F1 8 Tf 215 599 Td (product_id -> products.id) Tj ET
+BT /F1 8 Tf 370 599 Td (Stock quantity, reservations, ) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 579 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 583 Td (shifts) Tj ET
+BT /F1 8 Tf 140 583 Td (id \(UUID\)) Tj ET
+BT /F1 8 Tf 215 583 Td (cashier_id -> users.id) Tj ET
+BT /F1 8 Tf 370 583 Td (Cash drawer reconciliation and) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 563 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 563 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 567 Td (orders) Tj ET
+BT /F1 8 Tf 140 567 Td (id \(UUID\)) Tj ET
+BT /F1 8 Tf 215 567 Td (user_id, shift_id) Tj ET
+BT /F1 8 Tf 370 567 Td (Financial order ledger with id) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 547 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 551 Td (order_items) Tj ET
+BT /F1 8 Tf 140 551 Td (id \(INT\)) Tj ET
+BT /F1 8 Tf 215 551 Td (order_id, product_id) Tj ET
+BT /F1 8 Tf 370 551 Td (Snapshot product prices and qu) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 531 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 531 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 535 Td (carts) Tj ET
+BT /F1 8 Tf 140 535 Td (id \(UUID\)) Tj ET
+BT /F1 8 Tf 215 535 Td (user_id) Tj ET
+BT /F1 8 Tf 370 535 Td (Personal & family carts with s) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 515 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 519 Td (sync_events) Tj ET
+BT /F1 8 Tf 140 519 Td (id \(INT\)) Tj ET
+BT /F1 8 Tf 215 519 Td (None) Tj ET
+BT /F1 8 Tf 370 519 Td (Cloud-local sync event log wit) Tj ET
+Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 8 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+8 0 obj
+<< /Length 3466 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Database ERD and Data Dictionary) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (2. Data Dictionary ? Products Table) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 689 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 693 Td (Column) Tj ET
+BT /F2 8.5 Tf 130 693 Td (Data Type) Tj ET
+BT /F2 8.5 Tf 215 693 Td (Nullable) Tj ET
+BT /F2 8.5 Tf 270 693 Td (Description / Source Mapping) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 673 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 677 Td (id) Tj ET
+BT /F1 8 Tf 130 677 Td (INTEGER PK) Tj ET
+BT /F1 8 Tf 215 677 Td (NO) Tj ET
+BT /F1 8 Tf 270 677 Td (Unique sequential product ID \() Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 657 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 657 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 661 Td (barcode) Tj ET
+BT /F1 8 Tf 130 661 Td (VARCHAR\(32\)) Tj ET
+BT /F1 8 Tf 215 661 Td (NO) Tj ET
+BT /F1 8 Tf 270 661 Td (Indexed product barcode from E) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 641 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 645 Td (name_ar) Tj ET
+BT /F1 8 Tf 130 645 Td (VARCHAR\(255\)) Tj ET
+BT /F1 8 Tf 215 645 Td (NO) Tj ET
+BT /F1 8 Tf 270 645 Td (Arabic product name \('ArabicPr) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 625 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 625 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 629 Td (name_en) Tj ET
+BT /F1 8 Tf 130 629 Td (VARCHAR\(255\)) Tj ET
+BT /F1 8 Tf 215 629 Td (NO) Tj ET
+BT /F1 8 Tf 270 629 Td (English product name \('English) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 609 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 613 Td (category_id) Tj ET
+BT /F1 8 Tf 130 613 Td (INTEGER FK) Tj ET
+BT /F1 8 Tf 215 613 Td (NO) Tj ET
+BT /F1 8 Tf 270 613 Td (References categories.id \(Fres) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 593 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 593 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 597 Td (brand) Tj ET
+BT /F1 8 Tf 130 597 Td (VARCHAR\(100\)) Tj ET
+BT /F1 8 Tf 215 597 Td (YES) Tj ET
+BT /F1 8 Tf 270 597 Td (Product brand name \(143 distin) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 577 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 581 Td (price) Tj ET
+BT /F1 8 Tf 130 581 Td (NUMERIC\(10,2\)) Tj ET
+BT /F1 8 Tf 215 581 Td (NO) Tj ET
+BT /F1 8 Tf 270 581 Td (Exact price in Egyptian Pounds) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 561 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 561 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 565 Td (is_active) Tj ET
+BT /F1 8 Tf 130 565 Td (INTEGER) Tj ET
+BT /F1 8 Tf 215 565 Td (NO) Tj ET
+BT /F1 8 Tf 270 565 Td (Boolean flag \(1=Active, 0=Deac) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 526 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 529 Td (3. Indexing & Query Optimization Strategy) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 514 Td (- idx_products_barcode: Fast B-Tree index for sub-5ms barcode scans on cashier terminals.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 497 Td (- idx_inventory_product_store: Composite index on \(product_id, store_id\) for rapid) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 484 Td (concurrency checks.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 467 Td (- idx_orders_status_date: Indexes for dashboard analytics and cashier shift summaries.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000435 00000 n 
+0000002087 00000 n 
+0000002389 00000 n 
+0000005894 00000 n 
+0000006196 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+9714
+%%EOF

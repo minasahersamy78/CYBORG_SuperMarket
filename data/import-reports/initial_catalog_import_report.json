@@ -1,0 +1,50 @@
+{
+  "report_id": "REP-20261025-001",
+  "generated_at": "2026-10-25T01:27:00Z",
+  "source_file": "data/source/super_market(1).xlsx",
+  "source_worksheet": "products",
+  "secondary_worksheets": [
+    {
+      "name": "Sheet1",
+      "row_count": 1,
+      "status": "DISCARDED",
+      "reason": "Unpopulated spreadsheet template containing only #REF! error marker."
+    }
+  ],
+  "validation_summary": {
+    "total_rows_evaluated": 1001,
+    "header_rows": 1,
+    "valid_product_records": 1000,
+    "rejected_rows": 0,
+    "duplicate_barcodes_detected": 0,
+    "missing_required_fields": 0
+  },
+  "dataset_metrics": {
+    "currency": "EGP",
+    "total_categories": 5,
+    "category_distribution": {
+      "Food Cupboard": 309,
+      "Beverages": 292,
+      "Fresh Food": 199,
+      "Fruits & Vegetables": 160,
+      "Frozen Food": 40
+    },
+    "populated_subcategories": 7,
+    "null_subcategories": 204,
+    "populated_brands": 143,
+    "null_brands": 366,
+    "populated_embeddings": 2,
+    "price_statistics_egp": {
+      "min": 3.95,
+      "max": 1074.95,
+      "average": 83.24
+    }
+  },
+  "normalization_rules_applied": [
+    "Preserved raw column 'ArabicPrtoductName' mapping to 'name_ar'",
+    "Stored 'barcode' as zero-padded string to preserve identifiers",
+    "Multi-line image strings separated by _x000D_ split into primary and gallery arrays",
+    "Empty subcategories assigned fallback category mappings",
+    "Zero or empty embeddings flagged for local lexical full-text indexing"
+  ]
+}

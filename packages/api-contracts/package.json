@@ -1,0 +1,10 @@
+{
+  "name": "@cyborg/api-contracts",
+  "version": "1.0.0",
+  "description": "API request/response contracts for Cyborg Supermarket",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@cyborg/shared-types": "*"
+  }
+}

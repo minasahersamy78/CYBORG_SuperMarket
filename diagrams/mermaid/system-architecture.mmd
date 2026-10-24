@@ -1,0 +1,52 @@
+flowchart TB
+    subgraph Users["System Users & Actors"]
+        Customer["Customer (Shopper)"]
+        Cashier["Cashier (Store Operator)"]
+        StoreManager["Store Manager"]
+        Admin["Super Administrator"]
+    end
+
+    subgraph ClientLayer["Client Applications Layer"]
+        MobileApp["Flutter Mobile App\n(Android / iOS - Customer Facing)"]
+        CustomerWeb["Next.js / Responsive Web\n(Customer Storefront)"]
+        DesktopPOS["Flutter Windows POS\n(Local SQLite / Cashier Register)"]
+        AdminWeb["Operations Web Dashboard\n(Management & Analytics)"]
+    end
+
+    subgraph APILayer["API Gateway & Central Services"]
+        APIGateway["NestJS API Gateway\n(/api/v1 - Auth & Rate Limiting)"]
+        WSServer["WebSocket Gateway\n(Real-time Inventory & Orders)"]
+    end
+
+    subgraph BackendCore["Clean Architecture Monolith Services"]
+        AuthSvc["Auth & RBAC Service"]
+        CatalogSvc["Product Catalog Service"]
+        InventorySvc["Inventory & Concurrency Service"]
+        OrderSvc["Order & Checkout Factory"]
+        CartSvc["Personal & Family Cart Service"]
+        ShiftSvc["Shift & Cash Reconciliation"]
+        AISvc["Egyptian Arabic NLP & Voice Engine"]
+        SyncSvc["Cloud-Local Delta Sync Service"]
+    end
+
+    subgraph StorageLayer["Data & Persistence Layer"]
+        PostgresDB[(PostgreSQL 16 Primary DB\nRelational Schema + pgvector)]
+        RedisBus[(Redis 7 Pub/Sub & Cache\nEvent Bus)]
+        LocalPOSDB[(POS SQLite DB\nDurable Offline Outbox)]
+    end
+
+    Customer --> MobileApp & CustomerWeb
+    Cashier --> DesktopPOS
+    StoreManager & Admin --> AdminWeb
+
+    MobileApp & CustomerWeb --> APIGateway
+    DesktopPOS --> APIGateway
+    AdminWeb --> APIGateway
+    DesktopPOS <--> WSServer
+
+    APIGateway --> AuthSvc & CatalogSvc & InventorySvc & OrderSvc & CartSvc & ShiftSvc & AISvc & SyncSvc
+    WSServer <--> RedisBus
+
+    AuthSvc & CatalogSvc & InventorySvc & OrderSvc & CartSvc & ShiftSvc & SyncSvc --> PostgresDB
+    SyncSvc <--> RedisBus
+    DesktopPOS <--> LocalPOSDB

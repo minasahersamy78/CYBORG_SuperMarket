@@ -1,0 +1,145 @@
+erDiagram
+    users ||--o{ orders : places
+    users ||--o{ shifts : operates
+    users ||--o{ carts : owns
+    users ||--o{ family_members : belongs_to
+
+    categories ||--o{ categories : "parent/child"
+    categories ||--o{ products : classifies
+
+    products ||--|| inventory : tracks_stock
+    products ||--o{ order_items : contains
+    products ||--o{ cart_items : added_to
+
+    shifts ||--o{ orders : reconciles
+    orders ||--|{ order_items : comprises
+    carts ||--|{ cart_items : holds
+    carts ||--o{ family_members : shared_with
+
+    users {
+        string id PK
+        string name_ar
+        string name_en
+        string email UK
+        string phone UK
+        string password_hash
+        string role
+        int is_active
+        string created_at
+    }
+
+    categories {
+        int id PK
+        string name_ar
+        string name_en
+        int parent_id FK
+    }
+
+    products {
+        int id PK
+        string barcode UK
+        string name_ar
+        string name_en
+        int category_id FK
+        int subcategory_id FK
+        string brand
+        string country
+        string size
+        string format
+        decimal price
+        string image_url
+        string embedding
+        int is_active
+    }
+
+    inventory {
+        int id PK
+        int product_id FK
+        int store_id
+        int quantity
+        int reserved_qty
+        int low_stock_threshold
+        int version
+        string updated_at
+    }
+
+    shifts {
+        string id PK
+        string cashier_id FK
+        string cashier_name
+        string terminal_id
+        int store_id
+        decimal opening_balance
+        decimal closing_balance
+        decimal actual_counted_balance
+        decimal discrepancy
+        int total_transactions
+        decimal total_cash_sales
+        decimal total_card_sales
+        int is_closed
+    }
+
+    orders {
+        string id PK
+        string user_id FK
+        string customer_name
+        string source
+        string status
+        string shift_id FK
+        int store_id
+        string terminal_id
+        decimal subtotal
+        decimal tax_amount
+        decimal total_amount
+        string payment_method
+        string idempotency_key UK
+        string created_at
+    }
+
+    order_items {
+        int id PK
+        string order_id FK
+        int product_id FK
+        string product_name_en
+        string product_name_ar
+        string barcode
+        int quantity
+        decimal unit_price
+        decimal subtotal
+    }
+
+    carts {
+        string id PK
+        string user_id FK
+        int is_family_cart
+        decimal budget_limit
+        string updated_at
+    }
+
+    cart_items {
+        int id PK
+        string cart_id FK
+        int product_id FK
+        int quantity
+        decimal unit_price
+    }
+
+    family_members {
+        int id PK
+        string cart_id FK
+        string user_id FK
+        string role
+        decimal spend_limit
+        decimal current_spend
+    }
+
+    sync_events {
+        int id PK
+        string event_uuid UK
+        string entity_type
+        string entity_id
+        string action
+        string delta_payload
+        int synced
+        string created_at
+    }

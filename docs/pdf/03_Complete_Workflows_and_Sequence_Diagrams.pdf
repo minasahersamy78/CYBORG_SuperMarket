@@ -1,0 +1,274 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1610 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (Complete Workflows and Sequence Diagrams) Tj ET
+BT /F1 13 Tf 50 675 Td (Detailed Sequence Flows, Transitions, and Event Protocols) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 03_Complete_Workflows_and_Sequence_Diagrams.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 3363 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Complete Workflows and Sequence Diagrams) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. Offline POS Checkout & Cloud Ingestion Flow) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (The following sequence diagram outlines the deterministic synchronization cycle between the) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (offline POS terminal and the central cloud database:) Tj ET Q
+q
+0.1 0.15 0.25 rg
+50 643 95 28 re f
+0.2 0.7 0.9 RG 1 w
+50 643 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 56 653 Td (Barcode Scan) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 149 651 Td (->) Tj ET
+0.1 0.15 0.25 rg
+169 643 95 28 re f
+0.2 0.7 0.9 RG 1 w
+169 643 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 175 653 Td (Local SQLite Write) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 268 651 Td (->) Tj ET
+0.1 0.15 0.25 rg
+288 643 95 28 re f
+0.2 0.7 0.9 RG 1 w
+288 643 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 294 653 Td (Receipt Print) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 387 651 Td (->) Tj ET
+0.1 0.15 0.25 rg
+407 643 95 28 re f
+0.2 0.7 0.9 RG 1 w
+407 643 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 413 653 Td (Outbox Delta Sync) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 605 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 609 Td (Step #) Tj ET
+BT /F2 8.5 Tf 100 609 Td (Component) Tj ET
+BT /F2 8.5 Tf 195 609 Td (Operation) Tj ET
+BT /F2 8.5 Tf 430 609 Td (Delivery Guarantee) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 589 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 593 Td (01) Tj ET
+BT /F1 8 Tf 100 593 Td (Barcode Scanner) Tj ET
+BT /F1 8 Tf 195 593 Td (Cashier scans physical barcode) Tj ET
+BT /F1 8 Tf 430 593 Td (Hardware wedge interrupt) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 573 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 573 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 577 Td (02) Tj ET
+BT /F1 8 Tf 100 577 Td (POS Local SQLite) Tj ET
+BT /F1 8 Tf 195 577 Td (Lookup cached product row and ) Tj ET
+BT /F1 8 Tf 430 577 Td (Local memory \(< 5ms\)) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 557 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 561 Td (03) Tj ET
+BT /F1 8 Tf 100 561 Td (Cash Drawer) Tj ET
+BT /F1 8 Tf 195 561 Td (Cashier confirms cash payment;) Tj ET
+BT /F1 8 Tf 430 561 Td (ESC/POS RJ12 interface) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 541 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 541 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 545 Td (04) Tj ET
+BT /F1 8 Tf 100 545 Td (Local Outbox) Tj ET
+BT /F1 8 Tf 195 545 Td (Transaction inserted into sync) Tj ET
+BT /F1 8 Tf 430 545 Td (ACID local durability) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 525 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 529 Td (05) Tj ET
+BT /F1 8 Tf 100 529 Td (Sync Engine) Tj ET
+BT /F1 8 Tf 195 529 Td (Background thread detects netw) Tj ET
+BT /F1 8 Tf 430 529 Td (At-least-once delivery) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 509 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 509 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 513 Td (06) Tj ET
+BT /F1 8 Tf 100 513 Td (Backend Gateway) Tj ET
+BT /F1 8 Tf 195 513 Td (Idempotency check against even) Tj ET
+BT /F1 8 Tf 430 513 Td (Exactly-once processing) Tj ET
+Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 8 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+8 0 obj
+<< /Length 2786 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Complete Workflows and Sequence Diagrams) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (2. Order Lifecycle State Machine) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (All customer and POS orders obey a deterministic state transition hierarchy enforced on the) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (server:) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 681 Td (- PENDING -> CONFIRMED: Online order payment authorized \(Card, Mobile Wallet, Fawry\).) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 664 Td (- CONFIRMED -> PREPARING: Warehouse / branch staff begin item assembly.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 647 Td (- PREPARING -> READY: Order packed and staged in collection area.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 630 Td (- READY -> DELIVERED: Order received by customer or handed to in-store shopper.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 613 Td (- DELIVERED -> REFUNDED: Authorized manager processes customer return with inventory) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 600 Td (restoration.) Tj ET Q
+q
+0.1 0.2 0.35 rg
+BT /F2 12 Tf 50 565 Td (3. Egyptian Arabic Voice Shopping Pipeline) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 555 Td (Voice queries in Egyptian dialect follow a 5-stage transformation pipeline:) Tj ET Q
+q
+0.1 0.15 0.25 rg
+50 500 95 28 re f
+0.2 0.7 0.9 RG 1 w
+50 500 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 56 510 Td (Audio Capture) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 149 508 Td (->) Tj ET
+0.1 0.15 0.25 rg
+169 500 95 28 re f
+0.2 0.7 0.9 RG 1 w
+169 500 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 175 510 Td (Dialect Normalizer) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 268 508 Td (->) Tj ET
+0.1 0.15 0.25 rg
+288 500 95 28 re f
+0.2 0.7 0.9 RG 1 w
+288 500 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 294 510 Td (Intent Resolution) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 387 508 Td (->) Tj ET
+0.1 0.15 0.25 rg
+407 500 95 28 re f
+0.2 0.7 0.9 RG 1 w
+407 500 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 413 510 Td (Catalog Retrieval) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 484 Td (- Speech Transcription: Extracts colloquial spoken Arabic \('???? ??? ???? ?????'\).) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 467 Td (- Dialect Lexicon: Maps Egyptian grocery synonyms \(??? -> ????, ???? -> ???\).) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 450 Td (- Database Matching: Scores and retrieves real catalog products with current stock status.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000435 00000 n 
+0000002097 00000 n 
+0000002399 00000 n 
+0000005814 00000 n 
+0000006116 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+8954
+%%EOF
