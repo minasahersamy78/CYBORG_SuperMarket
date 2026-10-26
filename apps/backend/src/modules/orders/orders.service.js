@@ -6,6 +6,7 @@
 const crypto = require('crypto');
 const db = require('../../database/db');
 const inventoryService = require('../inventory/inventory.service');
+const emailService = require('../email/email.service');
 
 // Valid state machine transitions
 const VALID_TRANSITIONS = {
@@ -143,7 +144,13 @@ const ordersService = {
       ]
     );
 
-    return this.getOrderById(orderId);
+    const createdOrder = this.getOrderById(orderId);
+    if (createdOrder && createdOrder.success) {
+      try {
+        emailService.sendOrderNotification(createdOrder.data, dto.customer_email || 'cyborgcoding1@gmail.com');
+      } catch (_) {}
+    }
+    return createdOrder;
   },
 
   getOrderById(id) {
@@ -264,6 +271,58 @@ const ordersService = {
     );
 
     return this.getOrderById(orderId);
+  },
+
+  cancelOrder(orderId, reason = 'CUSTOMER_CANCELLED', actor = null) {
+    const order = db.getOne('SELECT * FROM orders WHERE id = ? LIMIT 1;', [orderId]);
+    if (!order) return { success: false, statusCode: 404, error: 'Order not found' };
+    if (order.status === 'CANCELLED') {
+      return { success: false, statusCode: 400, error: 'Order is already cancelled' };
+    }
+    if (order.status === 'REFUNDED') {
+      return { success: false, statusCode: 400, error: 'Cannot cancel an already refunded order' };
+    }
+
+    const permittedNext = VALID_TRANSITIONS[order.status] || [];
+    if (!permittedNext.includes('CANCELLED')) {
+      return {
+        success: false,
+        statusCode: 400,
+        error: `Order in '${order.status}' status cannot be cancelled. Only orders in [${Object.keys(VALID_TRANSITIONS).filter(k => (VALID_TRANSITIONS[k]||[]).includes('CANCELLED')).join(', ')}] can be cancelled.`
+      };
+    }
+
+    // 1. Restore Inventory Stock for all line items
+    const items = db.query('SELECT product_id, quantity FROM order_items WHERE order_id = ?;', [orderId]);
+    for (const item of items) {
+      inventoryService.adjustStock(item.product_id, item.quantity, `CANCEL_RESTORE_${orderId}`);
+    }
+
+    // 2. Transition Order Status to CANCELLED
+    db.run(
+      "UPDATE orders SET status = 'CANCELLED', updated_at = datetime('now') WHERE id = ?;",
+      [orderId]
+    );
+
+    // 3. Persist Audit Log
+    db.run(
+      "INSERT INTO audit_logs (action, actor_id, actor_role, entity, entity_id, details) VALUES (?, ?, ?, ?, ?, ?);",
+      ['ORDER_CANCELLED', actor ? (actor.sub || actor.id) : 'customer', actor ? actor.role : 'CUSTOMER', 'ORDER', orderId, `Order cancelled. Reason: ${reason}`]
+    );
+
+    // 4. Notify via Email
+    const updated = this.getOrderById(orderId);
+    try {
+      if (updated && updated.success) {
+        emailService.sendChatbotFeedback({
+          feedbackType: 'ORDER_CANCELLATION',
+          customerName: order.customer_name || 'Customer',
+          message: `Order #${orderId} was cancelled (${reason}). Inventory quantities automatically restored.`
+        }, 'cyborgcoding1@gmail.com');
+      }
+    } catch (_) {}
+
+    return updated;
   }
 };
 

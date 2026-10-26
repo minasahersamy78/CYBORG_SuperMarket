@@ -6,6 +6,7 @@ import '../../../../core/hardware/barcode_scanner.dart';
 import '../../../../core/hardware/thermal_printer.dart';
 import '../../../../core/hardware/cash_drawer.dart';
 import '../../../../core/sync/sync_engine.dart';
+import '../../../../core/database/sqlite_helper.dart';
 
 class CartLine {
   final int productId;
@@ -91,14 +92,33 @@ class _PosScanPageState extends State<PosScanPage> {
           setState(() {
             _lines.add(CartLine(
               productId: p['id'],
-              barcode: p['barcode'],
-              nameEn: p['name_en'],
-              nameAr: p['name_ar'],
+              barcode: p['barcode'] ?? barcode,
+              nameEn: p['name_en'] ?? p['name'] ?? 'Product',
+              nameAr: p['name_ar'] ?? p['name_en'] ?? 'منتج',
               quantity: 1,
               unitPrice: (p['price'] as num).toDouble(),
             ));
-            _statusMessage = 'Added: ${p['name_en']}';
+            _statusMessage = 'Added: ${p['name_en'] ?? p['name']}';
+            _isOnline = true;
           });
+
+          // Cache locally for offline durability
+          try {
+            final db = await SqliteHelper.database;
+            await db.rawInsert('''
+              INSERT OR REPLACE INTO local_products (id, barcode, name_en, name_ar, price, category_name, updated_at)
+              VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', [
+              p['id'],
+              p['barcode'] ?? barcode,
+              p['name_en'] ?? p['name'] ?? 'Product',
+              p['name_ar'] ?? p['name_en'] ?? 'منتج',
+              (p['price'] as num).toDouble(),
+              p['category'] ?? p['category_name'] ?? 'General',
+              DateTime.now().toIso8601String(),
+            ]);
+          } catch (_) {}
+
           return;
         }
       }
@@ -106,19 +126,43 @@ class _PosScanPageState extends State<PosScanPage> {
         _statusMessage = 'Barcode not found: $barcode';
       });
     } catch (e) {
-      // Offline fallback: Add mock entry with scanned barcode for local durability
+      // Offline fallback: Lookup genuine product from local SQLite cache
       setState(() {
         _isOnline = false;
-        _lines.add(CartLine(
-          productId: DateTime.now().millisecondsSinceEpoch % 1000,
-          barcode: barcode,
-          nameEn: 'Offline Scanned Item ($barcode)',
-          nameAr: 'منتج مسجل بدون اتصال',
-          quantity: 1,
-          unitPrice: 50.00,
-        ));
-        _statusMessage = 'Offline Mode: Stored locally';
       });
+
+      try {
+        final db = await SqliteHelper.database;
+        final localProducts = await db.query(
+          'local_products',
+          where: 'barcode = ?',
+          whereArgs: [barcode],
+          limit: 1,
+        );
+
+        if (localProducts.isNotEmpty) {
+          final lp = localProducts.first;
+          setState(() {
+            _lines.add(CartLine(
+              productId: lp['id'] as int,
+              barcode: lp['barcode'] as String,
+              nameEn: lp['name_en'] as String,
+              nameAr: lp['name_ar'] as String,
+              quantity: 1,
+              unitPrice: (lp['price'] as num).toDouble(),
+            ));
+            _statusMessage = 'Offline: Added from local cache (${lp['name_en']})';
+          });
+        } else {
+          setState(() {
+            _statusMessage = 'Offline: Barcode $barcode not found in local catalog cache';
+          });
+        }
+      } catch (dbErr) {
+        setState(() {
+          _statusMessage = 'Offline Error: Unable to query local cache ($dbErr)';
+        });
+      }
     }
   }
 
@@ -169,6 +213,19 @@ class _PosScanPageState extends State<PosScanPage> {
       );
       if (res.statusCode == 200 || res.statusCode == 201) {
         syncedNow = true;
+      } else {
+        setState(() {
+          _statusMessage = 'Order rejected by server (${res.statusCode}): ${res.body}';
+        });
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Order rejected by server (${res.statusCode}): ${res.body}'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        return;
       }
     } catch (e) {
       // Network disconnected -> Queue locally into sync outbox
@@ -237,6 +294,337 @@ class _PosScanPageState extends State<PosScanPage> {
     );
   }
 
+  void _openCatalogSearchModal() async {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        String filterQuery = '';
+        List<dynamic> productList = [];
+        bool isLoading = true;
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            void fetchCatalog(String q) async {
+              setDialogState(() => isLoading = true);
+              try {
+                final uri = Uri.parse('$_backendUrl/products?limit=20${q.isNotEmpty ? "&q=" + Uri.encodeComponent(q) : ""}');
+                final res = await http.get(uri);
+                if (res.statusCode == 200) {
+                  final json = jsonDecode(res.body);
+                  setDialogState(() {
+                    productList = json['data'] ?? [];
+                    isLoading = false;
+                  });
+                }
+              } catch (e) {
+                setDialogState(() => isLoading = false);
+              }
+            }
+
+            if (isLoading && productList.isEmpty) {
+              fetchCatalog('');
+            }
+
+            return Dialog(
+              backgroundColor: const Color(0xFF151D30),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              child: Container(
+                width: 780,
+                height: 580,
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.inventory_2, color: Color(0xFF10B981)),
+                        const SizedBox(width: 10),
+                        const Text(
+                          'Product Catalog & Barcode Scanner (F10)',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () => Navigator.pop(ctx),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      autofocus: true,
+                      style: const TextStyle(fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: 'Search 1,000 products by name, brand, or barcode...',
+                        prefixIcon: const Icon(Icons.search, color: Color(0xFF10B981)),
+                        filled: true,
+                        fillColor: const Color(0xFF0D1424),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                      ),
+                      onChanged: (val) {
+                        filterQuery = val;
+                        fetchCatalog(val);
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    Expanded(
+                      child: isLoading
+                          ? const Center(child: CircularProgressIndicator(color: Color(0xFF10B981)))
+                          : GridView.builder(
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 0.88,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                              ),
+                              itemCount: productList.length,
+                              itemBuilder: (context, i) {
+                                final p = productList[i];
+                                final nameEn = p['name_en'] ?? '';
+                                final nameAr = p['name_ar'] ?? '';
+                                final price = (p['price'] as num?)?.toDouble() ?? 0.0;
+                                final barcode = p['barcode'] ?? '';
+                                final imgUrl = p['image_url'] ?? '';
+
+                                return InkWell(
+                                  onTap: () {
+                                    _handleBarcodeSubmit(barcode);
+                                    Navigator.pop(ctx);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF0D1424),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(color: const Color(0xFF22304A)),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: imgUrl.isNotEmpty
+                                              ? Image.network(
+                                                  imgUrl,
+                                                  fit: BoxFit.contain,
+                                                  errorBuilder: (_, __, ___) => const Icon(Icons.shopping_bag, size: 40, color: Colors.grey),
+                                                )
+                                              : const Icon(Icons.shopping_bag, size: 40, color: Colors.grey),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        Text(
+                                          nameEn,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                        ),
+                                        Text(
+                                          nameAr,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(fontSize: 10, color: Colors.grey),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          '${price.toStringAsFixed(2)} EGP',
+                                          style: const TextStyle(
+                                            color: Color(0xFF22C55E),
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        BarcodeStickerWidget(barcode: barcode),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _openSmartBasketModal() {
+    final budgetCtrl = TextEditingController(text: '2000');
+    int selectedDuration = 30;
+    bool isGenerating = false;
+    List<dynamic> recommendedItems = [];
+    double totalSpent = 0;
+
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            void runOptimization() async {
+              setDialogState(() => isGenerating = true);
+              final budget = double.tryParse(budgetCtrl.text) ?? 2000;
+              try {
+                final res = await http.post(
+                  Uri.parse('$_backendUrl/recommendations/smart-basket'),
+                  headers: {'Content-Type': 'application/json'},
+                  body: jsonEncode({'budget': budget, 'duration_days': selectedDuration}),
+                );
+                if (res.statusCode == 200) {
+                  final json = jsonDecode(res.body);
+                  setDialogState(() {
+                    recommendedItems = json['items'] ?? [];
+                    totalSpent = (json['total_spent_egp'] as num?)?.toDouble() ?? 0.0;
+                    isGenerating = false;
+                  });
+                }
+              } catch (e) {
+                setDialogState(() => isGenerating = false);
+              }
+            }
+
+            return Dialog(
+              backgroundColor: const Color(0xFF151D30),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              child: Container(
+                width: 650,
+                height: 520,
+                padding: const EdgeInsets.all(22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.auto_awesome, color: Color(0xFF06B6D4)),
+                        const SizedBox(width: 10),
+                        const Text(
+                          'Smart AI Grocery Recommendation (F6)',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: budgetCtrl,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              labelText: 'Target Budget (EGP)',
+                              filled: true,
+                              fillColor: const Color(0xFF0D1424),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: DropdownButtonFormField<int>(
+                            value: selectedDuration,
+                            dropdownColor: const Color(0xFF151D30),
+                            decoration: InputDecoration(
+                              labelText: 'Duration (Days)',
+                              filled: true,
+                              fillColor: const Color(0xFF0D1424),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
+                            items: const [
+                              DropdownMenuItem(value: 7, child: Text('1 Week (7 Days)')),
+                              DropdownMenuItem(value: 14, child: Text('2 Weeks (14 Days)')),
+                              DropdownMenuItem(value: 30, child: Text('1 Month (30 Days)')),
+                              DropdownMenuItem(value: 60, child: Text('2 Months (60 Days)')),
+                              DropdownMenuItem(value: 90, child: Text('3 Months (90 Days)')),
+                            ],
+                            onChanged: (val) {
+                              if (val != null) setDialogState(() => selectedDuration = val);
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF10B981),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                          ),
+                          onPressed: runOptimization,
+                          child: const Text('Calculate', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF042F2E))),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    Expanded(
+                      child: isGenerating
+                          ? const Center(child: CircularProgressIndicator(color: Color(0xFF10B981)))
+                          : recommendedItems.isEmpty
+                              ? const Center(child: Text('Enter budget & duration and click Calculate', style: TextStyle(color: Colors.grey)))
+                              : ListView.builder(
+                                  itemCount: recommendedItems.length,
+                                  itemBuilder: (context, i) {
+                                    final it = recommendedItems[i];
+                                    final name = it['name_en'] ?? it['name_ar'] ?? '';
+                                    final qty = it['quantity'] ?? 1;
+                                    final sub = (it['subtotal'] as num?)?.toDouble() ?? 0.0;
+                                    return Container(
+                                      margin: const EdgeInsets.only(bottom: 6),
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF0D1424),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('$name × $qty', style: const TextStyle(fontWeight: FontWeight.w600)),
+                                          Text('${sub.toStringAsFixed(2)} EGP', style: const TextStyle(color: Color(0xFF22C55E), fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                    ),
+                    const SizedBox(height: 12),
+                    if (recommendedItems.isNotEmpty)
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF06B6D4),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        icon: const Icon(Icons.add_shopping_cart, color: Color(0xFF042F2E)),
+                        label: Text(
+                          'Add All ${recommendedItems.length} Items (${totalSpent.toStringAsFixed(2)} EGP) to POS Cart',
+                          style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF042F2E)),
+                        ),
+                        onPressed: () {
+                          for (final it in recommendedItems) {
+                            _lines.add(CartLine(
+                              productId: it['product_id'] ?? 1,
+                              barcode: it['barcode'] ?? '',
+                              nameEn: it['name_en'] ?? 'Product',
+                              nameAr: it['name_ar'] ?? '',
+                              quantity: it['quantity'] ?? 1,
+                              unitPrice: (it['unit_price'] as num?)?.toDouble() ?? 0.0,
+                            ));
+                          }
+                          setState(() {
+                            _statusMessage = 'Added ${recommendedItems.length} smart recommended items to cart';
+                          });
+                          Navigator.pop(ctx);
+                        },
+                      ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return RawKeyboardListener(
@@ -249,6 +637,10 @@ class _PosScanPageState extends State<PosScanPage> {
             _processPayment('CASH');
           } else if (event.logicalKey == LogicalKeyboardKey.f3) {
             _processPayment('CARD');
+          } else if (event.logicalKey == LogicalKeyboardKey.f6) {
+            _openSmartBasketModal();
+          } else if (event.logicalKey == LogicalKeyboardKey.f10) {
+            _openCatalogSearchModal();
           } else if (event.logicalKey == LogicalKeyboardKey.escape) {
             setState(() => _lines.clear());
           }
@@ -262,13 +654,33 @@ class _PosScanPageState extends State<PosScanPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0F766E),
+                  color: const Color(0xFF10B981),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Text('POS 01', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                child: const Text('POS 01', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF042F2E))),
               ),
               const SizedBox(width: 14),
               Text('Cashier: $_cashierName', style: const TextStyle(fontSize: 14)),
+              const SizedBox(width: 14),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Color(0xFF06B6D4)),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                ),
+                icon: const Icon(Icons.search, size: 16, color: Color(0xFF06B6D4)),
+                label: const Text('Catalog (F10)', style: TextStyle(fontSize: 12, color: Color(0xFF06B6D4))),
+                onPressed: _openCatalogSearchModal,
+              ),
+              const SizedBox(width: 8),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Color(0xFF10B981)),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                ),
+                icon: const Icon(Icons.auto_awesome, size: 16, color: Color(0xFF10B981)),
+                label: const Text('AI Basket (F6)', style: TextStyle(fontSize: 12, color: Color(0xFF10B981))),
+                onPressed: _openSmartBasketModal,
+              ),
               const Spacer(),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -477,7 +889,7 @@ class _PosScanPageState extends State<PosScanPage> {
                   const SizedBox(height: 20),
 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.between,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Items Count:'),
                       Text('${_lines.fold(0, (acc, l) => acc + l.quantity)}', style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -486,7 +898,7 @@ class _PosScanPageState extends State<PosScanPage> {
                   const SizedBox(height: 12),
 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.between,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Subtotal:'),
                       Text('${subtotal.toStringAsFixed(2)} EGP', style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -495,7 +907,7 @@ class _PosScanPageState extends State<PosScanPage> {
                   const SizedBox(height: 12),
 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.between,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Egyptian VAT (14%):'),
                       Text('${tax.toStringAsFixed(2)} EGP', style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -506,7 +918,7 @@ class _PosScanPageState extends State<PosScanPage> {
                   const SizedBox(height: 16),
 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.between,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('TOTAL PAYABLE:', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
                       Text(
@@ -556,6 +968,52 @@ class _PosScanPageState extends State<PosScanPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BarcodeStickerWidget extends StatelessWidget {
+  final String barcode;
+  const BarcodeStickerWidget({required this.barcode, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final code = barcode.isEmpty ? '622000000000' : barcode;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: const Color(0xFFCBD5E1)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: code.codeUnits.take(12).map((b) {
+              final w = (b % 3).toDouble() + 1.2;
+              return Container(
+                width: w,
+                height: 14,
+                margin: const EdgeInsets.symmetric(horizontal: 1),
+                color: const Color(0xFF0F172A),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 1),
+          Text(
+            code,
+            style: const TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 9,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF0F172A),
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,0 +1,25 @@
+{
+  "name": "@cyborg/backend",
+  "version": "1.0.0",
+  "description": "Cyborg Supermarket Core Backend API - Clean Architecture Modular Monolith",
+  "author": "Cyborg Engineering Team",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "start": "node src/main.js",
+    "start:dev": "node src/main.js",
+    "start:standalone": "node src/standalone-server.js",
+    "data:validate": "node src/scripts/validate-dataset.js",
+    "data:report": "node src/scripts/generate-import-report.js",
+    "data:import": "node src/scripts/import-products.js",
+    "test": "node src/scripts/run-backend-tests.js",
+    "test:unit": "node src/scripts/run-backend-tests.js --unit",
+    "test:e2e": "node src/scripts/run-backend-tests.js --e2e"
+  },
+  "dependencies": {
+    "@cyborg/api-contracts": "*",
+    "@cyborg/shared-types": "*"
+  }
+}

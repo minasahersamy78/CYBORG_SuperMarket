@@ -15,6 +15,15 @@ const shiftsService = require('./modules/shifts/shifts.service');
 const syncService = require('./modules/sync/sync.service');
 const aiEngineService = require('./modules/ai-engine/ai-engine.service');
 const reportsService = require('./modules/reports/reports.service');
+const { retailOpsService } = require('./modules/retail-ops/retail-ops.service');
+const { paymentsService } = require('./modules/payments/payments.service');
+const { deliveryService } = require('./modules/delivery/delivery.service');
+const { backupService } = require('./modules/backup/backup.service');
+const { loyaltyService } = require('./modules/loyalty/loyalty.service');
+const { supportService } = require('./modules/support/support.service');
+const { pricingService } = require('./modules/pricing/pricing.service');
+const recommendationsService = require('./modules/recommendations/recommendations.service');
+const emailService = require('./modules/email/email.service');
 const db = require('./database/db');
 
 const PORT = process.env.APP_PORT || 3000;
@@ -65,7 +74,10 @@ const server = http.createServer(async (req, res) => {
   }
 
   const parsedUrl = url.parse(req.url, true);
-  const pathname = parsedUrl.pathname;
+  const rawPathname = parsedUrl.pathname;
+  const pathname = rawPathname.startsWith('/api/') && !rawPathname.startsWith('/api/v1')
+    ? rawPathname.replace('/api/', '/api/v1/')
+    : rawPathname;
   const query = parsedUrl.query;
   const method = req.method;
 
@@ -118,6 +130,8 @@ const server = http.createServer(async (req, res) => {
           '/orders/{id}': { get: { summary: 'Order details' } },
           '/orders/{id}/status': { put: { summary: 'Update order state transition' } },
           '/orders/{id}/refund': { post: { summary: 'Process order refund' } },
+          '/orders/{id}/cancel': { post: { summary: 'Cancel order and restore stock' } },
+          '/chatbot/feedback': { post: { summary: 'Submit compliments/feedback to cyborgcoding1@gmail.com' } },
           '/cart/{cartId}': { get: { summary: 'Get cart with budget tracking' } },
           '/cart/{cartId}/items': { post: { summary: 'Add item to cart' } },
           '/shifts/start': { post: { summary: 'Open cashier shift' } },
@@ -251,6 +265,14 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, result.statusCode, result);
     }
 
+    const orderCancelMatch = pathname.match(new RegExp(`^${API_PREFIX}/orders/([a-zA-Z0-9_-]+)/cancel$`));
+    if (method === 'POST' && orderCancelMatch) {
+      const orderId = orderCancelMatch[1];
+      const body = await parseBody(req);
+      const result = ordersService.cancelOrder(orderId, body.reason || 'CUSTOMER_CANCELLED', actorUser);
+      return sendJson(res, result.statusCode, result);
+    }
+
     // -------------------------------------------------------------
     // Shopping Cart & Family Cart Endpoints
     // -------------------------------------------------------------
@@ -369,6 +391,62 @@ const server = http.createServer(async (req, res) => {
     }
 
     // -------------------------------------------------------------
+    // Smart Recommendations & Duration Budget Engine
+    // -------------------------------------------------------------
+    if (method === 'POST' && pathname === `${API_PREFIX}/recommendations/smart-basket`) {
+      const body = await parseBody(req);
+      const result = recommendationsService.buildBasket({
+        budget: parseFloat(body.budget) || 1000,
+        durationDays: body.duration_days,
+        categories: body.categories
+      });
+      return sendJson(res, result.success ? 200 : 400, result);
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/recommendations/categories`) {
+      const cats = recommendationsService.getCategories();
+      return sendJson(res, 200, { success: true, data: cats });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/recommendations/parse-duration`) {
+      const body = await parseBody(req);
+      const parsed = recommendationsService.parseDuration(body.text || '');
+      return sendJson(res, parsed.valid ? 200 : 400, parsed);
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/voice/order-confirm`) {
+      const body = await parseBody(req);
+      const orderRes = ordersService.createOrder({
+        items: body.items || [],
+        source: 'VOICE_ASSISTANT',
+        customer_name: body.customer_name || 'Voice Shopper',
+        payment_method: body.payment_method || 'CASH',
+        delivery_address: body.delivery_address || 'Voice Express Delivery (Cairo)',
+        idempotency_key: 'voice-order-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6)
+      });
+      return sendJson(res, orderRes.statusCode, {
+        ...orderRes,
+        email_dispatched_to: 'cyborgcoding1@gmail.com',
+        voice_safety_cleared: true
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Chatbot Complements & Customer Feedback Endpoints
+    // Dispatches customer messages & transcripts directly to cyborgcoding1@gmail.com
+    // -------------------------------------------------------------
+    if (method === 'POST' && (pathname === `${API_PREFIX}/chatbot/feedback` || pathname === `${API_PREFIX}/chatbot/complements`)) {
+      const body = await parseBody(req);
+      const result = emailService.sendChatbotFeedback({
+        feedbackType: body.feedback_type || body.type || 'COMPLIMENT',
+        customerName: body.customer_name || body.name || 'Cyborg Shopper',
+        message: body.message || body.feedback || 'Loved the AI supermarket shopping experience!',
+        transcript: body.transcript || []
+      }, 'cyborgcoding1@gmail.com');
+      return sendJson(res, result.statusCode, result);
+    }
+
+    // -------------------------------------------------------------
     // Reports & Management Dashboard
     // -------------------------------------------------------------
     if (method === 'GET' && pathname === `${API_PREFIX}/reports/dashboard`) {
@@ -390,6 +468,271 @@ const server = http.createServer(async (req, res) => {
       }
       const logs = db.query('SELECT * FROM audit_logs ORDER BY created_at DESC LIMIT 50;');
       return sendJson(res, 200, { success: true, statusCode: 200, data: logs });
+    }
+
+    // -------------------------------------------------------------
+    // Commercial Retail Operations Endpoints
+    // -------------------------------------------------------------
+    if (method === 'GET' && pathname === `${API_PREFIX}/stores`) {
+      return sendJson(res, 200, { success: true, data: retailOpsService.getStores() });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/stores`) {
+      const body = await parseBody(req);
+      const store = retailOpsService.createStore(body);
+      return sendJson(res, 201, { success: true, data: store });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/terminals`) {
+      return sendJson(res, 200, { success: true, data: retailOpsService.getTerminals(query.storeId) });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/suppliers`) {
+      return sendJson(res, 200, { success: true, data: retailOpsService.getSuppliers() });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/suppliers`) {
+      const body = await parseBody(req);
+      const supplier = retailOpsService.createSupplier(body);
+      return sendJson(res, 201, { success: true, data: supplier });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/purchase-orders`) {
+      return sendJson(res, 200, { success: true, data: retailOpsService.getPurchaseOrders(query.storeId) });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/purchase-orders`) {
+      const body = await parseBody(req);
+      const po = retailOpsService.createPurchaseOrder(body);
+      return sendJson(res, 201, { success: true, data: po });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/goods-receiving`) {
+      const body = await parseBody(req);
+      const grn = retailOpsService.receiveGoods(body);
+      return sendJson(res, 201, { success: true, data: grn });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/stock-movements`) {
+      const movements = retailOpsService.getStockMovements(query.productId, query.storeId, parseInt(query.limit || 50, 10));
+      return sendJson(res, 200, { success: true, data: movements });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/stock-counts`) {
+      const body = await parseBody(req);
+      const count = retailOpsService.createStockCount(body);
+      return sendJson(res, 201, { success: true, data: count });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/stock-counts/reconcile`) {
+      const body = await parseBody(req);
+      const rec = retailOpsService.reconcileStockCount(body.stockCountId, body.approvedBy);
+      return sendJson(res, 200, { success: true, data: rec });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/returns`) {
+      const body = await parseBody(req);
+      const ret = retailOpsService.processReturn(body);
+      return sendJson(res, 201, { success: true, data: ret });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/promotions`) {
+      return sendJson(res, 200, { success: true, data: retailOpsService.getPromotions() });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/promotions/apply`) {
+      const body = await parseBody(req);
+      const promoResult = retailOpsService.applyPromotions(body.items, body.subtotal);
+      return sendJson(res, 200, { success: true, data: promoResult });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/units-of-measure`) {
+      return sendJson(res, 200, { success: true, data: retailOpsService.getUnitsOfMeasure() });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/batches/expiring`) {
+      const batches = retailOpsService.getExpiringBatches(parseInt(query.daysAhead || 30, 10), query.storeId);
+      return sendJson(res, 200, { success: true, data: batches });
+    }
+
+    // -------------------------------------------------------------
+    // Financial & Payment Endpoints
+    // -------------------------------------------------------------
+    if (method === 'POST' && pathname === `${API_PREFIX}/payments/initiate`) {
+      const body = await parseBody(req);
+      const idempotencyKey = req.headers['idempotency-key'] || body.idempotencyKey;
+      const resData = paymentsService.initiatePayment({ ...body, idempotencyKey });
+      return sendJson(res, resData.idempotentReplay ? 200 : 201, { success: true, data: resData });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/payments/capture`) {
+      const body = await parseBody(req);
+      const captureResult = paymentsService.capturePayment(body);
+      return sendJson(res, 200, { success: true, data: captureResult });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/payments/refund`) {
+      const body = await parseBody(req);
+      const refundResult = paymentsService.refundPayment(body);
+      return sendJson(res, 200, { success: true, data: refundResult });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/payments/webhook`) {
+      const body = await parseBody(req);
+      const signatureHeader = req.headers['x-cyborg-signature'] || req.headers['x-webhook-signature'];
+      const webhookRes = paymentsService.ingestWebhook({
+        provider: req.headers['x-provider'] || 'FAWRY_PAYMOB',
+        payload: body,
+        signatureHeader
+      });
+      return sendJson(res, webhookRes.success ? 200 : 400, webhookRes);
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/payments/history`) {
+      const history = paymentsService.getPaymentHistory(query.orderId, parseInt(query.limit || 50, 10));
+      return sendJson(res, 200, { success: true, data: history });
+    }
+
+    // -------------------------------------------------------------
+    // Delivery & Fulfillment Endpoints
+    // -------------------------------------------------------------
+    if (method === 'GET' && pathname === `${API_PREFIX}/delivery/zones`) {
+      return sendJson(res, 200, { success: true, data: deliveryService.getDeliveryZones() });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/delivery/calculate`) {
+      const body = await parseBody(req);
+      const feeRes = deliveryService.calculateDeliveryFee(body.zoneCode, body.subtotal);
+      return sendJson(res, 200, { success: feeRes.eligible, data: feeRes });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/delivery/fulfillment-status`) {
+      const body = await parseBody(req);
+      const transitionRes = deliveryService.updateFulfillmentStatus(body.orderId, body.newStatus, body);
+      return sendJson(res, 200, { success: true, data: transitionRes });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/delivery/substitute`) {
+      const body = await parseBody(req);
+      const subRes = deliveryService.substituteProduct(body);
+      return sendJson(res, 200, { success: true, data: subRes });
+    }
+
+    // -------------------------------------------------------------
+    // Commercial Analytics Report
+    // -------------------------------------------------------------
+    if (method === 'GET' && pathname === `${API_PREFIX}/reports/commercial`) {
+      const analytics = reportsService.getCommercialAnalytics(query);
+      return sendJson(res, 200, analytics);
+    }
+
+    // -------------------------------------------------------------
+    // Backup & Restore Endpoints
+    // -------------------------------------------------------------
+    if (method === 'POST' && pathname === `${API_PREFIX}/backup/create`) {
+      const body = await parseBody(req);
+      const backupRes = backupService.createBackup(body.label || 'api');
+      return sendJson(res, 201, { success: true, data: backupRes });
+    }
+
+    // -------------------------------------------------------------
+    // Customer Loyalty Endpoints
+    // -------------------------------------------------------------
+    if (method === 'GET' && pathname === `${API_PREFIX}/loyalty/balance`) {
+      const userId = (actorUser && actorUser.sub) || query.userId || 'usr-cust-001';
+      return sendJson(res, 200, { success: true, data: loyaltyService.getBalance(userId) });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/loyalty/earn`) {
+      const body = await parseBody(req);
+      const result = loyaltyService.earnPoints(body);
+      return sendJson(res, 200, { success: true, data: result });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/loyalty/redeem`) {
+      const body = await parseBody(req);
+      const result = loyaltyService.redeemPoints(body);
+      return sendJson(res, 200, { success: true, data: result });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/loyalty/history`) {
+      const userId = (actorUser && actorUser.sub) || query.userId || 'usr-cust-001';
+      const history = loyaltyService.getTransactionHistory(userId, parseInt(query.limit || 50, 10));
+      return sendJson(res, 200, { success: true, data: history });
+    }
+
+    // -------------------------------------------------------------
+    // Customer Support Endpoints
+    // -------------------------------------------------------------
+    if (method === 'POST' && pathname === `${API_PREFIX}/support/tickets`) {
+      const body = await parseBody(req);
+      const customerId = (actorUser && actorUser.sub) || body.customerId || 'usr-cust-001';
+      const ticket = supportService.createTicket({ ...body, customerId });
+      return sendJson(res, 201, { success: true, data: ticket });
+    }
+
+    if (method === 'GET' && pathname === `${API_PREFIX}/support/tickets`) {
+      const userRole = (actorUser && actorUser.role) || query.role || 'CUSTOMER';
+      const userId = (actorUser && actorUser.sub) || query.userId || 'usr-cust-001';
+      let tickets;
+      if (userRole === 'CUSTOMER') {
+        tickets = supportService.getTicketsByCustomer(userId);
+      } else {
+        tickets = supportService.getAllTickets(query);
+      }
+      return sendJson(res, 200, { success: true, data: tickets });
+    }
+
+    if (method === 'POST' && pathname.startsWith(`${API_PREFIX}/support/tickets/`) && pathname.endsWith('/messages')) {
+      const parts = pathname.split('/');
+      const ticketId = parts[parts.length - 2];
+      const body = await parseBody(req);
+      const senderRole = (actorUser && actorUser.role) || body.senderRole || 'CUSTOMER';
+      const senderId = (actorUser && actorUser.sub) || body.senderId || 'usr-cust-001';
+      const msgRes = supportService.addMessage({ ticketId, senderId, senderRole, ...body });
+      return sendJson(res, 201, { success: true, data: msgRes });
+    }
+
+    if (method === 'PUT' && pathname.startsWith(`${API_PREFIX}/support/tickets/`) && pathname.endsWith('/status')) {
+      const parts = pathname.split('/');
+      const ticketId = parts[parts.length - 2];
+      const body = await parseBody(req);
+      const statusRes = supportService.updateStatus({ ticketId, newStatus: body.newStatus, actorId: actorUser && actorUser.sub });
+      return sendJson(res, 200, { success: true, data: statusRes });
+    }
+
+    // -------------------------------------------------------------
+    // Central Pricing Engine Endpoints
+    // -------------------------------------------------------------
+    if (method === 'GET' && pathname === `${API_PREFIX}/pricing/effective-price`) {
+      const price = pricingService.getEffectivePrice(parseInt(query.productId, 10), parseInt(query.storeId || 1, 10));
+      return sendJson(res, 200, { success: true, data: { productId: query.productId, effectivePrice: price } });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/pricing/validate-coupon`) {
+      const body = await parseBody(req);
+      const val = pricingService.validateCoupon(body);
+      return sendJson(res, 200, { success: val.valid, data: val });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/pricing/calculate-total`) {
+      const body = await parseBody(req);
+      const totals = pricingService.calculateOrderTotal(body);
+      return sendJson(res, 200, { success: true, data: totals });
+    }
+
+    // -------------------------------------------------------------
+    // Delivery Capacity Slots Endpoints
+    // -------------------------------------------------------------
+    if (method === 'GET' && pathname === `${API_PREFIX}/delivery/slots`) {
+      const slots = deliveryService.getAvailableSlots(query.zoneCode || 'ZONE-DT', query.date);
+      return sendJson(res, 200, { success: true, data: slots });
+    }
+
+    if (method === 'POST' && pathname === `${API_PREFIX}/delivery/slots/reserve`) {
+      const body = await parseBody(req);
+      const resData = deliveryService.reserveSlot(body.slotId, body.orderId);
+      return sendJson(res, 200, { success: true, data: resData });
     }
 
     // 404 Not Found

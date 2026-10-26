@@ -14,7 +14,12 @@ const testSuites = [
   { name: 'Dataset Integrity Validation', script: 'scripts/validate-dataset.js' },
   { name: 'Backend Services & Core APIs', script: 'apps/backend/src/scripts/run-backend-tests.js' },
   { name: 'POS Hardware & Desktop Calculations', script: 'scripts/run-pos-tests.js' },
-  { name: 'End-to-End Retail Scenarios (A to F)', script: 'scripts/run-e2e-scenarios.js' }
+  { name: 'End-to-End Retail Scenarios (A to F)', script: 'scripts/run-e2e-scenarios.js' },
+  { name: 'Commercial Readiness & Retail Operations', script: 'scripts/run-commercial-tests.js' },
+  { name: 'Hardware & Sync Resilience', script: 'scripts/run-resilience-tests.js' },
+  { name: 'AI Quality & Cost Control Benchmark', script: 'scripts/evaluate-ai-engine.js' },
+  { name: 'Database Backup & Restore Verification', script: 'scripts/verify-backup-restore.js' },
+  { name: 'Phase 3 Mandatory Features (Loyalty, Support, Pricing, Slots)', script: 'scripts/run-phase3-tests.js' }
 ];
 
 let totalSuitesPassed = 0;

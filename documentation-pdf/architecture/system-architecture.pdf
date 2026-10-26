@@ -1,0 +1,244 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1610 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (System Architecture and Infrastructure) Tj ET
+BT /F1 13 Tf 50 675 Td (Clean Architecture, Onion Layers, and Infrastructure Topology) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 02_System_Architecture_and_Infrastructure.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 4600 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - System Architecture and Infrastructure) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. Clean Architecture \(Onion\) Decomposition) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (The Cyborg backend strictly complies with Onion Architecture principles to guarantee that) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (enterprise domain rules remain isolated from databases, HTTP frameworks, and external) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 685 Td (third-party services.) Tj ET Q
+q
+0.1 0.15 0.25 rg
+50 630 95 28 re f
+0.2 0.7 0.9 RG 1 w
+50 630 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 56 640 Td (Domain Entities) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 149 638 Td (->) Tj ET
+0.1 0.15 0.25 rg
+169 630 95 28 re f
+0.2 0.7 0.9 RG 1 w
+169 630 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 175 640 Td (Use Case Interacto) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 268 638 Td (->) Tj ET
+0.1 0.15 0.25 rg
+288 630 95 28 re f
+0.2 0.7 0.9 RG 1 w
+288 630 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 294 640 Td (Interface Adapters) Tj ET
+0.059 0.463 0.431 rg
+BT /F2 12 Tf 387 638 Td (->) Tj ET
+0.1 0.15 0.25 rg
+407 630 95 28 re f
+0.2 0.7 0.9 RG 1 w
+407 630 95 28 re S
+1 1 1 rg
+BT /F2 8 Tf 413 640 Td (Infrastructure Dri) Tj ET
+Q
+q
+0.1 0.2 0.35 rg
+BT /F2 12 Tf 50 596 Td (Layer Breakdown & Isolation Rules) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 586 Td (- Layer 1 - Domain Entities: Pure business models \(Product, Order, Inventory, Shift\). No) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 573 Td (external framework imports.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 556 Td (- Layer 2 - Application Use Cases: Orchestrates business workflows \(CreateOrder,) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 543 Td (SyncInventory, ProcessVoiceCommand\).) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 526 Td (- Layer 3 - Interface Adapters: Controllers, WebSocket gateways, Presenters, and DTO) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 513 Td (serializers.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 496 Td (- Layer 4 - Infrastructure & Frameworks: PostgreSQL TypeORM drivers, Redis pub/sub adapters,) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 483 Td (and SQLite engines.) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 439 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 442 Td (2. Physical Network Topology & Containerization) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 427 Td (The ecosystem deploys locally via Docker Compose and scales in production using managed) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 414 Td (PostgreSQL \(RDS\) and Redis clusters:) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 375 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 379 Td (Service Name) Tj ET
+BT /F2 8.5 Tf 150 379 Td (Container Image) Tj ET
+BT /F2 8.5 Tf 270 379 Td (Exposed Port) Tj ET
+BT /F2 8.5 Tf 380 379 Td (Storage Mount / Role) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 359 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 363 Td (backend-api) Tj ET
+BT /F1 8 Tf 150 363 Td (node:18-alpine \(NestJS\)) Tj ET
+BT /F1 8 Tf 270 363 Td (Port 3000 \(HTTP/WS\)) Tj ET
+BT /F1 8 Tf 380 363 Td (Stateless API server with auto) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 343 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 343 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 347 Td (postgres-db) Tj ET
+BT /F1 8 Tf 150 347 Td (postgres:16-alpine) Tj ET
+BT /F1 8 Tf 270 347 Td (Port 5432 \(TCP\)) Tj ET
+BT /F1 8 Tf 380 347 Td (Persistent pgdata volume + pgv) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 327 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 331 Td (redis-bus) Tj ET
+BT /F1 8 Tf 150 331 Td (redis:7-alpine) Tj ET
+BT /F1 8 Tf 270 331 Td (Port 6379 \(TCP\)) Tj ET
+BT /F1 8 Tf 380 331 Td (In-memory Pub/Sub event bus & ) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 311 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 311 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 315 Td (admin-web) Tj ET
+BT /F1 8 Tf 150 315 Td (node:18-alpine \(Next.js\)) Tj ET
+BT /F1 8 Tf 270 315 Td (Port 3001 \(HTTP\)) Tj ET
+BT /F1 8 Tf 380 315 Td (Responsive operations dashboar) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 295 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 299 Td (customer-web) Tj ET
+BT /F1 8 Tf 150 299 Td (node:18-alpine \(Next.js\)) Tj ET
+BT /F1 8 Tf 270 299 Td (Port 3002 \(HTTP\)) Tj ET
+BT /F1 8 Tf 380 299 Td (Customer-facing digital storef) Tj ET
+Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 8 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+8 0 obj
+<< /Length 1434 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - System Architecture and Infrastructure) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (3. POS Terminal Architecture & Offline Durability) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (The desktop POS terminal runs as a compiled Windows native application with an embedded) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (SQLite engine. When connectivity is interrupted, sales continue without degradation:) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 681 Td (- Local Durability: Every completed transaction is written to SQLite before printing) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 668 Td (receipt.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 651 Td (- Outbox Table: An asynchronous worker queues pending records in sync_outbox with retry) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 638 Td (policies.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 621 Td (- Reconnection Delta Sync: Upon network recovery, the terminal streams transactions to) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 608 Td (/api/v1/sync/ingest.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000435 00000 n 
+0000002097 00000 n 
+0000002399 00000 n 
+0000007051 00000 n 
+0000007353 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+8839
+%%EOF

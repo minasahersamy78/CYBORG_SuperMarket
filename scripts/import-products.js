@@ -5,9 +5,10 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const db = require('../apps/backend/src/database/db');
 
-const SQLITE_BIN = 'C:\\Program Files\\platform-tools\\sqlite3.exe';
-const DB_PATH = path.resolve(__dirname, '../data/cyborg_supermarket.db');
+const SQLITE_BIN = db.getSqliteBin();
+const DB_PATH = db.getDbPath();
 const SCHEMA_PATH = path.resolve(__dirname, '../apps/backend/src/database/schema.sql');
 const PRODUCTS_JSON = path.resolve(__dirname, '../data/processed/products_normalized.json');
 

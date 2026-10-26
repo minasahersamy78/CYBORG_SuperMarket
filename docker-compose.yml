@@ -42,6 +42,7 @@ services:
 
   # ---------------------------------------------------------------------------
   # Backend API Gateway - Clean Architecture Modular Monolith
+  # Uses portable SQLite for resilient zero-dependency edge and local operations
   # ---------------------------------------------------------------------------
   backend:
     build:
@@ -52,23 +53,16 @@ services:
     environment:
       NODE_ENV: production
       APP_PORT: 3000
-      DATABASE_CLIENT: postgres
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: cyborg_supermarket
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres_dev_password
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_ENABLED: "true"
+      DB_TYPE: sqlite
+      SQLITE_BIN: /usr/bin/sqlite3
+      DB_PATH: /app/data/cyborg_supermarket.db
       JWT_SECRET: cyborg_supermarket_jwt_secret_dev_key_2026_unsecure_local_only
+      PAYMENT_ENV: sandbox
+      PAYMENT_WEBHOOK_SECRET: cyborg_whsec_dev_9876543210
+    volumes:
+      - ./data:/app/data
     ports:
       - "3000:3000"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
   # ---------------------------------------------------------------------------
   # Admin Operations Web Dashboard

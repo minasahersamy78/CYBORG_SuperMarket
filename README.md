@@ -1,26 +1,53 @@
 # ⚡ CYBORG SUPERMARKET — Production-Oriented, AI-Powered Omnichannel Retail Ecosystem
 
-[![Quality Gate](https://img.shields.io/badge/Quality%20Gate-100%25%20Passed-10B981.svg)](#automated-testing--verification)
+[![Quality Gate](https://img.shields.io/badge/Quality%20Gate-8%20Suites%20%7C%2060%20Tests%20Passed-10B981.svg)](#automated-testing--verification)
 [![Products Seeded](https://img.shields.io/badge/Catalog-1%2C000%20Verified%20SKUs-0F766E.svg)](#real-dataset-integration)
 [![Architecture](https://img.shields.io/badge/Architecture-Onion%20%2F%20Clean-38BDF8.svg)](#system-architecture)
+[![Commercial Readiness](https://img.shields.io/badge/Commercial%20Gate-Assessed%20%26%20Closed-6366F1.svg)](docs/commercial-readiness-assessment.md)
 [![Documentation](https://img.shields.io/badge/Enterprise%20PDFs-10%20Validated-F59E0B.svg)](#enterprise-pdf-documentation-package)
 
 > **Cyborg Supermarket** is an integrated, omnichannel Egyptian supermarket platform that unifies brick-and-mortar store branches with modern digital shopping experiences. The platform guarantees centralized business logic and a single source of truth across cashier desktop registers, customer mobile applications, digital storefronts, and store operations dashboards.
 
 ---
 
+## 📦 Downloadable Release Packages (ZIP)
+
+Direct standalone offline archives are packaged in [`dist/`](dist/):
+
+| Package Archive | Target Platform | Description | Direct Link |
+| :--- | :--- | :--- | :--- |
+| **Desktop POS Application** | Windows Desktop (Flutter) | Cashier register with barcode scanner input, F2/F3 hotkeys, thermal ESC/POS receipt generation, cash drawer pulse, and offline SQLite sync queue. | [`dist/cyborg-desktop-pos.zip`](dist/cyborg-desktop-pos.zip) |
+| **Customer Android App** | Android Mobile (Flutter) | Customer shopping app with Egyptian Arabic dialect voice assistant, 1,000 product catalog, shared family cart with spend limits, and smart pantry restock. | [`dist/cyborg-android-mobile.zip`](dist/cyborg-android-mobile.zip) |
+| **Web Ecosystem & API** | Node.js / Web | Complete web platform including Operations Admin Dashboard (Port 3001), Customer Web Storefront (Port 3002), Core Backend REST API (Port 3000), and SQLite DB with 1,000 SKUs. | [`dist/cyborg-web-ecosystem.zip`](dist/cyborg-web-ecosystem.zip) |
+
+---
+
 ## 📑 Table of Contents
-1. [System Architecture Overview](#system-architecture)
-2. [Ecosystem Applications Inventory](#ecosystem-applications-inventory)
-3. [Real Dataset Integration (1,000 SKUs)](#real-dataset-integration)
-4. [Repository Monorepo Structure](#repository-monorepo-structure)
-5. [Prerequisites & Development Environment](#prerequisites--development-environment)
-6. [Quick-Start Commands (PowerShell & Bash)](#quick-start-commands)
-7. [Automated Testing & Verification](#automated-testing--verification)
-8. [Enterprise PDF Documentation Package (10 Books)](#enterprise-pdf-documentation-package)
-9. [End-to-End Demonstration Script](#end-to-end-demonstration-script)
-10. [Security & Threat Model](#security--threat-model)
-11. [Known Operational Limitations & Roadmap](#known-operational-limitations--roadmap)
+1. [Downloadable Release Packages (ZIP)](#-downloadable-release-packages-zip)
+2. [Commercial Readiness Assessment](#-commercial-readiness-assessment)
+3. [System Architecture Overview](#system-architecture)
+4. [Ecosystem Applications Inventory](#ecosystem-applications-inventory)
+5. [Real Dataset Integration (1,000 SKUs)](#real-dataset-integration)
+6. [Repository Monorepo Structure](#repository-monorepo-structure)
+7. [Prerequisites & Development Environment](#prerequisites--development-environment)
+8. [Quick-Start Commands (PowerShell & Bash)](#quick-start-commands)
+9. [Automated Testing & Verification](#automated-testing--verification)
+10. [Enterprise PDF Documentation Package (10 Books)](#enterprise-pdf-documentation-package)
+11. [End-to-End Demonstration Script](#end-to-end-demonstration-script)
+12. [Security & Threat Model](#security--threat-model)
+13. [Known Operational Limitations & Roadmap](#known-operational-limitations--roadmap)
+
+---
+
+## 🎯 Commercial Readiness Assessment
+
+The ecosystem includes a comprehensive commercial readiness audit and production gap closure analysis:
+- **Commercial Assessment Report:** [`docs/commercial-readiness-assessment.md`](docs/commercial-readiness-assessment.md)
+  - Full Gap Matrix across Sections A-I (Retail Operations, Financial Integrity, Delivery, Hardware, Sync Resilience, Analytics, AI Quality, Backup & Recovery).
+  - Four-tier commercial release plan (Local Demo -> Pilot Store -> Multi-Store -> Scalable Production).
+  - Egyptian Tax Authority (ETA) e-Receipt & e-Invoicing architecture specification.
+- **Hardware Compatibility & Test Plan:** [`docs/hardware-test-plan.md`](docs/hardware-test-plan.md)
+  - Detailed verification protocols for barcode scanners, receipt printers, cash drawers, touchscreens, and power outage resilience.
 
 ---
 
@@ -197,6 +224,40 @@ npm run test
    - Scenario D: Offline POS & Idempotent Sync
    - Scenario E: Authorization & Privilege Enforcement
    - Scenario F: Data Integrity & Negative Stock Protection
+5. **Commercial Readiness & Retail Operations (13 Tests):**
+   - Multi-store & multi-terminal retrieval and management
+   - Supplier purchase orders & Goods Receiving (GRN) with automatic inventory increment
+   - Stock movement immutable audit trail (`RECEIVING`, `SALE`, `RETURN`, `ADJUSTMENT`)
+   - Physical stock counts & discrepancy reconciliation
+   - Returns, exchanges & partial refund management with sellable stock restoration
+   - Configurable promotions & discount precedence engine
+   - Metric unit of measure (UOM) conversions with dimensional validation
+   - Batch & expiry date tracking with upcoming expiration alerts
+   - Payment initiation & idempotent processing
+   - Payment capture & PCI-DSS compliance (zero PAN/CVV storage)
+   - Webhook HMAC-SHA256 signature verification & forgery rejection
+   - Delivery zone fee & minimum order calculation
+   - Fulfillment state transition validation & product substitutions
+6. **Hardware & Synchronization Resilience (8 Tests):**
+   - Barcode scanner input validation & EAN-13 emulation
+   - ESC/POS thermal receipt formatting with full paper cut commands
+   - Cash drawer DKD solenoid pulse trigger verification
+   - Keyboard-only POS hotkey mapping (F2, F3, F4, F10, Esc)
+   - Idempotent batch sync with deduplication protection
+   - Concurrent inventory optimistic locking conflict prevention
+   - Stale price client tampering detection & authoritative catalog price enforcement
+   - Offline transaction queue persistence and crash recovery
+7. **AI Quality & Cost Control Benchmark (7 Tests):**
+   - Egyptian Arabic colloquial intent parsing ("عاوز", "عايز", "هاتلي", "بكام")
+   - 100% catalog grounding with zero hallucinations on unavailable luxury items
+   - Non-AI deterministic SQL keyword search fallback verification
+   - Security invariant verification (AI layer cannot alter prices or bypass permissions)
+   - Real-time latency (19.80 ms average) and simulated token cost accounting
+8. **Database Backup & Isolated Restore Verification:**
+   - Online hot backup creation via SQLite `.backup` API
+   - Isolated restore environment integrity check (`PRAGMA integrity_check = ok`)
+   - Exact catalog row verification (1,000 products preserved)
+   - Structured JSON logging with PCI-DSS sensitive data redaction
 
 ---
 

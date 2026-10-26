@@ -32,7 +32,18 @@ const syncService = {
     };
   },
 
-  ingestBatch(terminalId, events = []) {
+  ingestBatch(terminalIdOrEvents, eventsOrTerminalId = []) {
+    let terminalId = 'TRM-DEFAULT';
+    let events = [];
+
+    if (Array.isArray(terminalIdOrEvents)) {
+      events = terminalIdOrEvents;
+      terminalId = typeof eventsOrTerminalId === 'string' ? eventsOrTerminalId : 'TRM-DEFAULT';
+    } else {
+      terminalId = terminalIdOrEvents || 'TRM-DEFAULT';
+      events = Array.isArray(eventsOrTerminalId) ? eventsOrTerminalId : [];
+    }
+
     let processed = 0;
     let duplicates = 0;
     const errors = [];
@@ -129,3 +140,4 @@ const syncService = {
 };
 
 module.exports = syncService;
+module.exports.syncService = syncService;

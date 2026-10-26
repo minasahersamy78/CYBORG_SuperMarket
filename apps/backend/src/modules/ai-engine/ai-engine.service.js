@@ -8,7 +8,7 @@ const db = require('../../database/db');
 // Egyptian Arabic Keyword Lexicon
 const INTENT_PATTERNS = {
   ADD_TO_CART: [
-    /عايز\s*(أشتري|اشتري|أجيب|اجيب|اطلب|أطلب)?/i,
+    /(عايز|عاوز)\s*(أشتري|اشتري|أجيب|اجيب|اطلب|أطلب)?/i,
     /ضيف\s*(للسلة|في\s*السلة|عالسلة)?/i,
     /حط\s*(في\s*السلة|للسلة)?/i,
     /هاتلي/i,
@@ -159,6 +159,10 @@ const aiEngineService = {
       message: responseMessage,
       matched_products: matchedProducts.slice(0, 5)
     };
+  },
+
+  groundCatalogProducts(term, limit = 5) {
+    return this.searchCatalogForAI(term).slice(0, limit);
   },
 
   searchCatalogForAI(term) {

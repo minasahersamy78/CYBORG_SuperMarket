@@ -1,0 +1,305 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+4 0 obj
+<< /Length 1583 >>
+stream
+q
+0.043 0.067 0.125 rg
+0 520 595 322 re f
+0.059 0.463 0.431 rg
+0 514 595 6 re f
+0.96 0.62 0.04 rg
+50 514 120 6 re f
+1 1 1 rg
+BT /F2 13 Tf 50 770 Td (CYBORG SUPERMARKET ENTERPRISE DOCUMENTATION) Tj ET
+BT /F2 26 Tf 50 710 Td (Complete Project Handbook) Tj ET
+BT /F1 13 Tf 50 675 Td (Comprehensive Ecosystem Blueprint & Operational Guide) Tj ET
+0.22 0.74 0.97 rg
+BT /F2 12 Tf 50 635 Td (DOCUMENT ID: 01_Cyborg_Complete_Project_Handbook.pdf) Tj ET
+0.118 0.161 0.231 rg
+50 160 495 300 re f
+0.2 0.25 0.33 RG 1 w
+50 160 495 300 re S
+1 1 1 rg
+BT /F2 14 Tf 75 425 Td (Executive Publication Record) Tj ET
+0.7 0.75 0.8 rg
+BT /F2 9 Tf 75 390 Td (Organization:) Tj ET
+BT /F1 9 Tf 190 390 Td (Cyborg Omnichannel Engineering Organization) Tj ET
+BT /F2 9 Tf 75 364 Td (Ecosystem:) Tj ET
+BT /F1 9 Tf 190 364 Td (Windows POS \267 Android Mobile \267 Web Storefront \267 Admin Web \267 Backend) Tj ET
+BT /F2 9 Tf 75 338 Td (Primary Authority:) Tj ET
+BT /F1 9 Tf 190 338 Td (cyborg_system_architecture.pdf \(16-Page Blueprint\)) Tj ET
+BT /F2 9 Tf 75 312 Td (Source Dataset:) Tj ET
+BT /F1 9 Tf 190 312 Td (super_market\(1\).xlsx \(1,000 Verified Egyptian Retail Records\)) Tj ET
+BT /F2 9 Tf 75 286 Td (Security Level:) Tj ET
+BT /F1 9 Tf 190 286 Td (Enterprise Retail Distribution / Stakeholder Review) Tj ET
+BT /F2 9 Tf 75 260 Td (System Stack:) Tj ET
+BT /F1 9 Tf 190 260 Td (NestJS \267 TypeScript \267 PostgreSQL 16 \267 Redis 7 \267 SQLite \267 Flutter) Tj ET
+BT /F2 9 Tf 75 234 Td (Target Currency:) Tj ET
+BT /F1 9 Tf 190 234 Td (Egyptian Pounds \(EGP\) \267 Cairo Timezone \(UTC+2 / UTC+3\)) Tj ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 6 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+6 0 obj
+<< /Length 4171 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Complete Project Handbook) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (1. Executive Summary) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (Cyborg Supermarket represents an omnichannel retail ecosystem built specifically for the) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (Egyptian supermarket industry. The platform bridges physical store branches and digital) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 685 Td (shopping channels through a unified product catalog, synchronized inventory balances, and) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 672 Td (centralized business logic.) Tj ET Q
+q
+0.95 0.97 0.98 rg
+50 611 495 44 re f
+0.85 0.88 0.92 RG 1 w
+50 611 495 44 re S
+0.059 0.463 0.431 rg
+50 611 4 44 re f
+BT /F2 9 Tf 62 643 Td ([MISSION] Core Project Mission) Tj ET
+0.3 0.35 0.4 rg BT /F1 8.5 Tf 62 627 Td (Deliver an enterprise-grade retail platform connecting cashier terminals, mobile shoppers, onli) Tj ET
+Q
+q
+0.1 0.2 0.35 rg
+BT /F2 12 Tf 50 581 Td (2. Business Problem & Market Opportunity) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 571 Td (Traditional Egyptian grocery retail suffers from severe disconnected silos between POS cash) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 558 Td (registers and online e-commerce channels. Out-of-stock cancellations exceed 18% in legacy) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 545 Td (stores due to lagging stock updates. Cyborg solves this through real-time bidirectional) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 532 Td (synchronization, optimistic concurrency locking, and colloquial Egyptian Arabic voice) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 519 Td (shopping.) Tj ET Q
+q
+0.1 0.2 0.35 rg
+BT /F2 12 Tf 50 484 Td (3. Ecosystem Component Inventory) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 452 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 456 Td (Component) Tj ET
+BT /F2 8.5 Tf 165 456 Td (Platform / Tech) Tj ET
+BT /F2 8.5 Tf 275 456 Td (Primary Purpose) Tj ET
+BT /F2 8.5 Tf 470 456 Td (Network Mode) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 436 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 440 Td (Windows POS Terminal) Tj ET
+BT /F1 8 Tf 165 440 Td (Flutter Desktop / Dart) Tj ET
+BT /F1 8 Tf 275 440 Td (High-speed cashier scanning & ) Tj ET
+BT /F1 8 Tf 470 440 Td (Offline-First / Cloud Sync) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 420 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 420 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 424 Td (Customer Mobile App) Tj ET
+BT /F1 8 Tf 165 424 Td (Flutter \(Android / iOS\)) Tj ET
+BT /F1 8 Tf 275 424 Td (Customer grocery shopping, fam) Tj ET
+BT /F1 8 Tf 470 424 Td (Online / Local Cache) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 404 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 408 Td (Customer Storefront) Tj ET
+BT /F1 8 Tf 165 408 Td (Next.js / Responsive Web) Tj ET
+BT /F1 8 Tf 275 408 Td (Bilingual web shopping experie) Tj ET
+BT /F1 8 Tf 470 408 Td (Online REST API) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 388 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 388 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 392 Td (Admin Dashboard) Tj ET
+BT /F1 8 Tf 165 392 Td (Next.js / Enterprise Web) Tj ET
+BT /F1 8 Tf 275 392 Td (Management overview, inventory) Tj ET
+BT /F1 8 Tf 470 392 Td (Online REST API) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 372 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 376 Td (Backend API Gateway) Tj ET
+BT /F1 8 Tf 165 376 Td (NestJS / TypeScript) Tj ET
+BT /F1 8 Tf 275 376 Td (Clean Architecture modular mon) Tj ET
+BT /F1 8 Tf 470 376 Td (Server Runtime) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 356 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 356 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 360 Td (Database & Cache) Tj ET
+BT /F1 8 Tf 165 360 Td (PostgreSQL 16 + Redis 7) Tj ET
+BT /F1 8 Tf 275 360 Td (Relational ACID persistence, p) Tj ET
+BT /F1 8 Tf 470 360 Td (High-Availability Cluster) Tj ET
+Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 8 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> /F3 << /Type /Font /Subtype /Type1 /BaseFont /Courier >> >> >> >>
+endobj
+8 0 obj
+<< /Length 3891 >>
+stream
+q
+0.059 0.463 0.431 rg
+50 800 495 2 re f
+0.4 0.4 0.4 rg
+BT /F1 9 Tf 50 806 Td (Cyborg Supermarket - Complete Project Handbook) Tj ET
+BT /F1 9 Tf 470 806 Td (CONFIDENTIAL) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 723 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 726 Td (4. User Roles & Stakeholder Access Matrix) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 711 Td (Security enforces the principle of least privilege through hierarchical Role-Based Access) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 698 Td (Control \(RBAC\):) Tj ET Q
+q
+0.059 0.463 0.431 rg
+50 659 495 16 re f
+1 1 1 rg
+BT /F2 8.5 Tf 55 663 Td (Role Code) Tj ET
+BT /F2 8.5 Tf 140 663 Td (Role Title) Tj ET
+BT /F2 8.5 Tf 240 663 Td (Scope of Authorization) Tj ET
+BT /F2 8.5 Tf 450 663 Td (Permitted Interfaces) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 643 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 647 Td (SUPER_ADMIN) Tj ET
+BT /F1 8 Tf 140 647 Td (Super Administrator) Tj ET
+BT /F1 8 Tf 240 647 Td (Full system configuration, rol) Tj ET
+BT /F1 8 Tf 450 647 Td (Admin Web, CLI, API) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 627 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 627 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 631 Td (STORE_MANAGER) Tj ET
+BT /F1 8 Tf 140 631 Td (Store Manager) Tj ET
+BT /F1 8 Tf 240 631 Td (Shift audits, refunds, price o) Tj ET
+BT /F1 8 Tf 450 631 Td (Admin Web, POS Supervisor) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 611 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 615 Td (CASHIER) Tj ET
+BT /F1 8 Tf 140 615 Td (Checkout Cashier) Tj ET
+BT /F1 8 Tf 240 615 Td (Barcode scanning, cash tenderi) Tj ET
+BT /F1 8 Tf 450 615 Td (Windows POS Desktop) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 595 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 595 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 599 Td (INVENTORY_OP) Tj ET
+BT /F1 8 Tf 140 599 Td (Inventory Operator) Tj ET
+BT /F1 8 Tf 240 599 Td (Stock receiving, damaged goods) Tj ET
+BT /F1 8 Tf 450 599 Td (Admin Web, Mobile Handheld) Tj ET
+Q
+q
+0.9 0.92 0.94 RG 0.5 w
+50 579 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 583 Td (CUSTOMER) Tj ET
+BT /F1 8 Tf 140 583 Td (Shopper / Client) Tj ET
+BT /F1 8 Tf 240 583 Td (Product discovery, personal ca) Tj ET
+BT /F1 8 Tf 450 583 Td (Mobile App, Storefront) Tj ET
+Q
+q
+0.96 0.97 0.98 rg
+50 563 495 16 re f
+0.9 0.92 0.94 RG 0.5 w
+50 563 495 16 re S
+0.15 0.18 0.22 rg
+BT /F1 8 Tf 55 567 Td (AUDITOR) Tj ET
+BT /F1 8 Tf 140 567 Td (Financial Auditor) Tj ET
+BT /F1 8 Tf 240 567 Td (Read-only access to sales, led) Tj ET
+BT /F1 8 Tf 450 567 Td (Admin Web \(Read-Only\)) Tj ET
+Q
+q
+0.059 0.463 0.431 rg
+50 528 4 18 re f
+0.05 0.1 0.2 rg
+BT /F2 15 Tf 60 531 Td (5. Product Catalog & Verified Source Dataset) Tj ET
+Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 516 Td (The initial product catalog is seeded from the verified real Egyptian supermarket dataset) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 503 Td (\(super_market\(1\).xlsx\), comprising exactly 1,000 active retail stock-keeping units \(SKUs\)) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 490 Td (across 5 major categories and 143 domestic brands.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 473 Td (- Currency Standard: All monetary amounts are denoted in Egyptian Pounds \(EGP\) with exact) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 460 Td (two-decimal precision.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 443 Td (- Bilingual Support: Every product maintains verified Arabic and English product names and) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 430 Td (categorization.) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 413 Td (- Inventory Allocation: Initial inventory levels are allocated per category with automatic) Tj ET Q
+q 0.15 0.18 0.22 rg BT /F1 9.5 Tf 50 400 Td (low-stock alerting.) Tj ET Q
+q
+0.8 0.8 0.8 rg
+50 45 495 1 re f
+0.4 0.4 0.4 rg
+BT /F1 8 Tf 50 32 Td (Version 1.0.0 | Generated: October 2026 | Enterprise Architectural Blueprint) Tj ET
+BT /F1 8 Tf 480 32 Td (Page 3 of 3) Tj ET
+Q
+endstream
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000435 00000 n 
+0000002070 00000 n 
+0000002372 00000 n 
+0000006595 00000 n 
+0000006897 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+10840
+%%EOF

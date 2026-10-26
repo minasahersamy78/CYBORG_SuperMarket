@@ -1,0 +1,24 @@
+FROM node:18-alpine
+
+# Install native sqlite CLI for Linux Alpine environment
+RUN apk add --no-cache sqlite
+
+WORKDIR /app
+
+ENV NODE_ENV=production \
+    APP_PORT=3000 \
+    SQLITE_BIN=/usr/bin/sqlite3 \
+    DB_PATH=/app/data/cyborg_supermarket.db
+
+COPY package*.json ./
+COPY apps/backend/package*.json ./apps/backend/
+COPY packages ./packages
+
+COPY apps/backend ./apps/backend
+COPY data ./data
+
+RUN mkdir -p /app/data
+
+EXPOSE 3000
+
+CMD ["node", "apps/backend/src/standalone-server.js"]

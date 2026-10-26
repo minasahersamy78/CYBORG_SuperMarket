@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Smart Market - 3D Voice & Live Inventory Shopping Agent</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D Holographic AI Voice Orb -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#07090e',
+                            800: '#0d121f',
+                            700: '#141c2e',
+                            600: '#1e293b'
+                        },
+                        cyber: {
+                            emerald: '#10b981',
+                            glow: '#059669',
+                            cyan: '#06b6d4',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Cairo', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom 3D & Glassmorphic Utilities */
+        :root {
+            --glass-bg: rgba(13, 18, 31, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shine: rgba(255, 255, 255, 0.03);
+            --neon-glow: 0 0 25px rgba(16, 185, 129, 0.35);
+        }
+
+        body {
+            background-color: #07090e;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.10) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.5) 0px, transparent 100%);
+            background-attachment: fixed;
+            color: #e2e8f0;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card-3d {
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        .glass-card-3d:hover {
+            transform: translateY(-4px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 16px 36px -10px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-3d {
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+        .btn-3d:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-3d-amber {
+            box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .btn-3d-amber:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.55);
+        }
+
+        /* 3D Orb Canvas Wrapper */
+        #orb-canvas-container {
+            width: 130px;
+            height: 130px;
+            position: relative;
+        }
+
+        /* Waveform Animation */
+        .wave-bar {
+            width: 3px;
+            border-radius: 9999px;
+            animation: soundwave 1.2s ease-in-out infinite alternate;
+        }
+        @keyframes soundwave {
+            0% { height: 4px; }
+            50% { height: 26px; }
+            100% { height: 8px; }
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(13, 18, 31, 0.5);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(16, 185, 129, 0.3);
+            border-radius: 9999px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(16, 185, 129, 0.6);
+        }
+
+        /* Stock Counter Decrement Flash Animation */
+        @keyframes stockFlash {
+            0%   { transform: scale(1);   background-color: rgba(245, 158, 11, 0.10); box-shadow: none; }
+            25%  { transform: scale(1.4); background-color: rgba(239, 68, 68, 0.55); color: #fff; box-shadow: 0 0 18px rgba(239,68,68,0.7); }
+            60%  { transform: scale(1.1); background-color: rgba(245, 158, 11, 0.35); color: #fbbf24; }
+            100% { transform: scale(1);   background-color: rgba(16, 185, 129, 0.15); }
+        }
+        .stock-updated {
+            animation: stockFlash 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Cart restore flash (green) */
+        @keyframes stockRestore {
+            0%   { transform: scale(1);   background-color: rgba(16,185,129,0.10); }
+            30%  { transform: scale(1.35); background-color: rgba(16,185,129,0.55); color:#fff; box-shadow: 0 0 16px rgba(16,185,129,0.6); }
+            100% { transform: scale(1); }
+        }
+        .stock-restored {
+            animation: stockRestore 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Cart item flash on add */
+        @keyframes cartAdd {
+            0%   { opacity: 0; transform: translateY(-8px) scale(0.95); }
+            60%  { opacity: 1; transform: translateY(2px) scale(1.02); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .cart-item-new { animation: cartAdd 0.45s ease-out forwards; }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Futuristic 3D Glass Header -->
+    <header class="glass-panel sticky top-0 z-40 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo & Holographic Branding -->
+            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/25 border border-white/20">
+                    <i class="fa-solid fa-cube text-xl animate-pulse"></i>
+                    <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-slate-900 rounded-full animate-ping"></span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-emerald-400 bg-clip-text text-transparent" id="app-title">
+                            SMART MARKET 3D
+                        </h1>
+                        <span class="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                            v2.4 Live WAL
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 flex items-center gap-2 mt-0.5" id="app-subtitle">
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Voice Ordering (AR/EN) &bull; Live Inventory In-Data &bull; Unconfirmed Order Protection
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Controls: Voice Mode, Language Switch & Live Stats -->
+            <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                
+                <!-- Live Stock Counter Pill -->
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-dark-700/80 border border-white/10 text-xs font-semibold text-slate-300">
+                    <i class="fa-solid fa-database text-cyan-400"></i>
+                    <span>Database Stock:</span>
+                    <span id="header-stock-counter" class="text-emerald-400 font-mono font-bold">1,000 SKUs</span>
+                </div>
+
+                <!-- Speech Language Selector Dropdown -->
+                <div class="relative flex items-center bg-dark-700/90 border border-white/10 rounded-xl p-1">
+                    <button onclick="setVoiceLang('ar-EG')" id="lang-btn-ar" class="px-2.5 py-1 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center gap-1.5">
+                        <span>🇪🇬</span> <span>عربي</span>
+                    </button>
+                    <button onclick="setVoiceLang('en-US')" id="lang-btn-en" class="px-2.5 py-1 text-xs font-bold rounded-lg transition bg-emerald-600 text-white shadow-sm flex items-center gap-1.5">
+                        <span>🇬🇧</span> <span>English</span>
+                    </button>
+                </div>
+
+                <!-- Shopping Cart Button with Live Counter Badge (Section 13) -->
+                <button onclick="openCartModal()" id="nav-cart-btn" class="p-2.5 rounded-xl bg-dark-700/90 border border-white/10 hover:border-cyan-500/40 text-cyan-400 text-xs font-bold transition flex items-center gap-1.5 shadow-sm" title="Shopping Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="nav-cart-count" class="px-1.5 py-0.5 rounded-full text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-black">0</span>
+                </button>
+
+                <!-- Customer Complaints Button (Section 12) -->
+                <button onclick="openComplaintsModal()" id="nav-complaints-btn" class="p-2.5 rounded-xl bg-dark-700/90 border border-white/10 hover:border-amber-500/40 text-amber-400 text-xs font-bold transition flex items-center gap-1.5 shadow-sm" title="Customer Complaints">
+                    <i class="fa-solid fa-headset"></i>
+                    <span class="hidden sm:inline" id="nav-complaint-label">Complaints</span>
+                </button>
+
+                <!-- Mute / Unmute Sound Audio Button in Header -->
+                <button onclick="toggleMuteAudio()" id="nav-mute-btn" class="p-2.5 rounded-xl bg-dark-700/90 border border-white/10 hover:border-emerald-500/40 text-emerald-400 text-xs font-bold transition flex items-center gap-1 shadow-sm" title="Mute/Unmute Audio Speech">
+                    <i id="nav-mute-icon" class="fa-solid fa-volume-high"></i>
+                </button>
+
+                <!-- UI RTL / LTR Toggle -->
+                <button onclick="toggleUIRTL()" class="p-2.5 rounded-xl bg-dark-700/90 border border-white/10 hover:border-emerald-500/40 text-slate-300 hover:text-emerald-400 text-xs font-bold transition flex items-center gap-1" title="Toggle UI Direction">
+                    <i class="fa-solid fa-language text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- ======================================================== -->
+        <!-- LEFT COLUMN: 3D AI Voice Station & Planner (4 Columns)  -->
+        <!-- ======================================================== -->
+        <section class="lg:col-span-4 flex flex-col space-y-6">
+
+            <!-- 3D Holographic AI Voice Station Card -->
+            <div class="glass-panel rounded-3xl p-6 relative overflow-hidden border border-white/10 shadow-2xl flex flex-col items-center text-center">
+                
+                <!-- Background Ambient Glow -->
+                <div class="absolute -top-12 -left-12 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- 3D WebGL Holographic Voice Orb -->
+                <div id="orb-canvas-container" class="cursor-pointer group flex items-center justify-center my-1" onclick="toggleVoiceRecording()">
+                    <canvas id="three-orb-canvas" class="w-full h-full"></canvas>
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <i id="orb-mic-icon" class="fa-solid fa-microphone text-2xl text-emerald-400 drop-shadow-[0_0_12px_rgba(16,185,129,0.8)] transition-transform duration-300 group-hover:scale-110"></i>
+                    </div>
+                </div>
+
+                <!-- Voice Status Badge -->
+                <div class="mt-3">
+                    <h3 class="text-base font-bold text-white tracking-wide flex items-center justify-center gap-2" id="voice-status-title">
+                        3D Neural Voice Agent
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1" id="voice-status-sub">
+                        Click the 3D Orb or say: <span class="text-emerald-400 font-semibold" id="voice-quick-prompt">&ldquo;عايز كرتونة مياه&rdquo;</span>
+                    </p>
+                </div>
+
+                <!-- Live Voice Equalizer Waves (Visible when listening/speaking) -->
+                <div id="voice-waveform" class="hidden flex items-center justify-center gap-1.5 h-8 my-3">
+                    <span class="wave-bar bg-emerald-400" style="animation-delay: 0.1s"></span>
+                    <span class="wave-bar bg-cyan-400" style="animation-delay: 0.3s"></span>
+                    <span class="wave-bar bg-emerald-500" style="animation-delay: 0.5s"></span>
+                    <span class="wave-bar bg-teal-400" style="animation-delay: 0.2s"></span>
+                    <span class="wave-bar bg-emerald-300" style="animation-delay: 0.4s"></span>
+                    <span class="wave-bar bg-cyan-300" style="animation-delay: 0.6s"></span>
+                </div>
+
+                <!-- Voice Action Buttons -->
+                <div class="w-full grid grid-cols-2 gap-2 mt-4">
+                    <button type="button" onclick="toggleVoiceRecording()" id="voice-start-btn" class="btn-3d w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-microphone"></i>
+                        <span id="btn-mic-label">Start Speaking</span>
+                    </button>
+                    <button type="button" onclick="playLastSpeech()" id="voice-listen-btn" class="py-2.5 px-3 rounded-xl bg-dark-700/80 hover:bg-dark-600 border border-white/10 text-slate-200 font-semibold text-xs flex items-center justify-center gap-2 transition">
+                        <i class="fa-solid fa-volume-high text-cyan-400"></i>
+                        <span id="btn-replay-label">Replay Audio</span>
+                    </button>
+                </div>
+
+                <!-- Mute / Unmute Sound Audio Button -->
+                <button type="button" onclick="toggleMuteAudio()" id="voice-mute-btn" class="w-full mt-2.5 py-2.5 px-3 rounded-xl bg-dark-700/80 hover:bg-dark-600 border border-white/10 text-emerald-400 font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm">
+                    <i id="mute-icon" class="fa-solid fa-volume-high"></i>
+                    <span id="mute-label">Voice Audio: ON (Click to Mute)</span>
+                </button>
+
+                <!-- Voice Confirmation Policy Banner -->
+                <div class="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-left rtl:text-right w-full">
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-shield-halved text-amber-400 text-xs mt-0.5"></i>
+                        <p class="text-[11px] text-amber-200/90 leading-relaxed" id="policy-banner-text">
+                            <strong>Voice Safety Guarantee:</strong> Spoken requests create a <em>pending review card</em>. Stock is strictly deducted <strong>only after explicit confirmation</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Shopping Planner Controls Card -->
+            <div class="glass-panel rounded-3xl p-6 border border-white/10 shadow-2xl space-y-5">
+                <div class="flex items-center justify-between border-b border-white/5 pb-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-emerald-400"></i>
+                        <h2 class="font-bold text-white text-sm" id="planner-title">Smart Budget & Duration Planner</h2>
+                    </div>
+                    <span class="text-[10px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                        1–365 Days
+                    </span>
+                </div>
+
+                <!-- Budget Field -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5" id="label-budget">Requested Budget (EGP):</label>
+                    <div class="relative">
+                        <input type="number" id="quick-budget" value="2000" min="1" step="50" class="w-full text-sm font-bold bg-dark-800/90 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" placeholder="e.g. 2000">
+                        <span class="absolute right-4 rtl:right-auto rtl:left-4 top-2.5 text-xs text-emerald-400 font-extrabold">EGP</span>
+                    </div>
+                    <div class="flex gap-1.5 mt-2">
+                        <button onclick="setBudget(500)" class="text-xs bg-dark-700/80 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400 px-2.5 py-1 rounded-lg border border-white/5 transition">500</button>
+                        <button onclick="setBudget(1000)" class="text-xs bg-dark-700/80 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400 px-2.5 py-1 rounded-lg border border-white/5 transition">1,000</button>
+                        <button onclick="setBudget(2000)" class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold px-2.5 py-1 rounded-lg transition">2,000</button>
+                        <button onclick="setBudget(3500)" class="text-xs bg-dark-700/80 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400 px-2.5 py-1 rounded-lg border border-white/5 transition">3,500</button>
+                    </div>
+                </div>
+
+                <!-- Duration Buttons (1-365 days) -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5" id="label-duration">Duration (1–365 Days):</label>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <button type="button" onclick="setDuration(7)" class="dur-btn py-2 rounded-xl bg-dark-700/80 border border-white/5 font-semibold text-slate-300 hover:border-emerald-500/40 transition" data-days="7">7 Days (1 wk)</button>
+                        <button type="button" onclick="setDuration(14)" class="dur-btn py-2 rounded-xl bg-dark-700/80 border border-white/5 font-semibold text-slate-300 hover:border-emerald-500/40 transition" data-days="14">14 Days (2 wk)</button>
+                        <button type="button" onclick="setDuration(30)" class="dur-btn py-2 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-300 font-extrabold transition" data-days="30">30 Days (1 mo)</button>
+                        <button type="button" onclick="setDuration(60)" class="dur-btn py-2 rounded-xl bg-dark-700/80 border border-white/5 font-semibold text-slate-300 hover:border-emerald-500/40 transition" data-days="60">60 Days (2 mo)</button>
+                        <button type="button" onclick="setDuration(90)" class="dur-btn py-2 rounded-xl bg-dark-700/80 border border-white/5 font-semibold text-slate-300 hover:border-emerald-500/40 transition" data-days="90">90 Days (3 mo)</button>
+                        <button type="button" onclick="setDuration(365)" class="dur-btn py-2 rounded-xl bg-dark-700/80 border border-white/5 font-semibold text-slate-300 hover:border-emerald-500/40 transition" data-days="365">365 Days (1 yr)</button>
+                    </div>
+                </div>
+
+                <!-- Strict Categories -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5" id="label-categories">Strict Category Filtering:</label>
+                    <div class="flex flex-wrap gap-2" id="cat-checkboxes">
+                        <label class="cat-pill cursor-pointer px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-sm">
+                            <input type="checkbox" value="dairy" checked class="hidden" onchange="toggleCatPill(this)">
+                            <span>🥛 <span class="cat-label" data-en="Dairy" data-ar="ألبان">Dairy</span></span>
+                        </label>
+                        <label class="cat-pill cursor-pointer px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-sm">
+                            <input type="checkbox" value="legumes" checked class="hidden" onchange="toggleCatPill(this)">
+                            <span>🫘 <span class="cat-label" data-en="Legumes" data-ar="بقوليات">Legumes</span></span>
+                        </label>
+                        <label class="cat-pill cursor-pointer px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition bg-dark-700/80 border-white/10 text-slate-400">
+                            <input type="checkbox" value="beverages" class="hidden" onchange="toggleCatPill(this)">
+                            <span>🥤 <span class="cat-label" data-en="Beverages" data-ar="مشروبات">Beverages</span></span>
+                        </label>
+                        <label class="cat-pill cursor-pointer px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition bg-dark-700/80 border-white/10 text-slate-400">
+                            <input type="checkbox" value="fruits_vegetables" class="hidden" onchange="toggleCatPill(this)">
+                            <span>🥦 <span class="cat-label" data-en="Fruits & Veg" data-ar="خضار وفواكه">Fruits & Veg</span></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Plan Generator Button -->
+                <button onclick="triggerPlannerRecommendation()" class="btn-3d w-full bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white font-extrabold text-xs py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
+                    <span id="btn-generate-plan">Generate Optimized Shopping Plan</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- MIDDLE / RIGHT: Chat, Voice Dialog & Live Data (8 Cols)  -->
+        <!-- ======================================================== -->
+        <section class="lg:col-span-8 flex flex-col space-y-6">
+
+            <!-- Active Pending Order Alert Banner (Shown when voiced order is waiting) -->
+            <div id="pending-order-banner" class="hidden glass-panel rounded-2xl p-4 border border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-dark-800 to-amber-500/10 shadow-lg">
+                <div class="flex items-center justify-between flex-wrap gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 animate-pulse">
+                            <i class="fa-solid fa-clock text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h4 class="font-bold text-white text-sm" id="pending-banner-title">Voiced Order Pending Confirmation</h4>
+                                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-400 text-black uppercase">
+                                    Stock Not Deducted
+                                </span>
+                            </div>
+                            <p class="text-xs text-amber-200/80 mt-0.5" id="pending-banner-desc">
+                                Product selected. Stock will only decrease in database when you confirm.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="confirmCurrentPendingOrder()" class="btn-3d px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span id="pending-btn-confirm">Confirm & Deduct Stock</span>
+                        </button>
+                        <button onclick="cancelPendingOrder()" class="px-3 py-2 rounded-xl bg-dark-700/80 hover:bg-dark-600 text-slate-300 font-semibold text-xs border border-white/10 transition">
+                            <span id="pending-btn-cancel">Cancel</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Switcher: Chat vs Real-Time Live Inventory Table vs Orders Tab -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 p-1 rounded-2xl bg-dark-800/90 border border-white/10 flex-wrap">
+                    <button onclick="switchView('chat')" id="tab-btn-chat" class="px-4 py-2 rounded-xl text-xs font-bold transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-2">
+                        <i class="fa-solid fa-comments"></i>
+                        <span id="tab-label-chat">AI Assistant Conversation</span>
+                    </button>
+                    <button onclick="switchView('inventory')" id="tab-btn-inventory" class="px-4 py-2 rounded-xl text-xs font-semibold transition text-slate-400 hover:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span id="tab-label-inventory">Live Inventory Monitor (Real-Time)</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    </button>
+                    <button onclick="switchView('orders')" id="tab-btn-orders" class="px-4 py-2 rounded-xl text-xs font-semibold transition text-slate-400 hover:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-receipt"></i>
+                        <span id="tab-label-orders">My Orders & Cancellation</span>
+                        <span id="orders-count-badge" class="px-1.5 py-0.5 rounded-full text-[10px] bg-slate-700 text-slate-300 font-bold">0</span>
+                    </button>
+                </div>
+                
+                <!-- Clear Chat -->
+                <button onclick="clearChat()" class="text-slate-400 hover:text-slate-200 text-xs px-3 py-2 rounded-xl bg-dark-800/60 border border-white/5 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span id="btn-clear-chat">Clear Dialog</span>
+                </button>
+            </div>
+
+            <!-- VIEW 1: Conversational Chat Interface -->
+            <div id="view-chat" class="glass-panel rounded-3xl border border-white/10 shadow-2xl flex flex-col h-[650px] overflow-hidden">
+                
+                <!-- Chat Messages Scroll Area -->
+                <div id="chat-messages" class="flex-1 p-6 overflow-y-auto space-y-4 custom-scroll">
+                    <!-- Initial AI Welcome Greeting -->
+                    <div class="flex items-start gap-3">
+                        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 to-cyan-500 text-white flex items-center justify-center text-sm shadow-md flex-shrink-0">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="glass-panel rounded-2xl rounded-tl-sm p-4 max-w-[85%] text-sm text-slate-200 shadow-md space-y-2 border border-white/10">
+                            <p class="leading-relaxed font-medium" id="welcome-text">
+                                Hello! I am your 3D Intelligent AI Shopping Agent. You can order items by voice or specify a budget, duration, and categories in both Arabic and English.
+                            </p>
+                            <div class="p-3 rounded-xl bg-dark-900/60 border border-white/5 text-xs text-slate-400 space-y-1">
+                                <div class="font-bold text-emerald-400">Try these voice or text prompts:</div>
+                                <div class="hover:text-cyan-300 cursor-pointer" onclick="useExample(this.innerText)">&bull; &ldquo;I want one pack of water.&rdquo;</div>
+                                <div class="hover:text-cyan-300 cursor-pointer" onclick="useExample(this.innerText)">&bull; &ldquo;عايز منتجات ألبان وبقوليات بميزانية 2000 جنيه لمدة شهر.&rdquo;</div>
+                                <div class="hover:text-cyan-300 cursor-pointer" onclick="useExample(this.innerText)">&bull; &ldquo;I want products worth 2,000 EGP.&rdquo;</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Footer -->
+                <div class="p-4 border-t border-white/5 bg-dark-900/40">
+                    <form id="chat-form" onsubmit="handleMessageSubmit(event)" class="flex items-center gap-3">
+                        
+                        <!-- Pulsing Mic Button -->
+                        <button type="button" id="inline-mic-btn" onclick="toggleVoiceRecording()" class="w-12 h-12 rounded-2xl bg-dark-700/80 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400 border border-white/10 flex items-center justify-center text-lg transition active:scale-95 flex-shrink-0 shadow-md">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+
+                        <!-- Text Input -->
+                        <div class="relative flex-1">
+                            <input type="text" id="user-input" class="w-full text-sm font-medium bg-dark-800/90 border border-white/10 rounded-2xl px-5 py-3.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition shadow-inner" placeholder="Type a request or speak (e.g. 'I want one pack of water')..." autocomplete="off">
+                        </div>
+
+                        <!-- Send Button -->
+                        <button type="submit" id="send-btn" class="btn-3d w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center text-sm font-bold transition active:scale-95 flex-shrink-0 shadow-lg">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- VIEW 2: Real-Time Live Inventory Monitor ( لما حد يطلب منتج عدده يقل من الداتا ) -->
+            <div id="view-inventory" class="hidden glass-panel rounded-3xl border border-white/10 shadow-2xl flex flex-col h-[650px] overflow-hidden">
+                <div class="p-5 border-b border-white/5 bg-dark-900/50 flex items-center justify-between flex-wrap gap-3">
+                    <div>
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-server text-cyan-400"></i>
+                            <span id="inv-panel-title">Real-Time Database Inventory (`market.db`)</span>
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5" id="inv-panel-sub">
+                            Live synchronization with SQLite database. Stock decrements immediately upon confirmed orders.
+                        </p>
+                    </div>
+
+                    <!-- Search Filter in Live Table -->
+                    <div class="flex items-center gap-2">
+                        <div class="relative w-56">
+                            <input type="text" id="live-search-input" oninput="filterLiveInventory(this.value)" placeholder="Search products..." class="w-full text-xs bg-dark-800/90 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-500 text-xs"></i>
+                        </div>
+                        <button onclick="refreshLiveInventory()" class="p-2 rounded-xl bg-dark-700/80 hover:bg-dark-600 border border-white/10 text-slate-300 hover:text-emerald-400 transition" title="Refresh Live Data">
+                            <i class="fa-solid fa-arrows-rotate text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Inventory Table -->
+                <div class="flex-1 overflow-y-auto p-4 custom-scroll">
+                    <table class="w-full text-left rtl:text-right text-xs">
+                        <thead class="text-slate-400 uppercase bg-dark-800/80 sticky top-0 border-b border-white/5">
+                            <tr>
+                                <th class="p-3">SKU</th>
+                                <th class="p-3">Product Name (EN / AR)</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Price</th>
+                                <th class="p-3">Live Stock</th>
+                                <th class="p-3 text-center">Voice Order</th>
+                            </tr>
+                        </thead>
+                        <tbody id="live-inventory-tbody" class="divide-y divide-white/5">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- VIEW 3: Customer Orders Tab with Order Cancellation & Atomic Restoration (Section 14) -->
+            <div id="view-orders" class="hidden glass-panel rounded-3xl border border-white/10 shadow-2xl flex flex-col h-[650px] overflow-hidden">
+                <div class="p-5 border-b border-white/5 bg-dark-900/50 flex items-center justify-between flex-wrap gap-3">
+                    <div>
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-receipt text-cyan-400"></i>
+                            <span id="orders-panel-title">Customer Orders Management</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold" id="orders-total-badge">0 Orders</span>
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5" id="orders-panel-sub">
+                            View order history, line items, and cancel eligible orders with instant atomic inventory restoration.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="refreshOrders()" class="px-3 py-1.5 rounded-xl bg-dark-700 hover:bg-dark-600 text-slate-200 text-xs font-semibold transition border border-white/10 flex items-center gap-1.5">
+                            <i class="fa-solid fa-rotate text-cyan-400"></i>
+                            <span id="btn-refresh-orders">Refresh Orders</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Orders List Container -->
+                <div class="flex-1 overflow-y-auto p-5 custom-scroll space-y-4" id="orders-cards-container">
+                    <div class="text-center py-12 text-slate-500 text-xs">
+                        <i class="fa-solid fa-box-open text-3xl mb-2 block"></i>
+                        No orders recorded yet. Place an order through voice or chat.
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Shopping Cart Modal Drawer (Section 13) -->
+    <div id="cart-modal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel bg-dark-800/95 border border-white/10 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="p-5 border-b border-white/10 flex items-center justify-between bg-dark-900/50">
+                <div class="flex items-center gap-2 text-white font-bold text-base">
+                    <i class="fa-solid fa-cart-shopping text-cyan-400"></i>
+                    <span id="cart-modal-title">Shopping Cart</span>
+                </div>
+                <button onclick="closeCartModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-5 custom-scroll space-y-3" id="cart-modal-items">
+                <!-- Cart items dynamically rendered -->
+            </div>
+
+            <div class="p-5 border-t border-white/10 bg-dark-900/70 space-y-4">
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-slate-400 font-medium" id="cart-subtotal-label">Subtotal:</span>
+                    <span class="text-xl font-black text-cyan-300" id="cart-modal-total">0.00 EGP</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-dark-950/60 border border-white/5 text-[11px] text-amber-300/90 leading-tight flex items-center gap-2" id="cart-notice-text">
+                    <i class="fa-solid fa-shield-halved flex-shrink-0"></i>
+                    <span>Adding to cart does NOT reduce inventory. Stock is deducted only upon confirmed checkout.</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="closeCartModal()" class="flex-1 py-3 rounded-2xl bg-dark-700 hover:bg-dark-600 text-slate-300 font-bold text-xs transition border border-white/10">
+                        Continue Shopping
+                    </button>
+                    <button onclick="handleCartCheckout()" id="cart-checkout-btn" class="btn-3d flex-1 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-xs transition shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>Checkout Now</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Complaints Modal (Section 12) -->
+    <div id="complaints-modal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel bg-dark-800/95 border border-white/10 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="p-5 border-b border-white/10 flex items-center justify-between bg-dark-900/50">
+                <div class="flex items-center gap-2 text-white font-bold text-base">
+                    <i class="fa-solid fa-headset text-amber-400"></i>
+                    <span id="complaints-modal-title">Customer Complaints & Inquiries</span>
+                </div>
+                <button onclick="closeComplaintsModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="p-5 overflow-y-auto custom-scroll space-y-4">
+                <!-- Submit Complaint Form -->
+                <div class="p-4 rounded-2xl bg-dark-900/50 border border-white/5 space-y-3">
+                    <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-pen-to-square"></i> Submit a New Complaint
+                    </h4>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Related Order ID (Optional)</label>
+                        <input type="number" id="complaint-order-id" placeholder="e.g. 1" class="w-full text-xs bg-dark-800 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Category</label>
+                        <select id="complaint-category" class="w-full text-xs bg-dark-800 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-amber-500">
+                            <option value="damaged_product">Damaged Product / منتج تالف</option>
+                            <option value="missing_product">Missing Product / منتج ناقص</option>
+                            <option value="incorrect_order">Incorrect Order / طلب خاطئ</option>
+                            <option value="payment_issue">Payment Issue / مشكلة في الدفع</option>
+                            <option value="delivery_problem">Delivery Problem / مشكلة توصيل</option>
+                            <option value="technical_issue">Technical Issue / مشكلة تقنية</option>
+                            <option value="general">General Inquiry / استفسار عام</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Description (Arabic or English)</label>
+                        <textarea id="complaint-desc" rows="3" placeholder="Describe the issue you experienced..." class="w-full text-xs bg-dark-800 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+                    <button onclick="handleComplaintSubmit()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs transition shadow-md flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Register Complaint</span>
+                    </button>
+                    <div id="complaint-result-box" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+
+                <!-- Check Complaint Status Form -->
+                <div class="p-4 rounded-2xl bg-dark-900/50 border border-white/5 space-y-3">
+                    <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-magnifying-glass"></i> Check Complaint Status
+                    </h4>
+                    <div class="flex gap-2">
+                        <input type="text" id="check-complaint-id" placeholder="Enter ID (e.g. CMP-1 or 1)" class="flex-1 text-xs bg-dark-800 border border-white/10 rounded-xl px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500">
+                        <button onclick="handleCheckComplaintStatus()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition">
+                            Check
+                        </button>
+                    </div>
+                    <div id="check-complaint-result" class="hidden p-3 rounded-xl text-xs bg-dark-800 border border-white/10 text-slate-200 space-y-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Cancellation Confirmation Prompt Modal (Section 14) -->
+    <div id="cancel-confirm-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel bg-dark-800/95 border border-rose-500/40 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl mx-auto animate-pulse">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h4 class="text-base font-extrabold text-white" id="cancel-modal-title">Cancel Order Confirmation</h4>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed" id="cancel-modal-msg">
+                    Are you sure you want to cancel this order?
+                </p>
+                <div class="p-2.5 rounded-xl bg-dark-900/70 border border-white/5 text-[11px] text-amber-300 mt-2 text-left rtl:text-right">
+                    ⚠️ Product quantities will be atomically restored to SQLite inventory immediately.
+                </div>
+            </div>
+            <div class="flex items-center gap-3 pt-2">
+                <button onclick="closeCancelModal()" class="flex-1 py-2.5 rounded-xl bg-dark-700 hover:bg-dark-600 text-slate-300 text-xs font-bold transition border border-white/10">
+                    Keep Order
+                </button>
+                <button onclick="executeOrderCancellation()" id="btn-confirm-cancel" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition shadow-lg flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-ban"></i>
+                    <span>Yes, Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast for Live Database Updates -->
+    <div id="live-toast" class="fixed bottom-6 right-6 z-50 hidden glass-panel border border-emerald-500/50 bg-dark-800/95 text-white p-4 rounded-2xl shadow-2xl flex items-center gap-3 max-w-md transform transition-all duration-300">
+        <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0 animate-bounce">
+            <i class="fa-solid fa-bell"></i>
+        </div>
+        <div class="flex-1">
+            <h5 class="text-xs font-extrabold text-emerald-400 uppercase tracking-wider" id="toast-title">Live Inventory Updated</h5>
+            <p class="text-xs text-slate-300 mt-0.5 leading-snug" id="toast-msg">Stock decremented in database.</p>
+        </div>
+        <button onclick="dismissToast()" class="text-slate-400 hover:text-white text-xs p-1">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- Application Script & 3D WebGL Engine -->
+    <script>
+        // Global State
+        let currentLang = 'en';
+        let voiceLang = 'en-US';
+        let sessionState = {};
+        let selectedDurationDays = 30;
+        let isRecording = false;
+        let recognition = null;
+        let speechSynth = window.speechSynthesis;
+        let lastSpokenText = "";
+        let liveProductsCache = [];
+
+        // ========================================================
+        // 1. THREE.JS 3D HOLOGRAPHIC AI VOICE ORB
+        // ========================================================
+        let scene, camera, renderer, orbPoints, orbMaterial, orbGeometry;
+        let orbState = 'idle'; // 'idle', 'listening', 'speaking'
+
+        function init3DOrb() {
+            const container = document.getElementById('orb-canvas-container');
+            const canvas = document.getElementById('three-orb-canvas');
+            if (!container || !canvas || typeof THREE === 'undefined') return;
+
+            const width = container.clientWidth || 130;
+            const height = container.clientHeight || 130;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+            camera.position.z = 3.2;
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Generate Spherical Particle Cloud
+            const particleCount = 600;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            const colorEmerald = new THREE.Color(0x10b981);
+            const colorCyan = new THREE.Color(0x06b6d4);
+
+            for (let i = 0; i < particleCount; i++) {
+                const phi = Math.acos(-1 + (2 * i) / particleCount);
+                const theta = Math.sqrt(particleCount * Math.PI) * phi;
+                const radius = 1.15;
+
+                positions[i * 3] = radius * Math.cos(theta) * Math.sin(phi);
+                positions[i * 3 + 1] = radius * Math.sin(theta) * Math.sin(phi);
+                positions[i * 3 + 2] = radius * Math.cos(phi);
+
+                const mixed = colorEmerald.clone().lerp(colorCyan, Math.random());
+                colors[i * 3] = mixed.r;
+                colors[i * 3 + 1] = mixed.g;
+                colors[i * 3 + 2] = mixed.b;
+            }
+
+            orbGeometry = new THREE.BufferGeometry();
+            orbGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            orbGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            orbMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.85,
+                blending: THREE.AdditiveBlending
+            });
+
+            orbPoints = new THREE.Points(orbGeometry, orbMaterial);
+            scene.add(orbPoints);
+
+            // Animation Loop
+            let clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                if (orbPoints) {
+                    if (orbState === 'listening') {
+                        orbPoints.rotation.y = elapsedTime * 2.2;
+                        orbPoints.rotation.x = elapsedTime * 1.5;
+                        const s = 1.0 + Math.sin(elapsedTime * 6) * 0.12;
+                        orbPoints.scale.set(s, s, s);
+                        orbMaterial.size = 0.07;
+                    } else if (orbState === 'speaking') {
+                        orbPoints.rotation.y = elapsedTime * 1.6;
+                        orbPoints.rotation.z = elapsedTime * 0.8;
+                        const s = 1.0 + Math.sin(elapsedTime * 4) * 0.08;
+                        orbPoints.scale.set(s, s, s);
+                        orbMaterial.size = 0.06;
+                    } else {
+                        // Idle
+                        orbPoints.rotation.y = elapsedTime * 0.45;
+                        orbPoints.rotation.x = elapsedTime * 0.25;
+                        orbPoints.scale.set(1.0, 1.0, 1.0);
+                        orbMaterial.size = 0.05;
+                    }
+                }
+
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // ========================================================
+        // 2. SPEECH RECOGNITION (STT) & SYNTHESIS (TTS)
+        // ========================================================
+        function initSpeechEngine() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRec();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    orbState = 'listening';
+                    document.getElementById('voice-waveform').classList.remove('hidden');
+                    document.getElementById('voice-status-title').innerText = voiceLang.startsWith('ar') ? 'جاري الاستماع...' : 'Listening...';
+                    document.getElementById('orb-mic-icon').className = 'fa-solid fa-waveform-lines text-2xl text-emerald-400 animate-pulse';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('user-input').value = transcript;
+                    sendMessage(transcript, true);
+                };
+
+                recognition.onerror = (event) => {
+                    console.warn('Speech error:', event.error);
+                    stopVoiceRecording();
+                };
+
+                recognition.onend = () => {
+                    stopVoiceRecording();
+                };
+            }
+        }
+
+        function setVoiceLang(langCode) {
+            voiceLang = langCode;
+            if (langCode.startsWith('ar')) {
+                document.getElementById('lang-btn-ar').className = 'px-2.5 py-1 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-sm flex items-center gap-1.5';
+                document.getElementById('lang-btn-en').className = 'px-2.5 py-1 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center gap-1.5';
+            } else {
+                document.getElementById('lang-btn-en').className = 'px-2.5 py-1 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-sm flex items-center gap-1.5';
+                document.getElementById('lang-btn-ar').className = 'px-2.5 py-1 text-xs font-bold rounded-lg transition text-slate-400 hover:text-white flex items-center gap-1.5';
+            }
+        }
+
+        function toggleVoiceRecording() {
+            if (!recognition) {
+                alert(currentLang === 'ar' ? 'المتصفح لا يدعم التسجيل الصوتي المباشر.' : 'Voice recognition is not supported in this browser.');
+                return;
+            }
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.lang = voiceLang;
+                try {
+                    recognition.start();
+                } catch(e) {
+                    console.error("Mic start error:", e);
+                }
+            }
+        }
+
+        function stopVoiceRecording() {
+            isRecording = false;
+            orbState = 'idle';
+            document.getElementById('voice-waveform').classList.add('hidden');
+            document.getElementById('voice-status-title').innerText = currentLang === 'ar' ? 'المساعد الصوتي 3D' : '3D Neural Voice Agent';
+            document.getElementById('orb-mic-icon').className = 'fa-solid fa-microphone text-2xl text-emerald-400';
+        }
+
+        // ========================================================
+        // AUDIO MUTE & EMAIL DISPATCH CONTROLLERS
+        // ========================================================
+        let isAudioMuted = false;
+
+        function toggleMuteAudio() {
+            isAudioMuted = !isAudioMuted;
+            if (speechSynth) {
+                speechSynth.cancel(); // Stop talking immediately if speaking!
+            }
+            orbState = 'idle';
+            const wave = document.getElementById('voice-waveform');
+            if (wave) wave.classList.add('hidden');
+
+            const muteBtn = document.getElementById('voice-mute-btn');
+            const navMuteIcon = document.getElementById('nav-mute-icon');
+            const muteIcon = document.getElementById('mute-icon');
+            const muteLabel = document.getElementById('mute-label');
+
+            if (isAudioMuted) {
+                if (muteIcon) muteIcon.className = 'fa-solid fa-volume-xmark text-rose-400';
+                if (navMuteIcon) navMuteIcon.className = 'fa-solid fa-volume-xmark text-rose-400';
+                if (muteLabel) muteLabel.innerText = currentLang === 'ar' ? 'الصوت: مكتوم 🔇 (اضغط للتشغيل)' : 'Voice Audio: MUTED 🔇 (Click to Unmute)';
+                if (muteBtn) {
+                    muteBtn.className = 'w-full mt-2.5 py-2.5 px-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/40 text-rose-400 font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm';
+                }
+                showLiveToast(
+                    currentLang === 'ar' ? '🔇 تم كتم الصوت' : '🔇 Audio Muted',
+                    currentLang === 'ar' ? 'تم إيقاف المساعد الصوتي عن الكلام.' : 'Assistant voice output has been muted.'
+                );
+            } else {
+                if (muteIcon) muteIcon.className = 'fa-solid fa-volume-high text-emerald-400';
+                if (navMuteIcon) navMuteIcon.className = 'fa-solid fa-volume-high text-emerald-400';
+                if (muteLabel) muteLabel.innerText = currentLang === 'ar' ? 'الصوت: مفعّل 🔊 (اضغط للكتم)' : 'Voice Audio: ON 🔊 (Click to Mute)';
+                if (muteBtn) {
+                    muteBtn.className = 'w-full mt-2.5 py-2.5 px-3 rounded-xl bg-dark-700/80 hover:bg-dark-600 border border-white/10 text-emerald-400 font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm';
+                }
+                showLiveToast(
+                    currentLang === 'ar' ? '🔊 تم تفعيل الصوت' : '🔊 Audio Active',
+                    currentLang === 'ar' ? 'تم تفعيل التحدث الصوتي للمساعد.' : 'Assistant will now speak responses.'
+                );
+            }
+        }
+
+        async function sendOrderEmail(orderId, email = "moornafea@gmail.com") {
+            try {
+                showLiveToast(
+                    currentLang === 'ar' ? '📧 جاري إرسال الفاتورة...' : '📧 Sending Email...',
+                    currentLang === 'ar' ? `جاري إرسال تفاصيل الطلب إلى ${email}` : `Sending order details to ${email}`
+                );
+                const res = await fetch('/api/order/email', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({order_id: orderId, email: email})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showLiveToast(
+                        currentLang === 'ar' ? '✅ تم إرسال الإيميل' : '✅ Email Sent',
+                        currentLang === 'ar' ? `تم إرسال فاتورة الطلب #${orderId} إلى ${email}` : `Order #${orderId} invoice sent to ${email}`
+                    );
+                } else {
+                    showLiveToast('Error', data.error || 'Failed to dispatch email');
+                }
+            } catch(e) {
+                showLiveToast('Error', e.message);
+            }
+        }
+
+        function speakText(text) {
+            if (isAudioMuted) {
+                if (speechSynth) speechSynth.cancel();
+                return; // Muted!
+            }
+            if (!speechSynth || !text) return;
+            speechSynth.cancel();
+            lastSpokenText = text;
+            orbState = 'speaking';
+            document.getElementById('voice-waveform').classList.remove('hidden');
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            const isAr = /[\u0600-\u06FF]/.test(text);
+            utterance.lang = isAr ? 'ar-SA' : 'en-US';
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+
+            utterance.onend = () => {
+                orbState = 'idle';
+                document.getElementById('voice-waveform').classList.add('hidden');
+            };
+            utterance.onerror = () => {
+                orbState = 'idle';
+                document.getElementById('voice-waveform').classList.add('hidden');
+            };
+
+            speechSynth.speak(utterance);
+        }
+
+        function playLastSpeech() {
+            if (lastSpokenText) {
+                speakText(lastSpokenText);
+            }
+        }
+
+        // ========================================================
+        // 3. CHAT & ORDER MESSAGE HANDLING
+        // ========================================================
+        function handleMessageSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            if (!message) return;
+            input.value = '';
+            sendMessage(message, false);
+        }
+
+        async function sendMessage(message, isVoice = false) {
+            appendUserMessage(message);
+            const typingId = appendTypingIndicator();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        message: message,
+                        session_state: sessionState,
+                        is_voice: isVoice
+                    })
+                });
+
+                const data = await response.json();
+                removeTypingIndicator(typingId);
+
+                if (data.updated_state) {
+                    sessionState = data.updated_state;
+                }
+
+                // Sync cart badge if cart returned by agent
+                if (data.cart || (sessionState && sessionState.cart)) {
+                    updateCartBadge(data.cart || sessionState.cart);
+                }
+
+                // Refresh orders tab on relevant events
+                if (data.action === 'order_created' || data.action === 'order_cancelled' || data.action === 'checkout_error') {
+                    setTimeout(() => { refreshOrders(); refreshLiveInventory(); }, 300);
+                }
+
+                // Check for pending order vs confirmed order vs cancelled order
+                if (data.action === 'order_pending' || sessionState.pending_order) {
+                    showPendingOrderBanner(data);
+                } else if (data.action === 'order_created') {
+                    hidePendingOrderBanner();
+                    // Live stock was decremented! Refresh live inventory & auto-add to cart
+                    handleOrderDeductionSuccess(data);
+                } else if (data.action === 'order_cancelled') {
+                    hidePendingOrderBanner();
+                    // Automatically remove cancelled items from shopping cart
+                    if (data.restored_items && data.restored_items.length > 0) {
+                        autoRemoveOrderFromCart(data.restored_items);
+                    } else if (data.cart) {
+                        sessionState.cart = data.cart;
+                        updateCartBadge(data.cart);
+                    }
+                }
+
+                appendAgentMessage(data);
+
+                // Auto speak verbal responses
+                if (data.speech_text && (isVoice || true)) {
+                    speakText(data.speech_text);
+                }
+
+            } catch (err) {
+                removeTypingIndicator(typingId);
+                appendAgentMessage({
+                    text: "Error communicating with server: " + err.message,
+                    action: 'error'
+                });
+            }
+        }
+
+        function appendUserMessage(text) {
+            const container = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-start justify-end gap-3';
+            msgDiv.innerHTML = `
+                <div class="rounded-2xl rounded-tr-sm px-4 py-3 max-w-[85%] text-sm bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg">
+                    ${escapeHtml(text)}
+                </div>
+                <div class="w-8 h-8 rounded-xl bg-dark-700 border border-white/10 text-white flex items-center justify-center text-xs flex-shrink-0">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            `;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function appendAgentMessage(data) {
+            const container = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-start gap-3';
+
+            let itemsHtml = '';
+            const isPending = data.action === 'order_pending';
+            const isConfirmed = data.action === 'order_created';
+
+            if (data.items && data.items.length > 0 && (data.action === 'recommend' || isPending || isConfirmed)) {
+                const itemsList = data.items.map(it => `
+                    <div class="flex items-center justify-between p-3 rounded-2xl bg-dark-800/90 border border-white/5 hover:border-emerald-500/30 transition text-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-dark-700 border border-white/5 flex items-center justify-center text-slate-400 overflow-hidden flex-shrink-0">
+                                ${it.image ? `<img src="${it.image}" alt="" class="w-full h-full object-cover">` : `<i class="fa-solid fa-box text-sm"></i>`}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-xs">${escapeHtml(currentLang === 'ar' ? (it.name_ar || it.name_en) : it.name_en)}</h4>
+                                <div class="flex items-center gap-2 mt-0.5 text-[11px] text-slate-400">
+                                    <span>${it.quantity} &times; ${Number(it.unit_price).toFixed(2)} EGP</span>
+                                    ${it.max_stock ? `<span class="text-cyan-400 font-mono">(Stock: ${it.max_stock})</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right rtl:text-left font-mono font-bold text-emerald-400 text-sm">
+                            ${(Number(it.unit_price) * Number(it.quantity)).toFixed(2)} EGP
+                        </div>
+                    </div>
+                `).join('');
+
+                const calc = data.calculations || {};
+                const totalSpent = calc.total_spent || calc.total || 0;
+                const budget = calc.budget || 0;
+                const util = calc.utilization_percent || (budget ? Math.round((totalSpent / budget) * 100) : 0);
+
+                itemsHtml = `
+                    <div class="mt-3 p-4 rounded-2xl bg-dark-900/80 border ${isPending ? 'border-amber-500/40' : 'border-white/10'} space-y-3">
+                        
+                        <!-- Header badge -->
+                        <div class="flex items-center justify-between text-xs font-bold">
+                            <span class="${isPending ? 'text-amber-400' : 'text-slate-300'} flex items-center gap-1.5">
+                                <i class="${isPending ? 'fa-solid fa-triangle-exclamation text-amber-400' : 'fa-solid fa-cart-shopping text-emerald-400'}"></i>
+                                ${isPending ? (currentLang === 'ar' ? 'طلب صوتي قيد التأكيد (لم يتم الخصم)' : 'Voiced Order Pending (Stock Unchanged)') : (currentLang === 'ar' ? 'تفاصيل السلة' : 'Basket Breakdown')}
+                            </span>
+                            <span class="text-emerald-400 font-mono text-sm">${totalSpent.toFixed(2)} EGP</span>
+                        </div>
+
+                        ${budget ? `
+                        <div>
+                            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                <span>${currentLang === 'ar' ? 'استخدام الميزانية' : 'Budget Utilization'}: ${util}%</span>
+                                <span>${currentLang === 'ar' ? 'المتبقي' : 'Remaining'}: ${(calc.remaining_budget || 0).toFixed(2)} EGP</span>
+                            </div>
+                            <div class="w-full bg-dark-700 rounded-full h-2 overflow-hidden">
+                                <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 h-2 rounded-full transition-all duration-700" style="width: ${Math.min(util, 100)}%"></div>
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        ${calc.daily_spending ? `
+                        <div class="flex items-center justify-between bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-2 rounded-xl text-emerald-300 text-xs font-semibold">
+                            <span><i class="fa-solid fa-calendar-day mr-1"></i> ${calc.duration_label || ''}</span>
+                            <span class="font-mono">${calc.daily_spending.toFixed(2)} EGP / day</span>
+                        </div>
+                        ` : ''}
+
+                        <!-- Items Scroll -->
+                        <div class="max-h-56 overflow-y-auto space-y-2 custom-scroll pr-1">
+                            ${itemsList}
+                        </div>
+
+                        <!-- Footer Confirmation Bar -->
+                        ${isPending || data.action === 'recommend' ? `
+                        <div class="pt-2 border-t border-white/5 flex items-center justify-between flex-wrap gap-2">
+                            <div>
+                                <span class="text-xs text-slate-400">${currentLang === 'ar' ? 'الإجمالي:' : 'Total:'}</span>
+                                <span class="text-sm font-extrabold text-white font-mono ml-1">${totalSpent.toFixed(2)} EGP</span>
+                            </div>
+                            <button onclick="confirmCurrentPendingOrder()" class="btn-3d px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl text-xs font-bold shadow-md flex items-center gap-1.5">
+                                <i class="fa-solid fa-check"></i>
+                                <span>${currentLang === 'ar' ? 'تأكيد الطلب وخصم المخزون' : 'Confirm & Deduct Stock'}</span>
+                            </button>
+                        </div>
+                        ` : ''}
+
+                    </div>
+                `;
+            }
+
+            let emailReceiptHtml = '';
+            if (isConfirmed && data.order_id) {
+                const targetEmail = data.email_sent_to || 'moornafea@gmail.com';
+                emailReceiptHtml = `
+                    <div class="mt-2.5 p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between flex-wrap gap-2 text-xs shadow-sm">
+                        <div class="flex items-center gap-2.5 text-emerald-300 font-semibold">
+                            <i class="fa-solid fa-envelope-circle-check text-emerald-400 text-lg"></i>
+                            <div>
+                                <div class="text-white font-bold">${currentLang === 'ar' ? 'تم إرسال الفاتورة إلى الإيميل:' : 'Order receipt sent to:'}</div>
+                                <div class="text-cyan-400 font-mono text-[11px]">${targetEmail}</div>
+                            </div>
+                        </div>
+                        <button onclick="sendOrderEmail(${data.order_id}, '${targetEmail}')" class="btn-3d px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-[11px] shadow-sm transition flex items-center gap-1.5 active:scale-95">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>${currentLang === 'ar' ? 'إعادة إرسال' : 'Resend Email'}</span>
+                        </button>
+                    </div>
+                `;
+            }
+
+            msgDiv.innerHTML = `
+                <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 to-cyan-500 text-white flex items-center justify-center text-sm shadow-md flex-shrink-0 mt-1">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="glass-panel rounded-2xl rounded-tl-sm p-4 max-w-[85%] text-sm text-slate-200 shadow-md space-y-2 border border-white/10">
+                    <div class="leading-relaxed">${escapeHtml(data.text || '')}</div>
+                    ${itemsHtml}
+                    ${emailReceiptHtml}
+                    ${data.speech_text ? `
+                    <div class="pt-1 flex items-center justify-end">
+                        <button class="speak-btn text-slate-400 hover:text-emerald-400 text-xs flex items-center gap-1.5 transition" data-speech="${escapeHtml(data.speech_text)}">
+                            <i class="fa-solid fa-volume-high text-cyan-400"></i>
+                            <span class="text-[10px]">${currentLang === 'ar' ? 'استمع' : 'Listen'}</span>
+                        </button>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function appendTypingIndicator() {
+            const container = document.getElementById('chat-messages');
+            const id = 'typing-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = 'flex items-center gap-3 text-slate-400 text-xs';
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-xl bg-dark-700 flex items-center justify-center">
+                    <i class="fa-solid fa-robot text-emerald-400"></i>
+                </div>
+                <div class="glass-panel px-4 py-2 rounded-2xl flex items-center gap-1.5">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></span>
+                    <span class="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                    <span class="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        // ========================================================
+        // 4. PENDING VOICE ORDER CONFIRMATION / CANCEL
+        // ========================================================
+        function showPendingOrderBanner(data) {
+            const banner = document.getElementById('pending-order-banner');
+            banner.classList.remove('hidden');
+        }
+
+        function hidePendingOrderBanner() {
+            const banner = document.getElementById('pending-order-banner');
+            banner.classList.add('hidden');
+        }
+
+        function confirmCurrentPendingOrder() {
+            sendMessage(currentLang === 'ar' ? "تأكيد الطلب" : "Confirm order", false);
+        }
+
+        function cancelPendingOrder() {
+            sessionState.pending_order = null;
+            hidePendingOrderBanner();
+            appendAgentMessage({
+                text: currentLang === 'ar' ? "تم إلغاء الطلب المعلق بنجاح. لم يتم خصم أي مخزون." : "Pending order was cancelled. No stock was deducted.",
+                speech_text: currentLang === 'ar' ? "تم إلغاء الطلب." : "Order cancelled.",
+                action: 'order_cancelled'
+            });
+        }
+
+        // Handle confirmed order deduction notification & live table sync
+        function handleOrderDeductionSuccess(data) {
+            const updates = data.stock_updates || [];
+
+            // 1. Refresh the live inventory table so the new stock numbers appear
+            refreshLiveInventory().then(() => {
+                // 2. After refresh, flash exactly the rows whose stock changed (لما حد يطلب منتج عدده يقل من الداتا)
+                updates.forEach(u => {
+                    const badge = document.getElementById(`stock-badge-${u.product_id}`);
+                    if (badge) {
+                        badge.classList.remove('stock-updated', 'stock-restored');
+                        void badge.offsetWidth; // reflow to restart animation
+                        badge.classList.add('stock-updated');
+                        badge.addEventListener('animationend', () => badge.classList.remove('stock-updated'), { once: true });
+                    }
+                });
+            });
+
+            let msg = "";
+            if (updates.length > 0) {
+                const u = updates[0];
+                msg = currentLang === 'ar'
+                    ? `⬇️ تم خصم ${u.quantity} وحدة من '${u.name_ar}'! المخزون في الداتا قل من ${u.stock_before} ← ${u.stock_after}.`
+                    : `⬇️ Deducted ${u.quantity}x '${u.name_en}' from database. Stock: ${u.stock_before} → ${u.stock_after}.`;
+            } else {
+                msg = currentLang === 'ar' ? 'تم تأكيد الطلب وتحديث المخزون بنجاح.' : 'Order confirmed and inventory updated in database.';
+            }
+
+            showLiveToast(
+                currentLang === 'ar' ? '⚡ تم خصم المخزون من الداتا' : '⚡ Live Inventory Decremented',
+                msg
+            );
+
+            // 3. Auto-add confirmed order items into the shopping cart
+            autoAddOrderToCart(data.items || [], data.order_id);
+        }
+
+        // ========================================================
+        // AUTO-CART SYNC: Confirmed order → Cart, Cancelled order → Remove from Cart
+        // ========================================================
+
+        /**
+         * After an order is CONFIRMED through AI chat/voice, automatically
+         * add those items to the shopping cart so the cart reflects current state.
+         */
+        async function autoAddOrderToCart(items, orderId) {
+            if (!items || items.length === 0) return;
+            let cartUpdated = false;
+
+            for (const item of items) {
+                const pid = item.product_id || item.id;
+                const qty = item.quantity || 1;
+                if (!pid) continue;
+                try {
+                    const res = await fetch('/api/cart/add', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ product_id: pid, quantity: qty })
+                    });
+                    const d = await res.json();
+                    if (d.success) {
+                        sessionState.cart = d.cart;
+                        cartUpdated = true;
+                    }
+                } catch (e) {
+                    console.warn('Auto-cart add failed for product', pid, e);
+                }
+            }
+
+            if (cartUpdated) {
+                updateCartBadge(sessionState.cart);
+                // Subtle notification that cart was updated
+                const cartBadge = document.getElementById('nav-cart-count');
+                if (cartBadge) {
+                    cartBadge.classList.add('cart-item-new');
+                    cartBadge.addEventListener('animationend', () => cartBadge.classList.remove('cart-item-new'), { once: true });
+                }
+            }
+        }
+
+        /**
+         * After an order is CANCELLED, remove its items from the shopping cart.
+         * Also animate the restored stock rows green in the live inventory table.
+         */
+        async function autoRemoveOrderFromCart(restoredItems) {
+            if (!restoredItems || restoredItems.length === 0) return;
+
+            for (const item of restoredItems) {
+                const pid = item.product_id;
+                if (!pid) continue;
+                try {
+                    const res = await fetch('/api/cart/remove', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ product_id: pid })
+                    });
+                    const d = await res.json();
+                    if (d.success) {
+                        sessionState.cart = d.cart;
+                    }
+                } catch (e) {
+                    console.warn('Auto-cart remove failed for product', pid, e);
+                }
+            }
+
+            updateCartBadge(sessionState.cart);
+
+            // After refresh, animate restored rows with green flash
+            refreshLiveInventory().then(() => {
+                restoredItems.forEach(item => {
+                    const badge = document.getElementById(`stock-badge-${item.product_id}`);
+                    if (badge) {
+                        badge.classList.remove('stock-updated', 'stock-restored');
+                        void badge.offsetWidth;
+                        badge.classList.add('stock-restored');
+                        badge.addEventListener('animationend', () => badge.classList.remove('stock-restored'), { once: true });
+                    }
+                });
+            });
+        }
+
+        function showLiveToast(title, message) {
+            const toast = document.getElementById('live-toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-msg').innerText = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 6000);
+        }
+
+        function dismissToast() {
+            document.getElementById('live-toast').classList.add('hidden');
+        }
+
+        // ========================================================
+        // 5. LIVE INVENTORY TABLE (لما حد يطلب منتج عدده يقل من الداتا)
+        // ========================================================
+        async function refreshLiveInventory() {
+            try {
+                const res = await fetch('/api/products?limit=100');
+                const data = await res.json();
+                liveProductsCache = data.products || [];
+                renderLiveInventoryTable(liveProductsCache);
+                
+                // Update header counter
+                const headerStock = document.getElementById('header-stock-counter');
+                if (headerStock) {
+                    headerStock.innerText = `${liveProductsCache.length} Active Items`;
+                }
+            } catch(e) {
+                console.error("Live inventory fetch failed:", e);
+            }
+        }
+
+        function renderLiveInventoryTable(products) {
+            const tbody = document.getElementById('live-inventory-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = products.map(p => {
+                const isWater = p.id === 414 || (p.name_en || '').toLowerCase().includes('water');
+                return `
+                <tr class="hover:bg-dark-700/50 transition border-b border-white/5 ${isWater ? 'bg-cyan-500/5' : ''}">
+                    <td class="p-3 font-mono text-slate-500 font-bold">#${p.id}</td>
+                    <td class="p-3">
+                        <div class="font-bold text-white">${escapeHtml(currentLang === 'ar' ? (p.name_ar || p.name_en) : p.name_en)}</div>
+                        <div class="text-[10px] text-slate-400 font-mono">${escapeHtml(p.barcode || '')}</div>
+                    </td>
+                    <td class="p-3 text-slate-400">${escapeHtml(p.category_en)}</td>
+                    <td class="p-3 font-mono font-bold text-emerald-400">${Number(p.price).toFixed(2)} EGP</td>
+                    <td class="p-3">
+                        <span id="stock-badge-${p.id}" class="px-2.5 py-1 rounded-full text-xs font-mono font-extrabold transition-all duration-300 ${p.stock > 10 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : (p.stock > 0 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/30')}">
+                            ${p.stock} units
+                        </span>
+                    </td>
+                    <td class="p-3 text-center">
+                        <button data-order-id="${p.id}" data-order-name="${escapeHtml(p.name_en)}" class="inv-order-btn btn-3d px-3 py-1 bg-dark-700 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-white/10 rounded-xl font-bold text-[11px] transition">
+                            <i class="fa-solid fa-microphone mr-1"></i> Order 1
+                        </button>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        function filterLiveInventory(query) {
+            const q = (query || '').toLowerCase().trim();
+            if (!q) {
+                renderLiveInventoryTable(liveProductsCache);
+                return;
+            }
+            const filtered = liveProductsCache.filter(p => 
+                (p.name_en || '').toLowerCase().includes(q) ||
+                (p.name_ar || '').includes(q) ||
+                (p.category_en || '').toLowerCase().includes(q) ||
+                String(p.id) === q
+            );
+            renderLiveInventoryTable(filtered);
+        }
+
+        function requestVoicedProduct(id, name) {
+            switchView('chat');
+            sendMessage(currentLang === 'ar' ? `عايز 1 من ${name}` : `I want 1 pack of ${name}`, false);
+        }
+
+        function switchView(viewName) {
+            const chatView = document.getElementById('view-chat');
+            const invView = document.getElementById('view-inventory');
+            const ordersView = document.getElementById('view-orders');
+            const tabChat = document.getElementById('tab-btn-chat');
+            const tabInv = document.getElementById('tab-btn-inventory');
+            const tabOrders = document.getElementById('tab-btn-orders');
+
+            chatView.classList.add('hidden');
+            invView.classList.add('hidden');
+            if (ordersView) ordersView.classList.add('hidden');
+
+            const inactiveClass = 'px-4 py-2 rounded-xl text-xs font-semibold transition text-slate-400 hover:text-white flex items-center gap-2';
+            const activeClass = 'px-4 py-2 rounded-xl text-xs font-bold transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-2';
+            
+            tabChat.className = inactiveClass;
+            tabInv.className = inactiveClass;
+            if (tabOrders) tabOrders.className = inactiveClass;
+
+            if (viewName === 'inventory') {
+                invView.classList.remove('hidden');
+                tabInv.className = activeClass;
+                refreshLiveInventory();
+            } else if (viewName === 'orders') {
+                if (ordersView) ordersView.classList.remove('hidden');
+                if (tabOrders) tabOrders.className = activeClass;
+                refreshOrders();
+            } else {
+                chatView.classList.remove('hidden');
+                tabChat.className = activeClass;
+            }
+        }
+
+        // ========================================================
+        // ORDERS MANAGEMENT & CANCELLATION (Section 14)
+        // ========================================================
+        let targetCancelOrderId = null;
+        let customerOrdersCache = [];
+
+        async function refreshOrders() {
+            try {
+                const res = await fetch('/api/orders');
+                const data = await res.json();
+                if (data.success) {
+                    customerOrdersCache = data.orders || [];
+                    const badge = document.getElementById('orders-count-badge');
+                    const totalBadge = document.getElementById('orders-total-badge');
+                    if (badge) badge.innerText = customerOrdersCache.length;
+                    if (totalBadge) totalBadge.innerText = `${customerOrdersCache.length} Orders`;
+                    renderOrdersList(customerOrdersCache);
+                }
+            } catch (err) {
+                console.error("Failed to load orders:", err);
+            }
+        }
+
+        function renderOrdersList(orders) {
+            const container = document.getElementById('orders-cards-container');
+            if (!container) return;
+
+            if (!orders || orders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-slate-500 text-xs">
+                        <i class="fa-solid fa-receipt text-4xl mb-3 block text-slate-600"></i>
+                        ${currentLang === 'ar' ? 'لا توجد طلبات سابقة مسجلة حتى الآن.' : 'No customer orders recorded yet.'}
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = orders.map(o => {
+                const isEligible = o.status === 'confirmed' || o.status === 'pending';
+                const isCancelled = o.status === 'cancelled';
+                const isDelivered = o.status === 'delivered';
+
+                let statusBadge = '';
+                if (isCancelled) {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1"><i class="fa-solid fa-ban"></i> CANCELLED</span>`;
+                } else if (isDelivered) {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30 flex items-center gap-1"><i class="fa-solid fa-truck"></i> DELIVERED</span>`;
+                } else {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1"><i class="fa-solid fa-check"></i> ${o.status.toUpperCase()}</span>`;
+                }
+
+                let itemsHtml = '';
+                if (o.items && o.items.length > 0) {
+                    itemsHtml = `
+                        <div class="mt-3 divide-y divide-white/5 border-t border-b border-white/5 py-2">
+                            ${o.items.map(it => `
+                                <div class="flex items-center justify-between text-xs py-1.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-lg bg-dark-700 text-slate-300 font-bold flex items-center justify-center text-[10px]">${it.quantity}x</span>
+                                        <span class="text-slate-200 font-medium">${currentLang === 'ar' ? (it.name_ar || it.product_name) : (it.name_en || it.product_name)}</span>
+                                    </div>
+                                    <div class="text-slate-400 font-mono">
+                                        ${it.unit_price ? `${Number(it.unit_price).toFixed(2)} EGP` : ''} 
+                                        <span class="font-bold text-emerald-400 ml-2">${Number(it.subtotal || (it.unit_price * it.quantity)).toFixed(2)} EGP</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="p-5 rounded-2xl glass-panel bg-dark-900/60 border border-white/10 hover:border-white/20 transition space-y-3" id="order-card-${o.id}">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-white text-sm">Order #${o.id}</span>
+                                ${statusBadge}
+                                ${o.cancelled_at ? `<span class="text-[11px] text-rose-400 font-mono">(Cancelled: ${o.cancelled_at.substring(0, 16)})</span>` : ''}
+                            </div>
+                            <div class="text-xs text-slate-400 font-mono flex items-center gap-1">
+                                <i class="fa-regular fa-clock"></i>
+                                <span>${(o.created_at || '').substring(0, 16)}</span>
+                            </div>
+                        </div>
+
+                        ${itemsHtml}
+
+                        <div class="flex items-center justify-between pt-2">
+                            <div>
+                                <span class="text-xs text-slate-400">${currentLang === 'ar' ? 'إجمالي الطلب:' : 'Total Amount:'}</span>
+                                <span class="text-sm font-extrabold text-cyan-300 ml-1 font-mono">${Number(o.total_amount).toFixed(2)} EGP</span>
+                            </div>
+                            <div>
+                                ${isEligible ? `
+                                    <button onclick="promptCancelOrder(${o.id})" class="cancel-order-btn btn-3d px-3.5 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white border border-rose-500/40 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                                        <i class="fa-solid fa-ban"></i>
+                                        <span>${currentLang === 'ar' ? 'إلغاء الطلب' : 'Cancel Order'}</span>
+                                    </button>
+                                ` : (isCancelled ? `
+                                    <span class="text-xs text-slate-500 italic flex items-center gap-1">
+                                        <i class="fa-solid fa-rotate-left text-emerald-400"></i>
+                                        <span>${currentLang === 'ar' ? 'تمت استعادة المخزون' : 'Stock Restored to Database'}</span>
+                                    </span>
+                                ` : `
+                                    <span class="text-xs text-slate-500 italic">${currentLang === 'ar' ? 'غير مؤهل للإلغاء' : 'Not Eligible for Cancellation'}</span>
+                                `)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function promptCancelOrder(orderId) {
+            targetCancelOrderId = orderId;
+            const modal = document.getElementById('cancel-confirm-modal');
+            const msg = document.getElementById('cancel-modal-msg');
+            if (msg) {
+                msg.innerText = currentLang === 'ar' 
+                    ? `هل أنت متأكد من رغبتك في إلغاء الطلب رقم #${orderId}؟ سيتم إرجاع كميات المنتجات إلى المخزون فورياً.`
+                    : `Are you sure you want to cancel Order #${orderId}? Product quantities will be immediately restored to live inventory.`;
+            }
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeCancelModal() {
+            targetCancelOrderId = null;
+            const modal = document.getElementById('cancel-confirm-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        async function executeOrderCancellation() {
+            if (!targetCancelOrderId) return;
+            const oid = targetCancelOrderId;
+            const confirmBtn = document.getElementById('btn-confirm-cancel');
+            if (confirmBtn) {
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing...`;
+            }
+
+            try {
+                const res = await fetch(`/api/orders/${oid}/cancel`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({customer_name: "Customer", customer_email: "moornafea@gmail.com"})
+                });
+                const data = await res.json();
+                closeCancelModal();
+
+                if (data.success) {
+                    showLiveToast(
+                        currentLang === 'ar' ? 'تم إلغاء الطلب واستعادة المخزون' : 'Order Cancelled & Stock Restored',
+                        currentLang === 'ar' ? `تم إلغاء الطلب #${oid} بنجاح وإرجاع الأصناف للمخزون.` : `Order #${oid} cancelled. Stock restored to SQLite database.`
+                    );
+                    refreshOrders();
+                    refreshLiveInventory();
+                    
+                    // Automatically remove cancelled items from shopping cart and flash restored stock in live table
+                    if (data.restored_items && data.restored_items.length > 0) {
+                        autoRemoveOrderFromCart(data.restored_items);
+                    } else if (data.cart) {
+                        sessionState.cart = data.cart;
+                        updateCartBadge(data.cart);
+                    }
+
+                    const chatNotice = currentLang === 'ar'
+                        ? `✅ تم إلغاء الطلب #${oid} بنجاح، وتمت استعادة المخزون وحذف الأصناف من سلة التسوق.`
+                        : `✅ Order #${oid} was successfully cancelled. Inventory stock restored and items removed from cart.`;
+                    appendChatMessage('assistant', chatNotice, null, 'order_cancelled');
+                } else {
+                    alert(`Cancellation Failed: ${data.error || 'Unknown error'}`);
+                }
+            } catch (err) {
+                console.error("Cancel failed:", err);
+                alert("Cancellation failed due to a network or server error.");
+            } finally {
+                if (confirmBtn) {
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerHTML = `<i class="fa-solid fa-ban"></i> <span>Yes, Cancel</span>`;
+                }
+            }
+        }
+
+        // ========================================================
+        // SHOPPING CART MANAGEMENT (Section 13)
+        // ========================================================
+        async function fetchCart() {
+            try {
+                const res = await fetch('/api/cart');
+                const data = await res.json();
+                if (data.success && data.cart) {
+                    sessionState.cart = data.cart;
+                    updateCartBadge(data.cart);
+                    return data.cart;
+                }
+            } catch (err) {
+                console.error("Failed to fetch cart:", err);
+            }
+            return sessionState.cart || {items: [], total: 0, items_count: 0};
+        }
+
+        function updateCartBadge(cart) {
+            const count = cart ? (cart.items_count || (cart.items ? cart.items.reduce((s, i) => s + (i.quantity || 1), 0) : 0)) : 0;
+            const badge = document.getElementById('nav-cart-count');
+            if (badge) badge.innerText = count;
+        }
+
+        async function openCartModal() {
+            const cart = await fetchCart();
+            renderCartModal(cart);
+            const modal = document.getElementById('cart-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeCartModal() {
+            const modal = document.getElementById('cart-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function renderCartModal(cart) {
+            const container = document.getElementById('cart-modal-items');
+            const totalEl = document.getElementById('cart-modal-total');
+            if (!container || !cart) return;
+
+            if (totalEl) totalEl.innerText = `${Number(cart.total || 0).toFixed(2)} EGP`;
+
+            if (!cart.items || cart.items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-slate-500 text-xs">
+                        <i class="fa-solid fa-cart-shopping text-3xl mb-2 block text-slate-600"></i>
+                        ${currentLang === 'ar' ? 'سلة التسوق فارغة حالياً.' : 'Your shopping cart is currently empty.'}
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.items.map(it => `
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-dark-900/60 border border-white/5 text-xs">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-dark-700 flex items-center justify-center text-cyan-400 font-bold">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-white">${currentLang === 'ar' ? (it.name_ar || it.name_en) : (it.name_en || it.name_ar)}</div>
+                            <div class="text-slate-400 font-mono text-[11px]">${Number(it.unit_price).toFixed(2)} EGP &times; ${it.quantity}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-1.5 bg-dark-800 rounded-xl p-1 border border-white/10">
+                            <button onclick="updateCartItemQty(${it.product_id}, ${it.quantity - 1})" class="w-6 h-6 rounded-lg bg-dark-700 hover:bg-dark-600 text-slate-300 flex items-center justify-center font-bold text-xs">-</button>
+                            <span class="w-6 text-center font-bold text-white font-mono">${it.quantity}</span>
+                            <button onclick="updateCartItemQty(${it.product_id}, ${it.quantity + 1})" class="w-6 h-6 rounded-lg bg-dark-700 hover:bg-dark-600 text-slate-300 flex items-center justify-center font-bold text-xs">+</button>
+                        </div>
+                        <span class="font-bold text-cyan-300 font-mono w-16 text-right">${Number(it.subtotal || (it.unit_price * it.quantity)).toFixed(2)}</span>
+                        <button onclick="removeCartItem(${it.product_id})" class="text-rose-400 hover:text-rose-300 p-1 transition" title="Remove">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function updateCartItemQty(productId, newQty) {
+            try {
+                const res = await fetch('/api/cart/update', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({product_id: productId, quantity: newQty})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    sessionState.cart = data.cart;
+                    updateCartBadge(data.cart);
+                    renderCartModal(data.cart);
+                } else {
+                    alert(data.error || "Cannot update quantity");
+                }
+            } catch (err) {
+                console.error("Update cart error:", err);
+            }
+        }
+
+        async function removeCartItem(productId) {
+            try {
+                const res = await fetch('/api/cart/remove', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({product_id: productId})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    sessionState.cart = data.cart;
+                    updateCartBadge(data.cart);
+                    renderCartModal(data.cart);
+                }
+            } catch (err) {
+                console.error("Remove cart item error:", err);
+            }
+        }
+
+        async function handleCartCheckout() {
+            const btn = document.getElementById('cart-checkout-btn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Checking out...`;
+            }
+
+            try {
+                const res = await fetch('/api/cart/checkout', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        customer_name: "Customer",
+                        customer_email: "moornafea@gmail.com"
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    sessionState.cart = {'items': [], 'items_count': 0, 'total': 0.0};
+                    updateCartBadge(sessionState.cart);
+                    closeCartModal();
+
+                    const order = data.order;
+                    showLiveToast(
+                        currentLang === 'ar' ? 'تم تأكيد الشراء بنجاح' : 'Checkout Order Confirmed',
+                        `Order #${order.order_id} placed. Total: ${order.total_amount.toFixed(2)} EGP.`
+                    );
+
+                    refreshLiveInventory();
+                    refreshOrders();
+
+                    const msg = currentLang === 'ar'
+                        ? `✅ تم إتمام شراء سلة التسوق بنجاح! تم إنشاء الطلب رقم #${order.order_id} بإجمالي ${order.total_amount.toFixed(2)} جنيه، وخصم المخزون، وإرسال الفاتورة إلى moornafea@gmail.com.`
+                        : `✅ Cart checkout completed! Order #${order.order_id} placed for ${order.total_amount.toFixed(2)} EGP. Stock decremented in database and receipt sent to moornafea@gmail.com.`;
+                    appendChatMessage('assistant', msg, order.items, 'order_created');
+                    speakText(msg);
+                } else {
+                    alert(`Checkout Error: ${data.error || 'Stock unavailable'}`);
+                }
+            } catch (err) {
+                console.error("Checkout failed:", err);
+                alert("Checkout failed due to a network error.");
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-credit-card"></i> <span>Checkout Now</span>`;
+                }
+            }
+        }
+
+        // ========================================================
+        // CUSTOMER COMPLAINTS MANAGEMENT (Section 12)
+        // ========================================================
+        function openComplaintsModal() {
+            const modal = document.getElementById('complaints-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeComplaintsModal() {
+            const modal = document.getElementById('complaints-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        async function handleComplaintSubmit() {
+            const desc = document.getElementById('complaint-desc').value.trim();
+            const category = document.getElementById('complaint-category').value;
+            const orderIdVal = document.getElementById('complaint-order-id').value.trim();
+            const resultBox = document.getElementById('complaint-result-box');
+
+            if (!desc) {
+                alert("Please describe your complaint.");
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/complaints', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        description: desc,
+                        category: category,
+                        order_id: orderIdVal ? parseInt(orderIdVal) : null,
+                        customer_name: "Customer"
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    resultBox.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                    resultBox.innerHTML = `
+                        <div>✅ Complaint Registered Successfully!</div>
+                        <div class="mt-1 font-mono">ID: <span class="font-extrabold text-white">${data.complaint_id}</span> | Status: ${data.status}</div>
+                        ${data.order_id ? `<div class="text-[11px] text-slate-300 mt-0.5">Linked to Order #${data.order_id}</div>` : ''}
+                    `;
+                    resultBox.classList.remove('hidden');
+                    document.getElementById('complaint-desc').value = '';
+                } else {
+                    resultBox.className = 'p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                    resultBox.innerText = `Error: ${data.error || 'Failed to submit'}`;
+                    resultBox.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error("Complaint error:", err);
+            }
+        }
+
+        async function handleCheckComplaintStatus() {
+            const inputVal = document.getElementById('check-complaint-id').value.trim();
+            const resultBox = document.getElementById('check-complaint-result');
+            if (!inputVal) return;
+
+            try {
+                const res = await fetch(`/api/complaints/${encodeURIComponent(inputVal)}`);
+                const data = await res.json();
+                if (data.success && data.complaint) {
+                    const c = data.complaint;
+                    resultBox.innerHTML = `
+                        <div class="flex items-center justify-between font-bold text-white">
+                            <span>${c.complaint_id}</span>
+                            <span class="px-2 py-0.5 rounded-lg text-[10px] bg-amber-500/20 text-amber-300 uppercase">${c.status}</span>
+                        </div>
+                        <div class="text-xs text-slate-400">Category: <span class="text-slate-200">${c.category}</span></div>
+                        ${c.order_id ? `<div class="text-xs text-slate-400">Order: <span class="text-slate-200">#${c.order_id}</span></div>` : ''}
+                        <div class="text-xs text-slate-300 mt-1 italic">&ldquo;${c.description}&rdquo;</div>
+                        <div class="text-[10px] text-slate-500 font-mono mt-1">${(c.created_at || '').substring(0, 16)}</div>
+                    `;
+                    resultBox.classList.remove('hidden');
+                } else {
+                    resultBox.innerHTML = `<span class="text-rose-400 font-bold">Complaint not found.</span>`;
+                    resultBox.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error("Check complaint error:", err);
+            }
+        }
+
+        // ========================================================
+        // 6. SHOPPING PLANNER & UTILITIES
+        // ========================================================
+        function setBudget(val) {
+            document.getElementById('quick-budget').value = val;
+        }
+
+        function setDuration(days) {
+            selectedDurationDays = days;
+            document.querySelectorAll('.dur-btn').forEach(b => {
+                b.className = 'dur-btn py-2 rounded-xl bg-dark-700/80 border border-white/5 font-semibold text-slate-300 hover:border-emerald-500/40 transition';
+            });
+            const activeBtn = document.querySelector(`.dur-btn[data-days="${days}"]`);
+            if (activeBtn) {
+                activeBtn.className = 'dur-btn py-2 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-300 font-extrabold transition';
+            }
+        }
+
+        function toggleCatPill(checkbox) {
+            const label = checkbox.parentElement;
+            if (checkbox.checked) {
+                label.className = 'cat-pill cursor-pointer px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-sm';
+            } else {
+                label.className = 'cat-pill cursor-pointer px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition bg-dark-700/80 border-white/10 text-slate-400';
+            }
+        }
+
+        function triggerPlannerRecommendation() {
+            const budget = parseFloat(document.getElementById('quick-budget').value) || 2000;
+            const checkedCats = Array.from(document.querySelectorAll('#cat-checkboxes input[type="checkbox"]:checked')).map(c => c.value);
+            
+            let prompt = "";
+            if (currentLang === 'ar') {
+                const catsAr = checkedCats.map(c => c === 'dairy' ? 'ألبان' : (c === 'legumes' ? 'بقوليات' : (c === 'beverages' ? 'مشروبات' : 'خضار وفواكه'))).join(' و ');
+                prompt = `عايز منتجات ${catsAr ? catsAr + ' فقط' : ''} بميزانية ${budget} جنيه لمدة ${selectedDurationDays} يوم`;
+            } else {
+                const catsEn = checkedCats.join(' and ');
+                prompt = `I want ${catsEn ? catsEn + ' only' : 'products'} worth ${budget} EGP for ${selectedDurationDays} days`;
+            }
+            switchView('chat');
+            sendMessage(prompt, false);
+        }
+
+        function useExample(text) {
+            const clean = text.replace(/^[•\s“"']+|[”"'\s]+$/g, '').trim();
+            document.getElementById('user-input').value = clean;
+            switchView('chat');
+            sendMessage(clean, false);
+        }
+
+        function clearChat() {
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-emerald-600 to-cyan-500 text-white flex items-center justify-center text-sm shadow-md flex-shrink-0">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="glass-panel rounded-2xl rounded-tl-sm p-4 max-w-[85%] text-sm text-slate-200 shadow-md">
+                        ${currentLang === 'ar' ? 'تم بدء جلسة جديدة. تفضل بسؤالي بصوتك أو كتابة طلبك!' : 'New session started. Feel free to speak or type your shopping request!'}
+                    </div>
+                </div>
+            `;
+            sessionState = {};
+            hidePendingOrderBanner();
+        }
+
+        function toggleUIRTL() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', currentLang);
+
+            // Also switch speech language to match
+            setVoiceLang(currentLang === 'ar' ? 'ar-EG' : 'en-US');
+
+            // Update UI strings
+            document.querySelectorAll('.cat-label').forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`);
+            });
+
+            if (currentLang === 'ar') {
+                document.getElementById('app-title').innerText = 'المساعد الذكي 3D للتسوق والمخزون الحي';
+                document.getElementById('planner-title').innerText = 'مخطط الميزانية والمدة الذكي';
+                document.getElementById('label-budget').innerText = 'الميزانية المطلوبة (جنيه):';
+                document.getElementById('label-duration').innerText = 'مدة التسوق (1–365 يوم):';
+                document.getElementById('label-categories').innerText = 'تصفية الفئات الصارمة:';
+                document.getElementById('btn-generate-plan').innerText = 'توليد خطة تسوق دقيقة ومحسوبة';
+                document.getElementById('voice-status-title').innerText = 'المساعد الصوتي 3D';
+                document.getElementById('btn-mic-label').innerText = 'تحدث الآن';
+                document.getElementById('btn-replay-label').innerText = 'إعادة الصوت';
+                document.getElementById('tab-label-chat').innerText = 'المحادثة الصوتية والذكية';
+                document.getElementById('tab-label-inventory').innerText = 'المخزون الحي اللحظي (في الداتا)';
+                if (document.getElementById('tab-label-orders')) document.getElementById('tab-label-orders').innerText = 'طلباتي وإلغاء الطلب';
+                if (document.getElementById('nav-complaint-label')) document.getElementById('nav-complaint-label').innerText = 'الشكاوى';
+                document.getElementById('user-input').placeholder = 'اكتب أو تحدث (مثلاً: عايز كرتونة مياه)...';
+                const muteLbl = document.getElementById('mute-label');
+                if (muteLbl) muteLbl.innerText = isAudioMuted ? 'الصوت: مكتوم 🔇 (اضغط للتشغيل)' : 'الصوت: مفعّل 🔊 (اضغط للكتم)';
+            } else {
+                document.getElementById('app-title').innerText = 'SMART MARKET 3D';
+                document.getElementById('planner-title').innerText = 'Smart Budget & Duration Planner';
+                document.getElementById('label-budget').innerText = 'Requested Budget (EGP):';
+                document.getElementById('label-duration').innerText = 'Duration (1–365 Days):';
+                document.getElementById('label-categories').innerText = 'Strict Category Filtering:';
+                document.getElementById('btn-generate-plan').innerText = 'Generate Optimized Shopping Plan';
+                document.getElementById('voice-status-title').innerText = '3D Neural Voice Agent';
+                document.getElementById('btn-mic-label').innerText = 'Start Speaking';
+                document.getElementById('btn-replay-label').innerText = 'Replay Audio';
+                document.getElementById('tab-label-chat').innerText = 'AI Assistant Conversation';
+                document.getElementById('tab-label-inventory').innerText = 'Live Inventory Monitor (Real-Time)';
+                if (document.getElementById('tab-label-orders')) document.getElementById('tab-label-orders').innerText = 'My Orders & Cancellation';
+                if (document.getElementById('nav-complaint-label')) document.getElementById('nav-complaint-label').innerText = 'Complaints';
+                document.getElementById('user-input').placeholder = "Type a request or speak (e.g. 'I want one pack of water')...";
+                const muteLbl = document.getElementById('mute-label');
+                if (muteLbl) muteLbl.innerText = isAudioMuted ? 'Voice Audio: MUTED 🔇 (Click to Unmute)' : 'Voice Audio: ON 🔊 (Click to Mute)';
+            }
+            refreshLiveInventory();
+            refreshOrders();
+            fetchCart();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // ========================================================
+        // CHAT RESPONSE HOOK: Handle cart & order updates from agent responses
+        // ========================================================
+        function handleAgentResponseExtras(data) {
+            // Sync cart badge from agent response
+            if (data.cart) {
+                sessionState.cart = data.cart;
+                updateCartBadge(data.cart);
+            }
+            // On order created from checkout/direct, refresh orders tab badge
+            if (data.action === 'order_created' || data.action === 'order_cancelled') {
+                refreshOrders();
+                refreshLiveInventory();
+            }
+            // On complaint submitted, no extra UI action needed
+        }
+
+        // Patch sendMessage to hook into agent response and call handleAgentResponseExtras
+        const _origSendMessage = sendMessage;
+        // We use a global override in the DOMContentLoaded so the app.js sendMessage function is overridable
+        // (The actual sendMessage function is defined above and needs wrapping)
+
+        // Initialize on DOM load
+        window.addEventListener('DOMContentLoaded', () => {
+            init3DOrb();
+            initSpeechEngine();
+            refreshLiveInventory();
+            refreshOrders();
+            fetchCart();
+
+            // Event delegation for speak buttons (safe - no inline onclick with quotes)
+            document.getElementById('chat-messages').addEventListener('click', (e) => {
+                const btn = e.target.closest('.speak-btn');
+                if (btn) {
+                    const text = btn.getAttribute('data-speech');
+                    if (text) speakText(text);
+                }
+            });
+
+            // Event delegation for live inventory order buttons
+            const invTbody = document.getElementById('live-inventory-tbody');
+            if (invTbody) {
+                invTbody.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.inv-order-btn');
+                    if (btn) {
+                        const id = btn.getAttribute('data-order-id');
+                        const name = btn.getAttribute('data-order-name');
+                        requestVoicedProduct(id, name);
+                    }
+                });
+            }
+
+            // Close modals on backdrop click
+            document.getElementById('cart-modal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('cart-modal')) closeCartModal();
+            });
+            document.getElementById('complaints-modal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('complaints-modal')) closeComplaintsModal();
+            });
+            document.getElementById('cancel-confirm-modal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('cancel-confirm-modal')) closeCancelModal();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -209,3 +209,242 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 );
 
 CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);
+
+-- 11. MULTI-STORE MANAGEMENT
+CREATE TABLE IF NOT EXISTS stores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    name_en TEXT NOT NULL,
+    name_ar TEXT NOT NULL,
+    address TEXT,
+    city TEXT DEFAULT 'Cairo',
+    phone TEXT,
+    is_active INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- 12. MULTI-TERMINAL MANAGEMENT
+CREATE TABLE IF NOT EXISTS terminals (
+    id TEXT PRIMARY KEY,
+    store_id INTEGER NOT NULL REFERENCES stores(id),
+    code TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    ip_address TEXT,
+    is_active INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- 13. SUPPLIERS
+CREATE TABLE IF NOT EXISTS suppliers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    contact_person TEXT,
+    phone TEXT,
+    email TEXT,
+    tax_id TEXT,
+    payment_terms TEXT DEFAULT 'Net 30',
+    is_active INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- 14. PURCHASE ORDERS & GOODS RECEIVING
+CREATE TABLE IF NOT EXISTS purchase_orders (
+    id TEXT PRIMARY KEY,
+    po_number TEXT NOT NULL UNIQUE,
+    supplier_id INTEGER NOT NULL REFERENCES suppliers(id),
+    store_id INTEGER NOT NULL REFERENCES stores(id),
+    status TEXT NOT NULL CHECK(status IN ('DRAFT', 'SUBMITTED', 'PARTIALLY_RECEIVED', 'RECEIVED', 'CANCELLED')) DEFAULT 'DRAFT',
+    total_amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
+    expected_date TEXT,
+    notes TEXT,
+    created_by TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS purchase_order_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    po_id TEXT NOT NULL REFERENCES purchase_orders(id) ON DELETE CASCADE,
+    product_id INTEGER NOT NULL REFERENCES products(id),
+    ordered_qty INTEGER NOT NULL,
+    unit_cost NUMERIC(10, 2) NOT NULL,
+    received_qty INTEGER NOT NULL DEFAULT 0,
+    subtotal NUMERIC(10, 2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS goods_receiving (
+    id TEXT PRIMARY KEY,
+    grn_number TEXT NOT NULL UNIQUE,
+    po_id TEXT REFERENCES purchase_orders(id),
+    store_id INTEGER NOT NULL REFERENCES stores(id),
+    supplier_invoice_no TEXT,
+    received_by TEXT NOT NULL,
+    received_at TEXT NOT NULL DEFAULT (datetime('now')),
+    notes TEXT
+);
+
+CREATE TABLE IF NOT EXISTS goods_receiving_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    grn_id TEXT NOT NULL REFERENCES goods_receiving(id) ON DELETE CASCADE,
+    product_id INTEGER NOT NULL REFERENCES products(id),
+    received_qty INTEGER NOT NULL,
+    unit_cost NUMERIC(10, 2) NOT NULL,
+    batch_number TEXT,
+    expiry_date TEXT
+);
+
+-- 15. STOCK MOVEMENT AUDIT TRAIL
+CREATE TABLE IF NOT EXISTS stock_movements (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id INTEGER NOT NULL REFERENCES products(id),
+    store_id INTEGER NOT NULL DEFAULT 1 REFERENCES stores(id),
+    movement_type TEXT NOT NULL CHECK(movement_type IN ('OPENING_BALANCE', 'RECEIVING', 'SALE', 'RETURN', 'ADJUSTMENT', 'TRANSFER_IN', 'TRANSFER_OUT', 'SPOILAGE')),
+    quantity INTEGER NOT NULL,
+    previous_qty INTEGER NOT NULL,
+    new_qty INTEGER NOT NULL,
+    unit_cost NUMERIC(10, 2),
+    reference_type TEXT,
+    reference_id TEXT,
+    created_by TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_stock_movements_product ON stock_movements(product_id);
+CREATE INDEX IF NOT EXISTS idx_stock_movements_type ON stock_movements(movement_type);
+CREATE INDEX IF NOT EXISTS idx_stock_movements_created ON stock_movements(created_at);
+
+-- 16. BATCH & EXPIRY TRACKING
+CREATE TABLE IF NOT EXISTS product_batches (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id INTEGER NOT NULL REFERENCES products(id),
+    store_id INTEGER NOT NULL DEFAULT 1 REFERENCES stores(id),
+    batch_number TEXT NOT NULL,
+    expiry_date TEXT NOT NULL,
+    initial_quantity INTEGER NOT NULL,
+    current_quantity INTEGER NOT NULL,
+    unit_cost NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_product_batches_expiry ON product_batches(expiry_date);
+CREATE INDEX IF NOT EXISTS idx_product_batches_product ON product_batches(product_id);
+
+-- 17. UNITS OF MEASURE
+CREATE TABLE IF NOT EXISTS units_of_measure (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    name_en TEXT NOT NULL,
+    name_ar TEXT NOT NULL,
+    base_unit TEXT,
+    conversion_factor NUMERIC(10, 4) NOT NULL DEFAULT 1.0000
+);
+
+-- 18. PHYSICAL STOCK COUNTS & RECONCILIATION
+CREATE TABLE IF NOT EXISTS stock_counts (
+    id TEXT PRIMARY KEY,
+    count_number TEXT NOT NULL UNIQUE,
+    store_id INTEGER NOT NULL REFERENCES stores(id),
+    status TEXT NOT NULL CHECK(status IN ('DRAFT', 'IN_PROGRESS', 'COMPLETED', 'RECONCILED')) DEFAULT 'DRAFT',
+    counted_by TEXT NOT NULL,
+    notes TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    reconciled_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS stock_count_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stock_count_id TEXT NOT NULL REFERENCES stock_counts(id) ON DELETE CASCADE,
+    product_id INTEGER NOT NULL REFERENCES products(id),
+    system_qty INTEGER NOT NULL,
+    counted_qty INTEGER NOT NULL,
+    discrepancy_qty INTEGER NOT NULL,
+    discrepancy_value NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
+    reconciled INTEGER NOT NULL DEFAULT 0
+);
+
+-- 19. RETURNS, EXCHANGES & REFUNDS
+CREATE TABLE IF NOT EXISTS returns (
+    id TEXT PRIMARY KEY,
+    return_number TEXT NOT NULL UNIQUE,
+    order_id TEXT NOT NULL REFERENCES orders(id),
+    store_id INTEGER NOT NULL DEFAULT 1 REFERENCES stores(id),
+    cashier_id TEXT NOT NULL,
+    return_type TEXT NOT NULL CHECK(return_type IN ('REFUND', 'EXCHANGE')),
+    total_amount NUMERIC(10, 2) NOT NULL,
+    reason TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('COMPLETED', 'PENDING_APPROVAL', 'REJECTED')) DEFAULT 'COMPLETED',
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS return_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    return_id TEXT NOT NULL REFERENCES returns(id) ON DELETE CASCADE,
+    order_item_id INTEGER,
+    product_id INTEGER NOT NULL REFERENCES products(id),
+    quantity INTEGER NOT NULL,
+    refund_amount NUMERIC(10, 2) NOT NULL,
+    condition TEXT NOT NULL CHECK(condition IN ('SELLABLE', 'DAMAGED', 'EXPIRED')) DEFAULT 'SELLABLE'
+);
+
+-- 20. PROMOTIONS & DISCOUNT PRECEDENCE
+CREATE TABLE IF NOT EXISTS promotions (
+    id TEXT PRIMARY KEY,
+    code TEXT NOT NULL UNIQUE,
+    name_en TEXT NOT NULL,
+    name_ar TEXT NOT NULL,
+    promo_type TEXT NOT NULL CHECK(promo_type IN ('PERCENTAGE', 'FIXED_DISCOUNT', 'BUY_X_GET_Y', 'CATEGORY_DISCOUNT')),
+    discount_value NUMERIC(10, 2) NOT NULL,
+    min_order_amount NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
+    target_category_id INTEGER,
+    precedence INTEGER NOT NULL DEFAULT 10,
+    is_active INTEGER NOT NULL DEFAULT 1,
+    start_date TEXT NOT NULL,
+    end_date TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- 21. DELIVERY ZONES & FULFILLMENT RULES
+CREATE TABLE IF NOT EXISTS delivery_zones (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL UNIQUE,
+    name_en TEXT NOT NULL,
+    name_ar TEXT NOT NULL,
+    delivery_fee NUMERIC(10, 2) NOT NULL DEFAULT 15.00,
+    min_order_amount NUMERIC(10, 2) NOT NULL DEFAULT 50.00,
+    estimated_minutes INTEGER NOT NULL DEFAULT 45,
+    is_active INTEGER NOT NULL DEFAULT 1
+);
+
+-- 22. FINANCIAL & PAYMENT TRANSACTIONS
+CREATE TABLE IF NOT EXISTS payment_transactions (
+    id TEXT PRIMARY KEY,
+    transaction_ref TEXT NOT NULL UNIQUE,
+    order_id TEXT NOT NULL REFERENCES orders(id),
+    amount NUMERIC(10, 2) NOT NULL,
+    currency TEXT NOT NULL DEFAULT 'EGP',
+    payment_method TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('INITIATED', 'AUTHORIZED', 'CAPTURED', 'FAILED', 'REFUNDED', 'VOIDED')),
+    provider TEXT NOT NULL DEFAULT 'INTERNAL_GATEWAY',
+    provider_ref TEXT,
+    failure_reason TEXT,
+    idempotency_key TEXT UNIQUE,
+    is_sandbox INTEGER NOT NULL DEFAULT 1,
+    metadata TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_payment_transactions_order ON payment_transactions(order_id);
+CREATE INDEX IF NOT EXISTS idx_payment_transactions_ref ON payment_transactions(transaction_ref);
+
+CREATE TABLE IF NOT EXISTS payment_webhook_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    provider TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    payload_hash TEXT NOT NULL,
+    signature_verified INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'PROCESSED',
+    raw_payload TEXT NOT NULL,
+    received_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
